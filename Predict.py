@@ -1,4 +1,4 @@
-f = open("C:\\Users\chara\Desktop\Grubb.txt", "r")
+f = open("Grubb.txt", "r")
 import numpy as np
 import pandas as pd
 saturation = 0
@@ -45,7 +45,7 @@ def parse_x(xin):
     elif xin[4]== saturation+3:
         data += " less than 120"
     else:
-        data += " many"
+        data += "many"
 
     # data +=" map "
     # data += str(xin[5])
@@ -146,12 +146,35 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 classifier = RandomForestClassifier(n_estimators=2000, random_state=0)
 classifier.fit(input, y)
 
-number = 54
+number = len(input)-1
+number = 107
 print("number "+str(number) + " : "+str(input[number]))
 
 print("result "+str(y[number]))
 
-xin = [saturation+1, saturation+0, saturation+0, 70, saturation+4, saturation+6]
+# amazonia = 0
+# concealed = 1
+# echo = 2
+# northren = 3
+# refuge = 4
+# swamped = 5
+# terenas = 6
+# turtle = 7
+# twisted = 8
+# --------------------------------------------- Input -----------------------------------------------------------
+xin = [saturation+2, saturation+0, saturation+4, 95, saturation+4, saturation+6]
+
+# Hum = 0
+# Ne = 1
+# Orc = 2
+# Ra = 3
+# Ud = 4
+
+# games less than 20 = 1
+# games less than 60 = 2
+# games less than 120 = 3
+# many games = 4
+
 print("input "+str(xin))
 print(parse_x(xin))
 print(input[-1])
@@ -177,19 +200,19 @@ print("Without map prediciton ")
 print("")
 input = input[:, :-1]
 
-xin = [0., 1., 0., 0., 0.,        1., 0.,        1., 0., 0., 0., 0.,          70, saturation+4]
-print("one hot in "+str(xin))
-onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
-input = onehotencoder.fit_transform(input).toarray()
+# xin = [0., 1., 0., 0., 0.,        1., 0.,        1., 0., 0., 0., 0.,          70, saturation+4]
+# print("one hot in "+str(xin))
+# onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
+# input = onehotencoder.fit_transform(input).toarray()
 
 print("number "+str(number)+" : "+str(input[number]))
 
 classifier.fit(input, y)
 regressor.fit(input, y)
 
-# xin = xin[:-1]
-# print("input without map"+str(xin))
-# print(parse_x(xin))
+xin = xin[:-1]
+print(" ")
+print(parse_x(xin))
 
 
 y_pred = classifier.predict_proba([xin])
