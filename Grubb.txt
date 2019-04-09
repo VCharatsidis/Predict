@@ -127,3 +127,10 @@
 0-Ud-t-Ne-68-430-echo
 1-Ud-t-Ud-73-1400-twisted
 1-Ud-t-Hum-76-1300-northren
+1-Hum-t-Ra-71-150-northren
+1-Hum-t-Orc-54-68-turtle
+0-Hum-t-Ud-80-248-echo
+1-Hum-t-Ud-63-1700-northren
+1-Hum-t-Ne-89-430-northren
+0-Hum-t-Hum-87-3000-turtle
+0-Hum-t-Ud-80-135-refuge
