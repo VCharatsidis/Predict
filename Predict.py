@@ -143,11 +143,11 @@ print(input)
 
 
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-classifier = RandomForestClassifier(n_estimators=2000, random_state=0)
+classifier = RandomForestClassifier(n_estimators=3000, random_state=0)
 classifier.fit(input, y)
 
 number = len(input)-1
-number = 107
+
 print("number "+str(number) + " : "+str(input[number]))
 
 print("result "+str(y[number]))
@@ -162,7 +162,7 @@ print("result "+str(y[number]))
 # turtle = 7
 # twisted = 8
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [saturation+2, saturation+0, saturation+4, 95, saturation+4, saturation+6]
+xin = [saturation+4, saturation+1, saturation+0, 75, saturation+4, saturation+3]
 
 # Hum = 0
 # Ne = 1
@@ -174,7 +174,7 @@ xin = [saturation+2, saturation+0, saturation+4, 95, saturation+4, saturation+6]
 # games less than 60 = 2
 # games less than 120 = 3
 # many games = 4
-
+print(xin)
 print("input "+str(xin))
 print(parse_x(xin))
 print(input[-1])
@@ -184,11 +184,12 @@ print("")
 # print("one hot in "+str(xin))
 
 y_pred = classifier.predict_proba([xin])
+print(xin)
 print("Chanses that Grubby wins "+str(y_pred[0][1]*100)+"%")
 print("probabilities "+str(y_pred[0]))
 
 
-regressor = RandomForestRegressor(n_estimators=2000, random_state=0)
+regressor = RandomForestRegressor(n_estimators=3000, random_state=0)
 regressor.fit(input, y)
 y_reg = regressor.predict([xin])
 print("regressor "+str(y_reg))
