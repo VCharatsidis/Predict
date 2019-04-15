@@ -22,11 +22,22 @@ def calc_scores(preds):
         print("not enough predictions")
         return [0, 0, 0, 0]
 
-    s = [0, 0, 0, 0]
+    s = [0, 0, 0, 0, 0]
 
-    for i in range(3):
+    for i in range(0, 4):
         z = i+1
-        for j in range(z, 4):
+        for j in range(z, 5):
+            if predictions[i] == predictions[j]:
+                continue
+
+            # if i != 4:
+            #     predictions[i] -= 2
+            #
+            # if j != 4:
+            #     predictions[j] -= 2
+            # else:
+            #     predictions[j] += 2
+
             if result == 1:
                 if predictions[i] > predictions[j]:
                     if predictions[i] > 50:
@@ -78,7 +89,7 @@ def calc_scores(preds):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-total_scores = [0,0,0,0]
+total_scores = [0,0,0,0,0]
 total_scores = np.array(total_scores)
 for i in contents:
     s = calc_scores(i)
