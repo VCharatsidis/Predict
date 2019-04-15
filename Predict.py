@@ -225,12 +225,13 @@ print(input[18])
 # print(input)
 input[:, 0] = labelencoder.fit_transform(input[:, 0])
 input[:, 0] = [int(x) for x in input[:, 0]]
+
 input[:, 1] = labelencoder.fit_transform(input[:, 1])
 input[:, 1] = [int(x) for x in input[:, 1]]
+
 input[:, 2] = labelencoder.fit_transform(input[:, 2])
 input[:, 2] = [int(x) for x in input[:, 2]]
-# #input[:, 3] = labelencoder.fit_transform(input[:, 3])
-# input[:, 4] = labelencoder.fit_transform(input[:, 4])
+
 input[:, 5] = labelencoder.fit_transform(input[:, 5])
 input[:, 5] = [int(x) for x in input[:, 5]]
 print(input)
@@ -238,20 +239,23 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 import copy
 input2 = copy.deepcopy(input)
 
-classifier = RandomForestClassifier(n_estimators=5000, random_state=0)
-classifier.fit(input, y)
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+errors = []
+estimators = 150
 
-# amazonia = 0
-# concealed = 1
-# echo = 2
-# northren = 3
+classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
+classifier.fit(input, y)
+oob_error1 = 1 - classifier.oob_score_
+errors.append(oob_error1)
+
+# amazonia = 0       swamped = 5
+# concealed = 1      terenas = 6
+# echo = 2           turtle = 7
+# northren = 3       twisted = 8
 # refuge = 4
-# swamped = 5
-# terenas = 6
-# turtle = 7
-# twisted = 8
+#
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [0, 1, 4, 60, 430, 2]
+xin = [4, 1, 0, 67, 1000, 6]
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print))
 # Hum = 0
@@ -259,13 +263,6 @@ print(parse_x(to_print))
 # Orc = 2
 # Ra = 3
 # Ud = 4
-
-# games less than 20 = 1
-# games less than 60 = 2
-# games less than 120 = 3
-# many games = 4
-
-
 
 onehot_encoded = []
 
@@ -296,7 +293,7 @@ onehot_encoded.flatten()
 
 
 print("manual one hot "+str(onehot_encoded))
-
+print(len(onehot_encoded))
 # print(parse_one_hot(xin))
 
 y_pred1 = classifier.predict_proba([xin])
@@ -309,6 +306,8 @@ print("")
 print("Without map prediciton ")
 input = input[:, :-1]
 classifier.fit(input, y)
+oob_error2 = 1 - classifier.oob_score_
+errors.append(oob_error2)
 xin = xin[:-1]
 y_pred2 = classifier.predict_proba([xin])
 print("Chanses that Grubby wins "+str(y_pred2[0][1]*100)+"%")
@@ -329,10 +328,6 @@ print("")
 # turtle = 7
 # twisted = 8
 
-
-
-
-
 #xin = [1., 0., 0., 0., 0.,      0., 1., 0., 0., 0.,   0., 0., 0., 1., 0., 0., 0., 0., 0.,       1,      89, 430]
 
 # Hum = 0
@@ -344,10 +339,16 @@ print("")
 onehotencoder = OneHotEncoder(categorical_features=[0, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
-classifier2 = RandomForestClassifier(n_estimators=5000, random_state=0)
+estimators2 = 500
+classifier2 = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, max_features=None)
 classifier2.fit(onehot_input, y)
+oob_error3 = 1 - classifier2.oob_score_
+errors.append(oob_error3)
+
 xin = onehot_encoded
 y_pred3 = classifier2.predict_proba([xin])
+print("parse_one_hot(onehot_input[-2])")
+print(parse_one_hot(onehot_input[-2]))
 print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
 
 
@@ -360,8 +361,11 @@ onehot_input = onehotencoder.fit_transform(input2).toarray()
 print("")
 print("Without map prediciton ")
 
-classifier3 = RandomForestClassifier(n_estimators=5000, random_state=0)
+classifier3 = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, max_features=None)
 classifier3.fit(onehot_input, y)
+oob_error4 = 1 - classifier3.oob_score_
+errors.append(oob_error4)
+
 y_pred4 = classifier3.predict_proba([xin2])
 
 print(parse_one_hot(xin))
@@ -371,9 +375,37 @@ print("Chanses that Grubby wins "+str(y_pred4[0][1]*100)+"%")
 print(" pred map "+str(round(y_pred1[0][1]*100))+"%"+" pred 2 "+str(round(y_pred2[0][1]*100))+"%"+" onehot map "+
       str(round(y_pred3[0][1]*100))+"%"+" onehot 3 "+str(round(y_pred4[0][1]*100))+"%")
 
-print(parse_x(to_print))
+
+np.set_printoptions(precision=2)
+importances = classifier.feature_importances_
+print("numerical without maps")
+print(importances)
+
+importances2 = classifier2.feature_importances_
+print("one hot with maps")
+print(importances2)
+
+importances3 = classifier3.feature_importances_
+print("one hot without maps")
+print(importances3)
+
 s = parse_x(to_print)
-print(s+"-"+str(int(round(y_pred1[0][1]*100)))
-      +"%-"+str(int(round(y_pred2[0][1]*100)))
-      +"%-"+str(int(round(y_pred3[0][1]*100)))
-      +"%-"+str(int(round(y_pred4[0][1]*100)))+"%-")
+
+pred1 = int(round(y_pred1[0][1]*100))
+pred2 = int(round(y_pred2[0][1]*100))
+pred3 = int(round(y_pred3[0][1]*100))
+pred4 = int(round(y_pred4[0][1]*100))
+
+print(s+"-"+str(pred1)
+      +"%-"+str(pred2)
+      +"%-"+str(pred3)
+      +"%-"+str(pred4)+"%-")
+
+avg_prediction = (y_pred1[0][1]*100+ y_pred2[0][1]*100+ y_pred3[0][1]*100+ y_pred4[0][1]*100)/4
+print("avg prediction "+str(int(round(avg_prediction))) +"%")
+print("errors")
+errors = np.array(errors)
+print(str(errors)+"--"+str(estimators))
+
+################################## Score between classifiers ################################
+

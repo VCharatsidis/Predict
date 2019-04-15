@@ -12,3 +12,25 @@
 1-Hum-t-Ne-76-39-turtle
 1-Hum-t-Ud-70-20-refuge
 1-Hum-t-Ne-64-340-refuge
+1-Hum-t-Orc-73-38-echo
+1-Hum-t-Ne-77-53-echo
+1-Hum-t-Hum-70-54-concealed
+1-Hum-t-Ne-95-21-terenas
+1-Hum-t-Ne-69-470-concealed
+1-Hum-t-Ra-70-150-echo
+1-Hum-t-Ne-76-26-refuge
+1-Hum-t-Ud-62-1750-concealed
+1-Hum-t-Ud-70-130-swamped
+0-Hum-t-Hum-88-177-terenas
+1-Hum-t-Ud-76-34-concealed
+1-Hum-t-Orc-64-54-echo
+1-Hum-t-Ra-57-550-swamped
+0-Hum-t-Ne-85%-200-concealed
+0-Hum-t-Ne-68-500-terenas 3076
+1-Hum-t-
+1-Hum-t-
+1-Hum-t-
+1-Hum-t-
+1-Hum-t-
+
+
