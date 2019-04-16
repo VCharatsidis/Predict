@@ -1,5 +1,8 @@
 f = open("Grubb.txt", "r")
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+import copy
+from sklearn.linear_model import LogisticRegression
 import pandas as pd
 
 
@@ -217,6 +220,9 @@ labelencoder = LabelEncoder()
 
 y = input[:, 0]
 input = input[:, 1:]
+
+input_h2o = copy.deepcopy(input)
+
 print(y)
 print(input)
 print(input[18])
@@ -235,8 +241,7 @@ input[:, 2] = [int(x) for x in input[:, 2]]
 input[:, 5] = labelencoder.fit_transform(input[:, 5])
 input[:, 5] = [int(x) for x in input[:, 5]]
 print(input)
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-import copy
+
 input2 = copy.deepcopy(input)
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -255,7 +260,7 @@ errors.append(oob_error1)
 # refuge = 4
 #
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [4, 1, 0, 67, 1000, 6]
+xin = [2, 1, 0, 66, 1000, 1]
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print))
 # Hum = 0
@@ -339,6 +344,8 @@ print("")
 onehotencoder = OneHotEncoder(categorical_features=[0, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
+logistic_input = copy.deepcopy(onehot_input)
+
 estimators2 = 500
 classifier2 = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, max_features=None)
 classifier2.fit(onehot_input, y)
@@ -352,7 +359,7 @@ print(parse_one_hot(onehot_input[-2]))
 print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
 
 
-xin2 =[xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[19], xin[20], xin[21]]
+xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[19], xin[20], xin[21]]
 
 input2 = input2[:, :-1]
 onehotencoder = OneHotEncoder(categorical_features=[0,  2])
@@ -368,12 +375,25 @@ errors.append(oob_error4)
 
 y_pred4 = classifier3.predict_proba([xin2])
 
+################################## Logistic  -------------------------------------------------
+
+
+print("Logistic regression")
+print(logistic_input.shape)
+clf = LogisticRegression(solver='lbfgs').fit(logistic_input, y)
+
+y_pred_logistic = clf.predict_proba([xin])
+
+print(y_pred_logistic)
+
+##############################################################################################
+
 print(parse_one_hot(xin))
 print("Chanses that Grubby wins "+str(y_pred4[0][1]*100)+"%")
 
 
 print(" pred map "+str(round(y_pred1[0][1]*100))+"%"+" pred 2 "+str(round(y_pred2[0][1]*100))+"%"+" onehot map "+
-      str(round(y_pred3[0][1]*100))+"%"+" onehot 3 "+str(round(y_pred4[0][1]*100))+"%")
+      str(round(y_pred3[0][1]*100))+"%"+" onehot 3 "+str(round(y_pred4[0][1]*100))+"%"+" logistic "+str(round(y_pred_logistic[0][1]*100))+"%")
 
 
 np.set_printoptions(precision=2)
@@ -395,11 +415,38 @@ pred1 = int(round(y_pred1[0][1]*100))
 pred2 = int(round(y_pred2[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 pred4 = int(round(y_pred4[0][1]*100))
+logistic_pred = int(round(y_pred_logistic[0][1]*100))
 
-print(s+"-"+str(pred1)
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
+print("")
+file = open("Grubb.txt", "a")
+file.write(s+"\n")
+
+
+file.close()
+
+log =(s+"-"+str(pred1)
       +"%-"+str(pred2)
       +"%-"+str(pred3)
-      +"%-"+str(pred4)+"%-")
+      +"%-"+str(pred4)
+      +"%-"+str(0)
+      +"%-"+str(0)
+      +"%-"+str(logistic_pred)
+      +"%-"+str(0)
+      +"%-"+str(0)
+      +"%-"+str(0)
+      +"%-" )
+
+print(log)
+
+file = open("automagic.txt", "a")
+file.write(log)
+
+
+file.close()
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
+
 
 avg_prediction = (y_pred1[0][1]*100+ y_pred2[0][1]*100+ y_pred3[0][1]*100+ y_pred4[0][1]*100)/4
 print("avg prediction "+str(int(round(avg_prediction))) +"%")
@@ -407,5 +454,39 @@ print("errors")
 errors = np.array(errors)
 print(str(errors)+"--"+str(estimators))
 
+
+
+#################################       H2O       #############################################
+
+
+# import h2o
+# from h2o.estimators.random_forest import H2ORandomForestEstimator
+#
+# h2o.init()
+#
+# # get training and prediction data sets
+# air = input_h2o
+# # only use columns 1 through 11
+#
+#
+# #subset the training data into train and validation sets
+# r = input_h2o[0].runif()
+# air_train = input_h2o[r < 0.8]
+# air_valid = input_h2o[r >= 0.8]
+#
+# # specify your features and response column
+# myX = ["GrubbyRace", "Effort", "OpponentRace", "Stats", "NumberGames", "Map"]
+# myY = "Won"
+#
+# # build and train your model
+# rf_bal = H2ORandomForestEstimator(seed=12, ntrees=150, balance_classes=True)
+# rf_bal.train(x=input_h2o, y=y, training_frame=air_train, validation_frame=air_valid)
+#
+#
+# # show predicted yes/no output with probability for yes and no
+# rf_bal.predict(input_h2o[1:6])
+
 ################################## Score between classifiers ################################
+
+print("suggested "+str(pred1-5)+"%")
 

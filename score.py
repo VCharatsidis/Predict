@@ -1,6 +1,7 @@
 from operator import add
 import numpy as np
 
+
 def calc_scores(preds):
     z = preds.split("-")
     print(z)
@@ -8,8 +9,11 @@ def calc_scores(preds):
 
     for s in z:
         if '%' in s:
-            s = s.replace('%','')
+            s = s.replace('%', '')
             predictions.append(int(s))
+
+    if len(predictions) == 4:
+        predictions.append(0)
 
     print(predictions)
     # predictions = [int(z[0]), int(z[1]), int(z[2]), int(z[3])]
@@ -20,9 +24,16 @@ def calc_scores(preds):
 
     if len(predictions) < 4:
         print("not enough predictions")
-        return [0, 0, 0, 0]
+        return [0, 0, 0, 0, 0]
 
     s = [0, 0, 0, 0, 0]
+
+    # for i in range(4):
+    #     if(predictions[i] > 90):
+    #         predictions[i] = 90
+    #     if(predictions[i] <15):
+    #         predictions[i] = 15
+
 
     for i in range(0, 4):
         z = i+1
@@ -30,13 +41,8 @@ def calc_scores(preds):
             if predictions[i] == predictions[j]:
                 continue
 
-            # if i != 4:
-            #     predictions[i] -= 2
-            #
-            # if j != 4:
-            #     predictions[j] -= 2
-            # else:
-            #     predictions[j] += 2
+            if predictions[j] == 0 or predictions[i] == 0:
+                continue
 
             if result == 1:
                 if predictions[i] > predictions[j]:
@@ -65,8 +71,8 @@ def calc_scores(preds):
                         s[j] += value
                     else:
                         value = 1
-                        s[i] += value
-                        s[j] -= value
+                        s[i] -= value
+                        s[j] += value
                 else:
                     if predictions[j] > 50:
                         value = predictions[j] / (100 - predictions[j])
@@ -79,7 +85,7 @@ def calc_scores(preds):
 
     if sum(s) > 0.00001:
         print("error no zero sum")
-        return [0, 0, 0, 0]
+        return [0, 0, 0, 0, 0]
     else:
         print(s)
 

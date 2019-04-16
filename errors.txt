@@ -1,11 +1,90 @@
-[0.2875816993464052, 0.23529411764705888, 0.3594771241830066, 0.2549019607843137]--60--153
-[0.30718954248366015, 0.24836601307189543, 0.3856209150326797, 0.261437908496732]--80--153
-[0.30065359477124187, 0.2287581699346405, 0.37254901960784315, 0.2679738562091504]--100--153
-[0.30065359477124187, 0.23529411764705888, 0.3529411764705882, 0.2679738562091504]--120--153
-[0.2941176470588235, 0.2287581699346405, 0.3594771241830066, 0.28104575163398693]--150--153
-[0.30718954248366015, 0.24836601307189543, 0.3464052287581699, 0.2679738562091504]--200--153
-[0.3137254901960784, 0.24183006535947715, 0.33986928104575165, 0.2549019607843137]--300--153
-[0.30065359477124187, 0.24836601307189543, 0.3464052287581699, 0.2679738562091504]--600--153
-[0.28104575163398693, 0.24836601307189543, 0.36601307189542487, 0.28104575163398693]--1000--153
-[0.2875816993464052, 0.261437908496732, 0.3594771241830066, 0.2679738562091504]--1500--153
-[0.2875816993464052, 0.261437908496732, 0.3529411764705882, 0.2679738562091504]--3000--153
+1-Ra-t-Orc-55-10-refuge
+1-Orc-r-Ud-75-80-refuge
+1-Orc-t-Hum-80-300-refuge
+1-Orc-t-Ne-73-100-twisted
+1-Orc-t-Orc-63-300-terenas
+1-Orc-t-Ud-90-11-refuge
+0-Orc-t-Hum-87-3000-turtle
+0-Orc-t-Ud-90-10-concealed
+1-Orc-t-Hum-60-300-terenas
+1-Orc-t-Ne-77-400-concealed
+1-Orc-t-Ne-69-600-turtle
+1-Orc-t-Orc-69-45-twisted
+0-Orc-t-Ne-87-300-refuge
+1-Orc-t-Ne-70-300-refuge
+1-Orc-r-Hum-71-200-turtle
+1-Orc-r-Ud-90-9-terenas
+1-Orc-r-Hum-66-400-concealed
+1-Orc-t-Orc-88-40-concealed
+1-Orc-t-Ud-83-65-concealed
+0-Ud-t-Ne-70-200-refuge
+1-Ud-t-Ud-56-18-terenas
+0-Ud-t-Ud-63-200-twisted
+1-Ud-t-Ne-67-400-terenas
+1-Ud-t-Ne-83-50-turtle
+0-Ud-t-Ud-83-150-refuge
+1-Ud-t-Orc-61-200-northren
+1-Ud-t-Ud-56-450-echo
+0-Hum-t-Ra-81-350-northren
+1-Hum-t-Hum-71-200-twisted
+1-Hum-t-Ne-71-200-echo
+1-Hum-t-Hum-65-400-refuge
+1-Hum-t-Ra-85-13-terenas
+0-Hum-t-Hum-68-40-concealed
+1-Hum-t-Hum-92-15-twisted
+1-Hum-t-Hum-88-10-turtle
+1-Hum-t-Orc-56-200-echo
+1-Hum-t-Ud-55-200-turtle
+1-Hum-t-Ne-73-50-echo
+1-Hum-t-Orc-73-30-echo
+1-Hum-t-Ud-55-300-concealed
+1-Hum-t-Orc-63-65-terenas
+0-Ne-t-Ne-90-250-twisted
+1-Ne-t-Hum-75-200-terenas
+1-Ne-t-Hum-74-1000-echo
+1-Ne-t-Ne-74-60-concealed
+1-Ne-t-Hum-87-3000-echo
+1-Ne-t-Hum-75-40-twisted
+1-Ne-r-Ne-55-140-turtle
+1-Ne-r-Ud-70-10-amazonia
+1-Ne-r-Orc-66-150-turtle
+1-Ne-r-Ud-56-500-refuge
+0-Ne-r-Ud-87-47-swamped
+1-Ne-r-Ud-73-33-terenas
+1-Ne-r-Orc-65-65-northren
+1-Ne-r-Hum-70-210-terenas
+1-Ne-r-Ra-83-180-echo
+1-Ne-r-Orc-55-700-amazonia
+1-Ne-r-Ud-68-22-echo
+1-Ne-r-Hum-73-22-echo
+1-Orc-t-Ud-95-1000-echo
+1-Orc-t-Ud-95-1000-concealed
+1-Orc-t-Ud-95-1000-refuge
+0-Orc-t-Ud-95-1000-echo
+0-Orc-t-Ud-95-1000-concealed
+0-Orc-t-Ud-95-1000-refuge
+0-Orc-t-Ud-95-1000-terenas
+0-Orc-t-Ud-95-1000-northren
+0-Orc-t-Ne-85-1000-echo
+0-Orc-t-Ne-85-1000-concealed
+0-Orc-t-Ne-85-1000-refuge
+0-Orc-t-Ne-85-1000-northren
+1-Orc-t-Hum-85-1000-echo
+0-Orc-t-Hum-85-1000-refuge
+0-Orc-t-Hum-85-1000-concealed
+0-Orc-t-Hum-85-1000-twisted
+1-Orc-t-Orc-78-1000-echo
+1-Orc-t-Orc-78-1000-twisted
+1-Orc-t-Orc-78-1000-concealed
+1-Orc-t-Orc-78-1000-northren
+1-Orc-t-Orc-78-1000-turtle
+0-Ud-r-Ne-68-350-terenas
+1-Ud-r-Ne-55-170-echo
+1-Orc-r-Ne-80-1000-terenas
+0-Orc-t-Ud-81-210-concealed
+0-Orc-r-Ne-70-250-refuge
+1-Orc-r-Hum-65-10-terenas
+0-Ud-t-Ne-66-400-turtle
+0-Ud-r-Ud-67-225-swamped
+1-Hum-r-Hum-61-148-terenas
+1-Orc-t-Hum-66-1000-concealed
