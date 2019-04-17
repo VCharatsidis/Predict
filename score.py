@@ -1,6 +1,8 @@
 from operator import add
 import numpy as np
 
+n_predictions = 11
+participations = n_predictions * [0]
 
 def calc_scores(preds):
     z = preds.split("-")
@@ -10,38 +12,40 @@ def calc_scores(preds):
     for s in z:
         if '%' in s:
             s = s.replace('%', '')
+            s = s.replace('\n', '')
             predictions.append(int(s))
 
-    if len(predictions) == 4:
+    for i in range (len(predictions), n_predictions):
         predictions.append(0)
 
-    print(predictions)
-    # predictions = [int(z[0]), int(z[1]), int(z[2]), int(z[3])]
-    #
-    # print(predictions)
     result = int(z[0])
     print("result "+str(result))
 
-    if len(predictions) < 4:
+    s = n_predictions * [0]
+
+    if n_predictions < 4:
         print("not enough predictions")
-        return [0, 0, 0, 0, 0]
+        return s
 
-    s = [0, 0, 0, 0, 0]
+    for i in range(1):
+        if(predictions[i] > 90):
+            predictions[i] -= 3
+        if(predictions[i] <15):
+            predictions[i] += 3
 
-    # for i in range(4):
-    #     if(predictions[i] > 90):
-    #         predictions[i] = 90
-    #     if(predictions[i] <15):
-    #         predictions[i] = 15
-
-
-    for i in range(0, 4):
+    for i in range(0, n_predictions-1):
+        if predictions[i] == 0:
+            continue
+      
         z = i+1
-        for j in range(z, 5):
-            if predictions[i] == predictions[j]:
+        for j in range(z, n_predictions):
+            if predictions[j] == 0:
                 continue
 
-            if predictions[j] == 0 or predictions[i] == 0:
+            participations[i] += 1
+            participations[j] += 1
+
+            if predictions[i] == predictions[j]:
                 continue
 
             if result == 1:
@@ -85,7 +89,7 @@ def calc_scores(preds):
 
     if sum(s) > 0.00001:
         print("error no zero sum")
-        return [0, 0, 0, 0, 0]
+        return n_predictions * [0]
     else:
         print(s)
 
@@ -95,7 +99,7 @@ def calc_scores(preds):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-total_scores = [0,0,0,0,0]
+total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
 for i in contents:
     s = calc_scores(i)
@@ -104,3 +108,10 @@ for i in contents:
     print("total")
     print(total_scores)
     print("")
+
+print("participations")
+print(participations)
+print("total means")
+participations = np.array(participations)
+total_scores = total_scores/participations
+print(total_scores)

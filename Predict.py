@@ -260,7 +260,7 @@ errors.append(oob_error1)
 # refuge = 4
 #
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [2, 1, 0, 66, 1000, 1]
+xin = [1, 1, 1, 66, 550, 4]
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print))
 # Hum = 0
