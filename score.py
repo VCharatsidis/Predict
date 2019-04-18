@@ -27,20 +27,21 @@ def calc_scores(preds):
         print("not enough predictions")
         return s
 
-    for i in range(1):
-        if(predictions[i] > 90):
-            predictions[i] -= 3
-        if(predictions[i] <15):
-            predictions[i] += 3
 
     for i in range(0, n_predictions-1):
         if predictions[i] == 0:
             continue
-      
+
+        # if predictions[i] > 80 or predictions[i] < 25:
+        #     continue
+
         z = i+1
         for j in range(z, n_predictions):
             if predictions[j] == 0:
                 continue
+
+            # if predictions[j] > 80 or predictions[j] < 25:
+            #     continue
 
             participations[i] += 1
             participations[j] += 1

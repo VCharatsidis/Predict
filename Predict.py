@@ -260,7 +260,7 @@ errors.append(oob_error1)
 # refuge = 4
 #
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [1, 1, 1, 66, 550, 4]
+xin = [2, 1, 4, 95, 1200, 1]
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print))
 # Hum = 0
@@ -346,8 +346,8 @@ onehot_input = onehotencoder.fit_transform(input2).toarray()
 
 logistic_input = copy.deepcopy(onehot_input)
 
-estimators2 = 500
-classifier2 = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, max_features=None)
+estimators2 = 300
+classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
 classifier2.fit(onehot_input, y)
 oob_error3 = 1 - classifier2.oob_score_
 errors.append(oob_error3)
@@ -368,7 +368,7 @@ onehot_input = onehotencoder.fit_transform(input2).toarray()
 print("")
 print("Without map prediciton ")
 
-classifier3 = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, max_features=None)
+classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
 classifier3.fit(onehot_input, y)
 oob_error4 = 1 - classifier3.oob_score_
 errors.append(oob_error4)
@@ -380,7 +380,7 @@ y_pred4 = classifier3.predict_proba([xin2])
 
 print("Logistic regression")
 print(logistic_input.shape)
-clf = LogisticRegression(solver='lbfgs').fit(logistic_input, y)
+clf = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input, y)
 
 y_pred_logistic = clf.predict_proba([xin])
 
@@ -419,11 +419,7 @@ logistic_pred = int(round(y_pred_logistic[0][1]*100))
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
-file = open("Grubb.txt", "a")
-file.write(s+"\n")
 
-
-file.close()
 
 log =(s+"-"+str(pred1)
       +"%-"+str(pred2)
@@ -435,14 +431,16 @@ log =(s+"-"+str(pred1)
       +"%-"+str(0)
       +"%-"+str(0)
       +"%-"+str(0)
-      +"%-" )
+      +"%-\n" )
 
 print(log)
 
+# file = open("Grubb.txt", "a")
+# file.write(s+"\n")
+# file.close()
+#
 file = open("automagic.txt", "a")
 file.write(log)
-
-
 file.close()
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
@@ -453,7 +451,6 @@ print("avg prediction "+str(int(round(avg_prediction))) +"%")
 print("errors")
 errors = np.array(errors)
 print(str(errors)+"--"+str(estimators))
-
 
 
 #################################       H2O       #############################################
@@ -488,5 +485,5 @@ print(str(errors)+"--"+str(estimators))
 
 ################################## Score between classifiers ################################
 
-print("suggested "+str(pred1-5)+"%")
+print("suggested "+str(pred1-3)+"%")
 

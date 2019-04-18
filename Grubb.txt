@@ -200,3 +200,11 @@
 1-Hum-t-Hum-87-3500-echo
 1-Orc-r-Ud-64-28-terenas
 1-Ne-t-Ne-66-550-refuge
+1-Ne-t-Ud-54-400-swamped
+1-Ne-t-Ne-55-1200-refuge
+1-Ne-t-Hum-72-460-refuge
+1-Ne-t-Ud-54-800-concealed
+1-Ne-t-Ne-73-430-echo
+1-Ne-t-Orc-85-35-echo
+1-Ne-t-Ne-76-38-northren
+1-Ne-t-Ra-86-7-northren

@@ -25,12 +25,7 @@
 1-Hum-t-Ud-76-34-concealed
 1-Hum-t-Orc-64-54-echo
 1-Hum-t-Ra-57-550-swamped
-0-Hum-t-Ne-85%-200-concealed
-0-Hum-t-Ne-68-500-terenas 3076
-1-Hum-t-
-1-Hum-t-
-1-Hum-t-
-1-Hum-t-
-1-Hum-t-
-
-
+0-Hum-t-Ne-85-200-concealed
+0-Hum-t-Ne-68-500-terenas
+0-Hum-t-Hum-80-200-echo
+1-Hum-t-Hum-79-410-northren
