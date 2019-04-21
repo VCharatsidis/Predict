@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 import copy
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import pandas as pd
 
 
@@ -212,7 +214,6 @@ for l in contents:
     print(l)
     counter += 1
 
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 input = np.array(input)
 
@@ -220,7 +221,25 @@ labelencoder = LabelEncoder()
 
 y = input[:, 0]
 input = input[:, 1:]
-
+# scaller = StandardScaler()
+#
+# print("shape")
+# print(input[:,3].shape)
+#
+# x3= input[:,3].reshape(-1,1)
+# x3= scaller.fit_transform(x3)
+#
+# x4= input[:,4].reshape(-1,1)
+# x4= scaller.fit_transform(x4)
+#
+# x3.reshape((len(input),))
+# x4.reshape((len(input),))
+#
+# print(x3.shape)
+# input[:,3] = x3[:,0]
+# input[:,4] = x4[:,0]
+print("scaller-----------------------------------------------------------------------------")
+print(input[-1])
 input_h2o = copy.deepcopy(input)
 
 print(y)
@@ -260,14 +279,30 @@ errors.append(oob_error1)
 # refuge = 4
 #
 # --------------------------------------------- Input -----------------------------------------------------------
-xin = [2, 1, 4, 95, 1200, 1]
-to_print = copy.deepcopy(xin)
-print(parse_x(to_print))
+
+xin = [1, 1, 0, 76, 1400, 4]
+
 # Hum = 0
 # Ne = 1
 # Orc = 2
 # Ra = 3
 # Ud = 4
+
+
+# xin3 = xin[3]
+# xin3 = scaller.transform([[xin3]])
+#
+# xin4 = xin[4]
+# xin4 = scaller.transform([[xin4]])
+#
+# xin[3] = xin3[0][0]
+# xin[4] = xin4[0][0]
+print(xin)
+print("hsasasasasasasasasasasasasasasasasasasasasasasasasasasasasasa")
+
+to_print = copy.deepcopy(xin)
+print(parse_x(to_print))
+
 
 onehot_encoded = []
 
@@ -435,9 +470,9 @@ log =(s+"-"+str(pred1)
 
 print(log)
 
-# file = open("Grubb.txt", "a")
-# file.write(s+"\n")
-# file.close()
+file = open("Grubb.txt", "a")
+file.write(s+"\n")
+file.close()
 #
 file = open("automagic.txt", "a")
 file.write(log)

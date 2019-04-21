@@ -27,21 +27,27 @@ def calc_scores(preds):
         print("not enough predictions")
         return s
 
-
     for i in range(0, n_predictions-1):
+        # if i > 0:
+        #    continue
+        #
+        if predictions[i] > 80 or predictions[i] < 25:
+            continue
+
         if predictions[i] == 0:
             continue
 
-        # if predictions[i] > 80 or predictions[i] < 25:
-        #     continue
-
         z = i+1
         for j in range(z, n_predictions):
+            # if j < 5:
+            #     continue
+            # if j > 7:
+            #     continue
+            if predictions[j] > 80 or predictions[j] < 25:
+                 continue
+
             if predictions[j] == 0:
                 continue
-
-            # if predictions[j] > 80 or predictions[j] < 25:
-            #     continue
 
             participations[i] += 1
             participations[j] += 1
@@ -114,5 +120,5 @@ print("participations")
 print(participations)
 print("total means")
 participations = np.array(participations)
-total_scores = total_scores/participations
+total_scores = total_scores/(participations+1)
 print(total_scores)
