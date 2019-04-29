@@ -3,7 +3,7 @@ import numpy as np
 
 n_predictions = 11
 participations = n_predictions * [0]
-
+cap = 92
 def calc_scores(preds):
     z = preds.split("-")
     print(z)
@@ -15,7 +15,7 @@ def calc_scores(preds):
             s = s.replace('\n', '')
             predictions.append(int(s))
 
-    for i in range (len(predictions), n_predictions):
+    for i in range(len(predictions), n_predictions):
         predictions.append(0)
 
     result = int(z[0])
@@ -23,28 +23,28 @@ def calc_scores(preds):
 
     s = n_predictions * [0]
 
-    if n_predictions < 4:
-        print("not enough predictions")
-        return s
-
     for i in range(0, n_predictions-1):
         # if i > 0:
         #    continue
         #
-        if predictions[i] > 80 or predictions[i] < 25:
+        if i == 1 or i == 2 or i == 3 or i==0 or i==10:
             continue
+        if predictions[i] > cap:
+            predictions[i] = cap
 
         if predictions[i] == 0:
             continue
 
         z = i+1
         for j in range(z, n_predictions):
+            if j == 1 or j ==2 or j ==3 or j==0 or j==10:
+                continue
             # if j < 5:
             #     continue
             # if j > 7:
             #     continue
-            if predictions[j] > 80 or predictions[j] < 25:
-                 continue
+            if predictions[j] > cap:
+                predictions[j] = cap
 
             if predictions[j] == 0:
                 continue
@@ -122,3 +122,4 @@ print("total means")
 participations = np.array(participations)
 total_scores = total_scores/(participations+1)
 print(total_scores)
+print("cap "+str(cap))

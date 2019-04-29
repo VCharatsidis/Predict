@@ -1,4 +1,4 @@
-f = open("Grubb.txt", "r")
+f = open("Tod.txt", "r")
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 import copy
@@ -220,7 +220,7 @@ input = np.array(input)
 labelencoder = LabelEncoder()
 
 y = input[:, 0]
-input = input[:, 1:]
+input = input[:, 2:]
 # scaller = StandardScaler()
 #
 # print("shape")
@@ -251,14 +251,14 @@ print(input[18])
 input[:, 0] = labelencoder.fit_transform(input[:, 0])
 input[:, 0] = [int(x) for x in input[:, 0]]
 
+# input[:, 1] = labelencoder.fit_transform(input[:, 1])
+# input[:, 1] = [int(x) for x in input[:, 1]]
+
 input[:, 1] = labelencoder.fit_transform(input[:, 1])
 input[:, 1] = [int(x) for x in input[:, 1]]
 
-input[:, 2] = labelencoder.fit_transform(input[:, 2])
-input[:, 2] = [int(x) for x in input[:, 2]]
-
-input[:, 5] = labelencoder.fit_transform(input[:, 5])
-input[:, 5] = [int(x) for x in input[:, 5]]
+input[:, 4] = labelencoder.fit_transform(input[:, 4])
+input[:, 4] = [int(x) for x in input[:, 4]]
 print(input)
 
 input2 = copy.deepcopy(input)
@@ -280,7 +280,7 @@ importances1 = classifier.feature_importances_
 
 # --------------------------------------------- Input -----------------------------------------------------------
 #0-Hum-t-Orc-85-1040-amazonia
-xin = [4, 1, 2, 86, 1100, 1]
+xin = [0, 1, 2, 85, 1040, 0]
 
 # Hum = 0
 # Ne = 1
@@ -288,6 +288,13 @@ xin = [4, 1, 2, 86, 1100, 1]
 # Ra = 3
 # Ud = 4
 
+s = parse_x(xin)
+
+file = open("Tod.txt", "a")
+file.write(s+"\n")
+file.close()
+
+xin = xin[1:]
 
 # xin3 = xin[3]
 # xin3 = scaller.transform([[xin3]])
@@ -306,28 +313,28 @@ print(parse_x(to_print))
 
 onehot_encoded = []
 
-letter = [0 for _ in range(5)]
-letter[xin[0]] = 1
+# letter = [0 for _ in range(2)]
+# letter[xin[0]] = 1
+#
+# for i in letter:
+#     onehot_encoded.append(i)
 
-for i in letter:
-    onehot_encoded.append(i)
-
 letter = [0 for _ in range(5)]
-letter[xin[2]] = 1
+letter[xin[1]] = 1
 for i in letter:
     onehot_encoded.append(i)
 
 letter = [0 for _ in range(9)]
-letter[xin[5]] = 1
+letter[xin[4]] = 1
 for i in letter:
     onehot_encoded.append(i)
 
 onehot_encoded = np.array(onehot_encoded)
 onehot_encoded.flatten()
 
-onehot_encoded = np.append(onehot_encoded, xin[1])
+onehot_encoded = np.append(onehot_encoded, xin[0])
+onehot_encoded = np.append(onehot_encoded, xin[2])
 onehot_encoded = np.append(onehot_encoded, xin[3])
-onehot_encoded = np.append(onehot_encoded, xin[4])
 
 onehot_encoded.flatten()
 
@@ -377,7 +384,7 @@ print("")
 # Ra = 3
 # Ud = 4
 
-onehotencoder = OneHotEncoder(categorical_features=[0, 2, 5])
+onehotencoder = OneHotEncoder(categorical_features=[1, 4])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
 logistic_input = copy.deepcopy(onehot_input)
@@ -390,15 +397,14 @@ errors.append(oob_error3)
 
 xin = onehot_encoded
 y_pred3 = classifier2.predict_proba([xin])
-print("parse_one_hot(onehot_input[-2])")
-print(parse_one_hot(onehot_input[-2]))
+
 print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
-
-
-xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[19], xin[20], xin[21]]
+print(xin)
+print(xin.shape)
+xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[14], xin[15], xin[16]]
 
 input2 = input2[:, :-1]
-onehotencoder = OneHotEncoder(categorical_features=[0,  2])
+onehotencoder = OneHotEncoder(categorical_features=[1])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
 print("")
@@ -426,7 +432,6 @@ print(y_pred_logistic)
 
 
 
-print(parse_one_hot(xin))
 
 np.set_printoptions(precision=2)
 importances = classifier.feature_importances_
@@ -437,7 +442,6 @@ importances2 = classifier2.feature_importances_
 
 importances3 = classifier3.feature_importances_
 
-s = parse_x(to_print)
 
 pred1 = int(round(y_pred1[0][1]*100))
 pred2 = int(round(y_pred2[0][1]*100))
@@ -464,11 +468,9 @@ log =(s+"-"+str(pred1)
 
 print(log)
 
-file = open("Grubb.txt", "a")
-file.write(s+"\n")
-file.close()
+
 #
-file = open("automagic.txt", "a")
+file = open("predictionsTod.txt", "a")
 file.write(log)
 file.close()
 
