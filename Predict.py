@@ -216,6 +216,7 @@ for l in contents:
 
 
 input = np.array(input)
+original_input = copy.deepcopy(input)
 
 labelencoder = LabelEncoder()
 
@@ -279,8 +280,9 @@ importances1 = classifier.feature_importances_
 # refuge = 4
 
 # --------------------------------------------- Input -----------------------------------------------------------
-#0-Hum-t-Orc-85-1040-amazonia
-xin = [4, 1, 0, 76, 1000, 2]
+
+#0-Orc-t-Hum-77-1300-terenas
+xin = [2, 1, 0, 77, 1300, 1]
 
 write = True
 # Hum = 0
@@ -418,10 +420,57 @@ y_pred4 = classifier3.predict_proba([xin2])
 print("Logistic regression")
 print(logistic_input.shape)
 clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input, y)
-
 y_pred_logistic = clf.predict_proba([xin])
-
 print(y_pred_logistic)
+
+logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 15]
+y_15 = [a[0] for a in original_input if int(a[-2]) <= 15]
+clf15 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input15, y_15)
+print("length 15 "+str(len(logistic_input15)))
+print(len(y_15))
+
+
+logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 35]
+y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 35]
+clf35 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input35, y_35)
+print("length 35 "+str(len(logistic_input35)))
+print(len(y_35))
+
+
+logistic_input70 = [a[:-1] for a in logistic_input if 36 <= a[-1] <= 70]
+y_70 = [a[0] for a in original_input if 36 <= int(a[-2]) <= 70]
+clf70 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input70, y_70)
+print("length 70 "+str(len(logistic_input70)))
+print(len(y_70))
+
+
+logistic_inputRest = [a[:-1] for a in logistic_input if 71 <= a[-1]]
+y_Rest = [a[0] for a in original_input if 71 <= int(a[-2])]
+clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
+print("length Rest "+str(len(logistic_inputRest)))
+print(len(y_Rest))
+
+
+
+games = xin[-1]
+correct_logistic = 0
+
+y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
+y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
+y_pred_logistic70 = clf70.predict_proba([xin[:-1]])
+y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
+
+if games <= 15:
+    correct_logistic = y_pred_logistic15[0][1]
+elif games <= 35:
+    correct_logistic = y_pred_logistic35[0][1]
+elif games <= 70:
+    correct_logistic = y_pred_logistic70[0][1]
+else:
+    print(y_pred_logisticRest)
+    correct_logistic = y_pred_logisticRest[0][1]
+
+
 
 ###############################  K nearest neightours   ##############################################
 
@@ -458,7 +507,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(0)
       +"%-"+str(0)
       +"%-"+str(logistic_pred)
-      +"%-"+str(0)
+      +"%-"+str(int(round(correct_logistic*100)))
       +"%-"+str(0)
       +"%-"+str(0)
       +"%-\n" )
