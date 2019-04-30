@@ -3,7 +3,7 @@ import numpy as np
 
 n_predictions = 11
 participations = n_predictions * [0]
-cap = 92
+cap = 95
 def calc_scores(preds):
     z = preds.split("-")
     print(z)
@@ -27,7 +27,7 @@ def calc_scores(preds):
         # if i > 0:
         #    continue
         #
-        if i == 1 or i == 2 or i == 3 or i==0 or i==10:
+        if i == 1 or i == 3:
             continue
         if predictions[i] > cap:
             predictions[i] = cap
@@ -37,7 +37,7 @@ def calc_scores(preds):
 
         z = i+1
         for j in range(z, n_predictions):
-            if j == 1 or j ==2 or j ==3 or j==0 or j==10:
+            if j == 1 or j ==3:
                 continue
             # if j < 5:
             #     continue
@@ -108,13 +108,16 @@ contents = f.readlines()
 
 total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
+counter = 0
 for i in contents:
-    s = calc_scores(i)
-    s = np.array(s)
-    total_scores = s + total_scores
-    print("total")
-    print(total_scores)
-    print("")
+    if counter > 0:
+        s = calc_scores(i)
+        s = np.array(s)
+        total_scores = s + total_scores
+        print("total")
+        print(total_scores)
+        print("")
+    counter += 1
 
 print("participations")
 print(participations)

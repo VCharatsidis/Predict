@@ -5,7 +5,6 @@ import copy
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import pandas as pd
 
 
 def parse_one_hot(xin):
@@ -280,7 +279,7 @@ importances1 = classifier.feature_importances_
 
 # --------------------------------------------- Input -----------------------------------------------------------
 #0-Hum-t-Orc-85-1040-amazonia
-xin = [0, 1, 2, 85, 1040, 0]
+xin = [0, 1, 4, 74, 87, 2]
 
 # Hum = 0
 # Ne = 1
@@ -423,10 +422,9 @@ y_pred4 = classifier3.predict_proba([xin2])
 print("Logistic regression")
 print(logistic_input.shape)
 clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input, y)
-
 y_pred_logistic = clf.predict_proba([xin])
-
 print(y_pred_logistic)
+
 
 ###############################  K nearest neightours   ##############################################
 

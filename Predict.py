@@ -5,7 +5,7 @@ import copy
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import pandas as pd
+
 
 
 def parse_one_hot(xin):
@@ -280,8 +280,9 @@ importances1 = classifier.feature_importances_
 
 # --------------------------------------------- Input -----------------------------------------------------------
 #0-Hum-t-Orc-85-1040-amazonia
-xin = [4, 1, 2, 86, 1100, 1]
+xin = [4, 1, 0, 76, 1000, 2]
 
+write = True
 # Hum = 0
 # Ne = 1
 # Orc = 2
@@ -464,13 +465,14 @@ log =(s+"-"+str(pred1)
 
 print(log)
 
-file = open("Grubb.txt", "a")
-file.write(s+"\n")
-file.close()
-#
-file = open("automagic.txt", "a")
-file.write(log)
-file.close()
+if write:
+    file = open("Grubb.txt", "a")
+    file.write(s+"\n")
+    file.close()
+    #
+    file = open("automagic.txt", "a")
+    file.write(log)
+    file.close()
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
