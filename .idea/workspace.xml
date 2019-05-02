@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/automagic.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4743">
-              <caret line="285" column="9" selection-start-line="285" selection-start-column="9" selection-end-line="285" selection-end-column="9" />
+            <state relative-caret-position="371">
+              <caret line="592" column="19" lean-forward="true" selection-start-line="592" selection-start-column="19" selection-end-line="592" selection-end-column="19" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
               </folding>
@@ -27,22 +31,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/numpy/core/numeric.py">
+        <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/ensemble/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9129">
-              <caret line="537" selection-start-line="537" selection-end-line="537" />
+            <state relative-caret-position="171">
+              <caret line="105" selection-start-line="105" selection-end-line="105" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PredictTod.py">
+        <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7718">
-              <caret line="460" column="18" selection-start-line="460" selection-start-column="18" selection-end-line="460" selection-end-column="18" />
-              <folding>
-                <element signature="e#25#43#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2619">
+              <caret line="757" selection-start-line="757" selection-end-line="757" />
             </state>
           </provider>
         </entry>
@@ -68,7 +69,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictions.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
+            <state relative-caret-position="479">
               <caret line="38" column="63" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
             </state>
           </provider>
@@ -86,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/tree/tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6103">
+            <state relative-caret-position="456">
               <caret line="387" selection-start-line="387" selection-end-line="387" />
             </state>
           </provider>
@@ -95,8 +96,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/ensemble/forest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3842">
-              <caret line="249" selection-start-line="249" selection-end-line="249" />
+            <state relative-caret-position="163">
+              <caret line="287" selection-start-line="287" selection-end-line="287" />
             </state>
           </provider>
         </entry>
@@ -104,11 +105,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="24" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="85">
+              <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
-                <marker date="1556527439307" expanded="true" signature="612:671" ph="..." />
               </folding>
             </state>
           </provider>
@@ -137,11 +137,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="32767" />
-    <option name="y" value="32767" />
-    <option name="width" value="3860" />
-    <option name="height" value="1100" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="1892" />
+    <option name="y" value="70" />
+    <option name="width" value="1563" />
+    <option name="height" value="950" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -149,6 +149,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,11 +161,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/UvA/DL/assignment_1/uvadlc_practicals_2019-master/uvadlc_practicals_2019-master/assignment_2" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/UvA/DL/assignment_2" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -180,7 +180,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.score">
-    <configuration name="Predict" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -267,7 +267,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.score" />
-        <item itemvalue="Python.Predict" />
         <item itemvalue="Python.PredictTod" />
         <item itemvalue="Python.commaTransform" />
       </list>
@@ -287,15 +286,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="32767" y="32767" width="3860" height="1100" extended-state="0" />
+    <frame x="1892" y="70" width="1563" height="950" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11506056" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29513657" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.3409091" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39772728" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.3398773" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39754602" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -329,13 +329,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="266" selection-start-line="266" selection-end-line="266" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="757" selection-start-line="757" selection-end-line="757" />
         </state>
       </provider>
     </entry>
@@ -384,16 +377,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Predict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4743">
-          <caret line="285" column="9" selection-start-line="285" selection-start-column="9" selection-end-line="285" selection-end-column="9" />
-          <folding>
-            <element signature="e#27#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/numpy/core/numeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9129">
@@ -403,7 +386,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PredictTod.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7718">
+        <state relative-caret-position="7735">
           <caret line="460" column="18" selection-start-line="460" selection-start-column="18" selection-end-line="460" selection-end-column="18" />
           <folding>
             <element signature="e#25#43#0" expanded="true" />
@@ -425,13 +408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predictions.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="63" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Grubb.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -441,25 +417,55 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/tree/tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6103">
+        <state relative-caret-position="456">
           <caret line="387" selection-start-line="387" selection-end-line="387" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2619">
+          <caret line="757" selection-start-line="757" selection-end-line="757" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictions.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="38" column="63" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/ensemble/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="105" selection-start-line="105" selection-end-line="105" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/ensemble/forest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3842">
-          <caret line="249" selection-start-line="249" selection-end-line="249" />
+        <state relative-caret-position="163">
+          <caret line="287" selection-start-line="287" selection-end-line="287" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Predict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="592" column="19" lean-forward="true" selection-start-line="592" selection-start-column="19" selection-end-line="592" selection-end-column="19" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="85">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
-            <marker date="1556527439307" expanded="true" signature="612:671" ph="..." />
           </folding>
         </state>
       </provider>

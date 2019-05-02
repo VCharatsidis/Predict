@@ -5,7 +5,7 @@ import copy
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-
+import matplotlib.pyplot as plt
 
 
 def parse_one_hot(xin):
@@ -24,15 +24,15 @@ def parse_one_hot(xin):
 
     data += " vs "
 
-    if xin[5]==1:
+    if xin[7]==1:
         data += " Hum "
-    elif xin[6]==1:
-        data += " Ne "
-    elif xin[7]==1:
-        data += " Orc "
     elif xin[8]==1:
-        data += " Ra "
+        data += " Ne "
     elif xin[9]==1:
+        data += " Orc "
+    elif xin[10]==1:
+        data += " Ra "
+    elif xin[11]==1:
         data += " Ud"
 
     # amazonia = 0
@@ -45,34 +45,34 @@ def parse_one_hot(xin):
     # turtle = 7
     # twisted = 8
     print("len xin "+str(len(xin)))
-    if len(xin) > 13:
-        if xin[10] == 1:
+    if len(xin) > 11:
+        if xin[12] == 1:
             data += " amazonia "
-        elif xin[11] == 1:
-            data += " concealed "
-        elif xin[12] == 1:
-            data += " echo "
         elif xin[13] == 1:
-            data += " northren "
+            data += " concealed "
         elif xin[14] == 1:
-            data += " refuge"
+            data += " echo "
         elif xin[15] == 1:
-            data += " swamped "
+            data += " northren "
         elif xin[16] == 1:
-            data += " terenas "
+            data += " refuge"
         elif xin[17] == 1:
-            data += " turtle "
+            data += " swamped "
         elif xin[18] == 1:
+            data += " terenas "
+        elif xin[19] == 1:
+            data += " turtle "
+        elif xin[20] == 1:
             data += " twisted"
 
-        if xin[19] == 1:
+        if xin[5] == 0:
             data += " tryhard "
         else:
             data += " request"
 
-        data += " "+str(xin[20])+"%"
+        data += " "+str(xin[21])+"%"
 
-        data += " se "+str(xin[21])+" games"
+        data += " se "+str(xin[22])+" games"
 
     else:
         if xin[10] == 1:
@@ -282,7 +282,7 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Orc-t-Hum-77-1300-terenas
-xin = [2, 1, 0, 77, 1300, 1]
+xin = [1, 1, 0, 81, 88, 2]
 
 write = True
 # Hum = 0
@@ -311,9 +311,14 @@ onehot_encoded = []
 
 letter = [0 for _ in range(5)]
 letter[xin[0]] = 1
-
 for i in letter:
     onehot_encoded.append(i)
+
+letter = [0 for _ in range(2)]
+letter[xin[1]] = 1
+for i in letter:
+    onehot_encoded.append(i)
+
 
 letter = [0 for _ in range(5)]
 letter[xin[2]] = 1
@@ -328,7 +333,6 @@ for i in letter:
 onehot_encoded = np.array(onehot_encoded)
 onehot_encoded.flatten()
 
-onehot_encoded = np.append(onehot_encoded, xin[1])
 onehot_encoded = np.append(onehot_encoded, xin[3])
 onehot_encoded = np.append(onehot_encoded, xin[4])
 
@@ -380,7 +384,7 @@ print("")
 # Ra = 3
 # Ud = 4
 
-onehotencoder = OneHotEncoder(categorical_features=[0, 2, 5])
+onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
 logistic_input = copy.deepcopy(onehot_input)
@@ -398,10 +402,10 @@ print(parse_one_hot(onehot_input[-2]))
 print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
 
 
-xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[19], xin[20], xin[21]]
+xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
 
 input2 = input2[:, :-1]
-onehotencoder = OneHotEncoder(categorical_features=[0,  2])
+onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
 
 print("")
@@ -411,45 +415,59 @@ classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, o
 classifier3.fit(onehot_input, y)
 oob_error4 = 1 - classifier3.oob_score_
 errors.append(oob_error4)
-
+write = False
+print(xin2)
 y_pred4 = classifier3.predict_proba([xin2])
 
 ################################## Logistic  -------------------------------------------------
 
 
+# plt.plot(logistic_input[:, -1], logistic_input[:, -2], 'ro')
+# plt.ylabel('stats')
+# plt.xlabel('games')
+# plt.show()
+
 print("Logistic regression")
 print(logistic_input.shape)
-clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input, y)
+clf = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_input, y)
 y_pred_logistic = clf.predict_proba([xin])
 print(y_pred_logistic)
 
-logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 15]
-y_15 = [a[0] for a in original_input if int(a[-2]) <= 15]
-clf15 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input15, y_15)
+# show = [a[-1] for a in logistic_input if a[-1] <= 15]
+# show2 = [a[-2] for a in logistic_input if a[-1] <= 15]
+# plt.plot(show, show2, 'ro')
+# plt.ylabel('stats')
+# plt.xlabel('games')
+# plt.show()
+
+
+logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
+y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
+clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
 print("length 15 "+str(len(logistic_input15)))
 print(len(y_15))
 
 
-logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 35]
-y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 35]
-clf35 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input35, y_35)
+
+logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 45]
+y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 45]
+clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
 print("length 35 "+str(len(logistic_input35)))
 print(len(y_35))
 
 
-logistic_input70 = [a[:-1] for a in logistic_input if 36 <= a[-1] <= 70]
-y_70 = [a[0] for a in original_input if 36 <= int(a[-2]) <= 70]
-clf70 = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_input70, y_70)
+logistic_input70 = [a[:-1] for a in logistic_input if 36 <= a[-1] <= 80]
+y_70 = [a[0] for a in original_input if 36 <= int(a[-2]) <= 80]
+clf70 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input70, y_70)
 print("length 70 "+str(len(logistic_input70)))
 print(len(y_70))
 
 
-logistic_inputRest = [a[:-1] for a in logistic_input if 71 <= a[-1]]
-y_Rest = [a[0] for a in original_input if 71 <= int(a[-2])]
-clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
+logistic_inputRest = [a[:-1] for a in logistic_input if 80 <= a[-1]]
+y_Rest = [a[0] for a in original_input if 80 <= int(a[-2])]
+clfRest = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_inputRest, y_Rest)
 print("length Rest "+str(len(logistic_inputRest)))
 print(len(y_Rest))
-
 
 
 games = xin[-1]
@@ -460,6 +478,7 @@ y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
 y_pred_logistic70 = clf70.predict_proba([xin[:-1]])
 y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
 
+
 if games <= 15:
     correct_logistic = y_pred_logistic15[0][1]
 elif games <= 35:
@@ -467,10 +486,9 @@ elif games <= 35:
 elif games <= 70:
     correct_logistic = y_pred_logistic70[0][1]
 else:
-    print(y_pred_logisticRest)
     correct_logistic = y_pred_logisticRest[0][1]
 
-
+write = True
 
 ###############################  K nearest neightours   ##############################################
 
@@ -484,6 +502,9 @@ print("numerical maps")
 print(importances1)
 
 importances2 = classifier2.feature_importances_
+importances2 = ['%.2f'%(float(a)) for a in importances2]
+print("onehot maps")
+print(importances2)
 
 importances3 = classifier3.feature_importances_
 
@@ -495,6 +516,11 @@ pred3 = int(round(y_pred3[0][1]*100))
 pred4 = int(round(y_pred4[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 
+ensemble_logistic = 0
+if games > 70:
+    ensemble_logistic = int(round(y_pred_logisticRest[0][1]*100))
+else:
+    ensemble_logistic = pred3
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
@@ -514,14 +540,6 @@ log =(s+"-"+str(pred1)
 
 print(log)
 
-if write:
-    file = open("Grubb.txt", "a")
-    file.write(s+"\n")
-    file.close()
-    #
-    file = open("automagic.txt", "a")
-    file.write(log)
-    file.close()
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
@@ -565,4 +583,12 @@ print(str(errors)+"--"+str(estimators))
 
 ################################## Score between classifiers ################################
 
-
+write = False
+if write:
+    file = open("Grubb.txt", "a")
+    file.write(s+"\n")
+    file.close()
+    #
+    file = open("automagic.txt", "a")
+    file.write(log)
+    file.close()
