@@ -3,7 +3,7 @@ import numpy as np
 
 n_predictions = 11
 participations = n_predictions * [0]
-cap = 88
+cap = 95
 
 def excluded(i, excluded):
     for e in excluded:
@@ -29,8 +29,8 @@ def calc_scores(preds):
     print("result "+str(result))
 
     s = n_predictions * [0]
-    excluded_list = []
-
+    #excluded_list = [10, 0, 3, 6, 4, 5, 1, 9]
+    excluded_list =[]
     for i in range(0, n_predictions-1):
         # if i > 0:
         #    continue
@@ -44,8 +44,11 @@ def calc_scores(preds):
         if predictions[i] == 0:
             continue
 
-        z = i+1
-        for j in range(z, n_predictions):
+        if int(z[5]) <= 70:
+            predictions[7] = 0
+
+        opponent = i+1
+        for j in range(opponent, n_predictions):
             if excluded(j, excluded_list):
                 continue
             # if j < 5:

@@ -282,7 +282,7 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Orc-t-Hum-77-1300-terenas
-xin = [1, 1, 0, 81, 88, 2]
+xin = [2, 1, 4, 61, 49, 2]
 
 write = True
 # Hum = 0
@@ -448,7 +448,6 @@ print("length 15 "+str(len(logistic_input15)))
 print(len(y_15))
 
 
-
 logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 45]
 y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 45]
 clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
@@ -503,7 +502,7 @@ print(importances1)
 
 importances2 = classifier2.feature_importances_
 importances2 = ['%.2f'%(float(a)) for a in importances2]
-print("onehot maps")
+print(" random forests onehot maps importances")
 print(importances2)
 
 importances3 = classifier3.feature_importances_
@@ -583,7 +582,8 @@ print(str(errors)+"--"+str(estimators))
 
 ################################## Score between classifiers ################################
 
-write = False
+write = True
+
 if write:
     file = open("Grubb.txt", "a")
     file.write(s+"\n")
