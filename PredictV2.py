@@ -1,11 +1,7 @@
-f = open("Grubb.txt", "r")
+
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-import copy
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import matplotlib.pyplot as plt
 
 
 def parse_one_hot(xin):
@@ -89,7 +85,6 @@ def parse_one_hot(xin):
 def parse_x(xin):
     data = "1-"
 
-
     if xin[0] == 0:
         data += "Hum-"
     elif xin[0] == 1:
@@ -151,286 +146,9 @@ def parse_x(xin):
 
     return data
 
-def less_buckets(games):
-    bucket = 0
-
-    if games <= 20:
-        bucket = 1
-    elif games <= 60:
-        bucket = 2
-    elif games <= 150:
-        bucket = 3
-    else:
-        bucket = 4
-
-    return bucket
-
-def bucket_games(games):
-    bucket = 0
-
-    if games <= 12:
-        bucket = 12
-    elif games <= 20:
-        bucket = 20
-    elif games <= 35:
-        bucket = 35
-    elif games <= 60:
-        bucket = 60
-    elif games <= 120:
-        bucket = 120
-    else:
-        bucket = 1000
-
-    return bucket
-
-contents = f.readlines()
-
-input = []
-counter = 0
-for l in contents:
-
-    X = l.split('-')
-
-    winrate = int(X[4])/100
-    games = int(X[5])
-
-    wins = round(winrate * games)
-    losses = round((1 - winrate) * games)
-
-    X[4] = wins
-    X[5] = losses
-    X[6] = X[6].rstrip("\n")
-
-
-    X = np.array(X)
-    input.append(X)
-
-    print(X)
-    print(l)
-    counter += 1
-
-
-input = np.array(input)
-original_input = copy.deepcopy(input)
-
-labelencoder = LabelEncoder()
-
-y = input[:, 0]
-input = input[:, 1:]
-# scaller = StandardScaler()
-#
-# print("shape")
-# print(input[:,3].shape)
-#
-# x3= input[:,3].reshape(-1,1)
-# x3= scaller.fit_transform(x3)
-#
-# x4= input[:,4].reshape(-1,1)
-# x4= scaller.fit_transform(x4)
-#
-# x3.reshape((len(input),))
-# x4.reshape((len(input),))
-#
-# print(x3.shape)
-# input[:,3] = x3[:,0]
-# input[:,4] = x4[:,0]
-print("scaller-----------------------------------------------------------------------------")
-print(input[-1])
-input_h2o = copy.deepcopy(input)
-
-print(y)
-print(input)
-print(input[18])
-#
-# input = labelencoder.fit_transform(input)
-# print(input)
-input[:, 0] = labelencoder.fit_transform(input[:, 0])
-input[:, 0] = [int(x) for x in input[:, 0]]
-
-input[:, 1] = labelencoder.fit_transform(input[:, 1])
-input[:, 1] = [int(x) for x in input[:, 1]]
-
-input[:, 2] = labelencoder.fit_transform(input[:, 2])
-input[:, 2] = [int(x) for x in input[:, 2]]
-
-input[:, 5] = labelencoder.fit_transform(input[:, 5])
-input[:, 5] = [int(x) for x in input[:, 5]]
-print(input)
-
-input2 = copy.deepcopy(input)
-
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-errors = []
-estimators = 500
-
-classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
-classifier.fit(input, y)
-oob_error1 = 1 - classifier.oob_score_
-errors.append(oob_error1)
-importances1 = classifier.feature_importances_
-# amazonia = 0       swamped = 5
-# concealed = 1      terenas = 6
-# echo = 2           turtle = 7
-# northren = 3       twisted = 8
-# refuge = 4
-
-# --------------------------------------------- Input -----------------------------------------------------------
-
-#0-Orc-t-Hum-77-1300-terenas
-xin = [4, 1, 1, 72, 730, 2]
-
-winrate = xin[3]/100
-games = xin[4]
-
-wins = round(winrate * games)
-losses = games - wins
-
-xin = [xin[0], xin[1], xin[2], wins, losses, xin[5]]
-
-
-
-write = True
-# Hum = 0
-# Ne = 1
-# Orc = 2
-# Ra = 3
-# Ud = 4
-
-
-# xin3 = xin[3]
-# xin3 = scaller.transform([[xin3]])
-#
-# xin4 = xin[4]
-# xin4 = scaller.transform([[xin4]])
-#
-# xin[3] = xin3[0][0]
-# xin[4] = xin4[0][0]
-print(xin)
-print("hsasasasasasasasasasasasasasasasasasasasasasasasasasasasasasa")
-
-to_print = copy.deepcopy(xin)
-print(parse_x(to_print))
-
-
-onehot_encoded = []
-
-letter = [0 for _ in range(5)]
-letter[xin[0]] = 1
-for i in letter:
-    onehot_encoded.append(i)
-
-letter = [0 for _ in range(2)]
-letter[xin[1]] = 1
-for i in letter:
-    onehot_encoded.append(i)
-
-
-letter = [0 for _ in range(5)]
-letter[xin[2]] = 1
-for i in letter:
-    onehot_encoded.append(i)
-
-letter = [0 for _ in range(9)]
-letter[xin[5]] = 1
-for i in letter:
-    onehot_encoded.append(i)
-
-onehot_encoded = np.array(onehot_encoded)
-onehot_encoded.flatten()
-
-onehot_encoded = np.append(onehot_encoded, xin[3])
-onehot_encoded = np.append(onehot_encoded, xin[4])
-
-onehot_encoded.flatten()
-
-
-print("manual one hot "+str(onehot_encoded))
-print(len(onehot_encoded))
-# print(parse_one_hot(xin))
-
-# 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-y_pred1 = classifier.predict_proba([xin])
-print(xin)
-print("Chanses that Grubby wins "+str(y_pred1[0][1]*100)+"%")
-
-#   Without map prediction   ##############################################
-
-print("")
-print("Without map prediciton ")
-input = input[:, :-1]
-classifier.fit(input, y)
-oob_error2 = 1 - classifier.oob_score_
-errors.append(oob_error2)
-xin = xin[:-1]
-y_pred2 = classifier.predict_proba([xin])
-print("Chanses that Grubby wins "+str(y_pred2[0][1]*100)+"%")
-
-print("")
-print("One hot ")
-print("")
-
-# One Hot ############################################################
-
-# amazonia = 0
-# concealed = 1
-# echo = 2
-# northren = 3
-# refuge = 4
-# swamped = 5
-# terenas = 6
-# turtle = 7
-# twisted = 8
-
-#xin = [1., 0., 0., 0., 0.,      0., 1., 0., 0., 0.,   0., 0., 0., 1., 0., 0., 0., 0., 0.,       1,      89, 430]
-
-# Hum = 0
-# Ne = 1
-# Orc = 2
-# Ra = 3
-# Ud = 4
-
-onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
-onehot_input = onehotencoder.fit_transform(input2).toarray()
-
-logistic_input = copy.deepcopy(onehot_input)
-
-estimators2 = 300
-classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
-classifier2.fit(onehot_input, y)
-oob_error3 = 1 - classifier2.oob_score_
-errors.append(oob_error3)
-
-xin = onehot_encoded
-y_pred3 = classifier2.predict_proba([xin])
-print("parse_one_hot(onehot_input[-2])")
-print(parse_one_hot(onehot_input[-2]))
-print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
-
-
-xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
-
-input2 = input2[:, :-1]
-onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
-onehot_input = onehotencoder.fit_transform(input2).toarray()
-
-print("")
-print("Without map prediciton ")
-
-classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
-classifier3.fit(onehot_input, y)
-oob_error4 = 1 - classifier3.oob_score_
-errors.append(oob_error4)
-write = False
-print(xin2)
-y_pred4 = classifier3.predict_proba([xin2])
 
 ################################## Logistic  -------------------------------------------------
 
-
-# plt.plot(logistic_input[:, -1], logistic_input[:, -2], 'ro')
-# plt.ylabel('stats')
-# plt.xlabel('games')
-# plt.show()
 
 def logistic_reg(xin):
     f = open("Grubb.txt", "r")
@@ -460,7 +178,6 @@ def logistic_reg(xin):
         counter += 1
 
     input = np.array(input)
-    original_input = copy.deepcopy(input)
 
     labelencoder = LabelEncoder()
 
@@ -481,9 +198,9 @@ def logistic_reg(xin):
     print(input)
 
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
-    onehot_input = onehotencoder.fit_transform(input2).toarray()
+    onehot_input = onehotencoder.fit_transform(input).toarray()
+
     print("Logistic regression train")
-    print(logistic_input.shape)
     clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(onehot_input, y)
 
 
@@ -528,110 +245,20 @@ def logistic_reg(xin):
     print(len(onehot_encoded))
 
     print("Logistic regression predict")
-    y_pred_logistic = clf.predict_proba([xin])
+    y_pred_logistic = clf.predict_proba([onehot_encoded])
     print(y_pred_logistic)
 
     return y_pred_logistic
 
-games = xin[-1]
 
-
-###############################  K nearest neightours   ##############################################
-
-
-
-print(parse_one_hot(xin))
-
-np.set_printoptions(precision=2)
-importances = classifier.feature_importances_
-print("numerical maps")
-print(importances1)
-
-importances2 = classifier2.feature_importances_
-importances2 = ['%.2f'%(float(a)) for a in importances2]
-print(" random forests onehot maps importances")
-print(importances2)
-
-importances3 = classifier3.feature_importances_
-
-s = parse_x(to_print)
-
-pred1 = int(round(y_pred1[0][1]*100))
-pred2 = int(round(y_pred2[0][1]*100))
-pred3 = int(round(y_pred3[0][1]*100))
-pred4 = int(round(y_pred4[0][1]*100))
-logistic_pred = int(round(y_pred_logistic[0][1]*100))
-
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
-print("")
-
-
-log =(s+"-"+str(pred1)
-      +"%-"+str(pred2)
-      +"%-"+str(pred3)
-      +"%-"+str(pred4)
-      +"%-"+str(0)
-      +"%-"+str(0)
-      +"%-"+str(logistic_pred)
-      +"%-"+str(0)
-      +"%-"+str(0)
-      +"%-"+str(0)
-      +"%-\n" )
-
-print(log)
+xin = [2, 1, 4, 86, 29, 2]
+logistic_reg(xin)
 
 
 
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
 
-avg_prediction = (y_pred1[0][1]*100+ y_pred2[0][1]*100+ y_pred3[0][1]*100+ y_pred4[0][1]*100)/4
-print("avg prediction "+str(int(round(avg_prediction))) +"%")
-print("errors")
-errors = np.array(errors)
-print(str(errors)+"--"+str(estimators))
 
 
-#################################       H2O       #############################################
 
 
-# import h2o
-# from h2o.estimators.random_forest import H2ORandomForestEstimator
-#
-# h2o.init()
-#
-# # get training and prediction data sets
-# air = input_h2o
-# # only use columns 1 through 11
-#
-#
-# #subset the training data into train and validation sets
-# r = input_h2o[0].runif()
-# air_train = input_h2o[r < 0.8]
-# air_valid = input_h2o[r >= 0.8]
-#
-# # specify your features and response column
-# myX = ["GrubbyRace", "Effort", "OpponentRace", "Stats", "NumberGames", "Map"]
-# myY = "Won"
-#
-# # build and train your model
-# rf_bal = H2ORandomForestEstimator(seed=12, ntrees=150, balance_classes=True)
-# rf_bal.train(x=input_h2o, y=y, training_frame=air_train, validation_frame=air_valid)
-#
-#
-# # show predicted yes/no output with probability for yes and no
-# rf_bal.predict(input_h2o[1:6])
-
-################################## Score between classifiers ################################
-
-write = False
-
-if write:
-    file = open("Grubb.txt", "a")
-    file.write(s+"\n")
-    file.close()
-    #
-    file = open("automagic.txt", "a")
-    file.write(log)
-    file.close()
