@@ -6,7 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import matplotlib.pyplot as plt
-
+import PredictV2
 
 def parse_one_hot(xin):
     print(xin)
@@ -282,7 +282,9 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Orc-t-Hum-77-1300-terenas
-xin = [2, 1, 4, 61, 49, 2]
+xin = [4, 1, 1, 72, 730, 2]
+
+predV2_logistic = PredictV2.logistic_reg(xin)
 
 write = True
 # Hum = 0
@@ -462,8 +464,8 @@ print("length 70 "+str(len(logistic_input70)))
 print(len(y_70))
 
 
-logistic_inputRest = [a[:-1] for a in logistic_input if 80 <= a[-1]]
-y_Rest = [a[0] for a in original_input if 80 <= int(a[-2])]
+logistic_inputRest = [a[:-1] for a in logistic_input if 60 <= a[-1]]
+y_Rest = [a[0] for a in original_input if 60 <= int(a[-2])]
 clfRest = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_inputRest, y_Rest)
 print("length Rest "+str(len(logistic_inputRest)))
 print(len(y_Rest))
@@ -482,7 +484,7 @@ if games <= 15:
     correct_logistic = y_pred_logistic15[0][1]
 elif games <= 35:
     correct_logistic = y_pred_logistic35[0][1]
-elif games <= 70:
+elif games <= 60:
     correct_logistic = y_pred_logistic70[0][1]
 else:
     correct_logistic = y_pred_logisticRest[0][1]
@@ -490,7 +492,6 @@ else:
 write = True
 
 ###############################  K nearest neightours   ##############################################
-
 
 
 print(parse_one_hot(xin))
@@ -514,6 +515,7 @@ pred2 = int(round(y_pred2[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 pred4 = int(round(y_pred4[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
+predV2_logistic = int(round(predV2_logistic[0][1]*100))
 
 ensemble_logistic = 0
 if games > 70:
@@ -533,7 +535,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(0)
       +"%-"+str(logistic_pred)
       +"%-"+str(int(round(correct_logistic*100)))
-      +"%-"+str(0)
+      +"%-"+str(predV2_logistic)
       +"%-"+str(0)
       +"%-\n" )
 

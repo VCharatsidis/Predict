@@ -29,8 +29,8 @@ def calc_scores(preds):
     print("result "+str(result))
 
     s = n_predictions * [0]
-    #excluded_list = [10, 0, 3, 6, 4, 5, 1, 9]
-    excluded_list =[]
+    #excluded_list = [2, 0, 3, 6, 4, 5, 1]
+    excluded_list =[0,1, 2,3]
     for i in range(0, n_predictions-1):
         # if i > 0:
         #    continue
