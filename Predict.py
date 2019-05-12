@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import matplotlib.pyplot as plt
 import PredictV2
+import logistic_mutchups
 
 def parse_one_hot(xin):
     print(xin)
@@ -281,10 +282,12 @@ importances1 = classifier.feature_importances_
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-#0-Orc-t-Hum-77-1300-terenas
-xin = [4, 1, 1, 72, 730, 2]
+
+#0-Hum-t-Hum-88-41-echo
+xin = [0, 1, 0, 73, 1000000, 3]
 
 predV2_logistic = PredictV2.logistic_reg(xin)
+logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 
 write = True
 # Hum = 0
@@ -464,8 +467,8 @@ print("length 70 "+str(len(logistic_input70)))
 print(len(y_70))
 
 
-logistic_inputRest = [a[:-1] for a in logistic_input if 60 <= a[-1]]
-y_Rest = [a[0] for a in original_input if 60 <= int(a[-2])]
+logistic_inputRest = [a[:-1] for a in logistic_input if 70 <= a[-1]]
+y_Rest = [a[0] for a in original_input if 70 <= int(a[-2])]
 clfRest = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_inputRest, y_Rest)
 print("length Rest "+str(len(logistic_inputRest)))
 print(len(y_Rest))
@@ -484,7 +487,7 @@ if games <= 15:
     correct_logistic = y_pred_logistic15[0][1]
 elif games <= 35:
     correct_logistic = y_pred_logistic35[0][1]
-elif games <= 60:
+elif games <= 70:
     correct_logistic = y_pred_logistic70[0][1]
 else:
     correct_logistic = y_pred_logisticRest[0][1]
@@ -516,6 +519,7 @@ pred3 = int(round(y_pred3[0][1]*100))
 pred4 = int(round(y_pred4[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 predV2_logistic = int(round(predV2_logistic[0][1]*100))
+logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 
 ensemble_logistic = 0
 if games > 70:
@@ -532,7 +536,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(pred3)
       +"%-"+str(pred4)
       +"%-"+str(0)
-      +"%-"+str(0)
+      +"%-"+str(logistic_mutchups)
       +"%-"+str(logistic_pred)
       +"%-"+str(int(round(correct_logistic*100)))
       +"%-"+str(predV2_logistic)
@@ -584,7 +588,7 @@ print(str(errors)+"--"+str(estimators))
 
 ################################## Score between classifiers ################################
 
-write = True
+write = False
 
 if write:
     file = open("Grubb.txt", "a")

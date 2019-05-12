@@ -1,3 +1,7 @@
+1-Ra-t-Ra-50-20-refuge
+1-Ra-t-Ud-50-20-refuge
+1-Ra-t-Hum-50-20-refuge
+1-Ra-t-Ne-50-20-refuge
 1-Ra-t-Orc-55-10-refuge
 1-Orc-r-Ud-75-80-refuge
 1-Orc-t-Hum-80-300-refuge
@@ -358,3 +362,11 @@
 1-Ud-t-Orc-72-25-terenas
 1-Ud-t-Ud-61-570-refuge
 1-Ud-t-Ne-72-730-echo
+0-Hum-t-Ud-82-385-twisted
+1-Hum-t-Hum-77-137-concealed
+1-Hum-t-Ne-62-94-amazonia
+1-Hum-t-Ud-55-1150-refuge
+0-Hum-t-Hum-87-3800-northren
+0-Hum-t-Hum-88-41-echo
+0-Hum-t-Ne-60-660-northren
+1-Hum-r-Ne-78-32-concealed

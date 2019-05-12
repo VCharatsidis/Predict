@@ -195,11 +195,12 @@ def logistic_reg(xin):
 
     input[:, 5] = labelencoder.fit_transform(input[:, 5])
     input[:, 5] = [int(x) for x in input[:, 5]]
-    print(input)
+
 
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
+    print(onehot_input[-1])
     print("Logistic regression train")
     clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(onehot_input, y)
 
