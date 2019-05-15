@@ -282,12 +282,11 @@ importances1 = classifier.feature_importances_
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-
 #0-Hum-t-Hum-88-41-echo
-xin = [0, 1, 0, 73, 1000000, 3]
+xin = [0, 1, 0, 86, 84, 4]
 
 predV2_logistic = PredictV2.logistic_reg(xin)
-logistic_mutchups = logistic_mutchups.logistic_reg(xin)
+logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
 
 write = True
 # Hum = 0
@@ -407,7 +406,7 @@ print(parse_one_hot(onehot_input[-2]))
 print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
 
 
-xin2 = [xin[0],  xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
+xin2 = [xin[0], xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
 
 input2 = input2[:, :-1]
 onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
@@ -420,7 +419,7 @@ classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, o
 classifier3.fit(onehot_input, y)
 oob_error4 = 1 - classifier3.oob_score_
 errors.append(oob_error4)
-write = False
+
 print(xin2)
 y_pred4 = classifier3.predict_proba([xin2])
 
@@ -435,7 +434,7 @@ y_pred4 = classifier3.predict_proba([xin2])
 print("Logistic regression")
 print(logistic_input.shape)
 clf = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_input, y)
-y_pred_logistic = clf.predict_proba([xin])
+y_pred_logistic, logit1 = clf.predict_proba([xin])
 print(y_pred_logistic)
 
 # show = [a[-1] for a in logistic_input if a[-1] <= 15]
@@ -469,19 +468,20 @@ print(len(y_70))
 
 logistic_inputRest = [a[:-1] for a in logistic_input if 70 <= a[-1]]
 y_Rest = [a[0] for a in original_input if 70 <= int(a[-2])]
-clfRest = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_inputRest, y_Rest)
+clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
 print("length Rest "+str(len(logistic_inputRest)))
 print(len(y_Rest))
-
 
 games = xin[-1]
 correct_logistic = 0
 
-y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
-y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
-y_pred_logistic70 = clf70.predict_proba([xin[:-1]])
-y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
+y_pred_logistic15, logit = clf15.predict_proba([xin[:-1]])
+y_pred_logistic35, logit = clf35.predict_proba([xin[:-1]])
+y_pred_logistic70, logit = clf70.predict_proba([xin[:-1]])
+y_pred_logisticRest, logit = clfRest.predict_proba([xin[:-1]])
 
+print(y_pred_logisticRest)
+print(logit)
 
 if games <= 15:
     correct_logistic = y_pred_logistic15[0][1]
@@ -492,7 +492,6 @@ elif games <= 70:
 else:
     correct_logistic = y_pred_logisticRest[0][1]
 
-write = True
 
 ###############################  K nearest neightours   ##############################################
 
@@ -518,7 +517,7 @@ pred2 = int(round(y_pred2[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 pred4 = int(round(y_pred4[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
-predV2_logistic = int(round(predV2_logistic[0][1]*100))
+#predV2_logistic = int(round(predV2_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 
 ensemble_logistic = 0
@@ -529,7 +528,8 @@ else:
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
-
+if games < 60:
+    logistic_mutchups = 0
 
 log =(s+"-"+str(pred1)
       +"%-"+str(pred2)
@@ -539,7 +539,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(logistic_mutchups)
       +"%-"+str(logistic_pred)
       +"%-"+str(int(round(correct_logistic*100)))
-      +"%-"+str(predV2_logistic)
+      +"%-"+str(0)
       +"%-"+str(0)
       +"%-\n" )
 
@@ -549,8 +549,11 @@ print(log)
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
 
-avg_prediction = (y_pred1[0][1]*100+ y_pred2[0][1]*100+ y_pred3[0][1]*100+ y_pred4[0][1]*100)/4
-print("avg prediction "+str(int(round(avg_prediction))) +"%")
+avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
+print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
+print("matchups logistic: " + str(logistic_mutchups)+"%")
+print("normal logistic: " + str(logistic_pred)+"%")
+print("")
 print("errors")
 errors = np.array(errors)
 print(str(errors)+"--"+str(estimators))

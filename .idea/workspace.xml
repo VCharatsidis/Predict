@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PredictV2.py" beforeDir="false" afterPath="$PROJECT_DIR$/PredictV2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PredictTod.py" beforeDir="false" afterPath="$PROJECT_DIR$/PredictTod.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tod.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/automagic.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logistic_mutchups.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictions.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predictionsTod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictionsTod.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="797">
-              <caret line="436" column="73" selection-start-line="436" selection-start-column="59" selection-end-line="436" selection-end-column="73" />
+            <state relative-caret-position="197">
+              <caret line="401" column="20" lean-forward="true" selection-start-line="401" selection-start-column="20" selection-end-line="401" selection-end-column="20" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
               </folding>
@@ -34,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PredictTod.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1549">
-              <caret line="337" column="24" selection-start-line="337" selection-start-column="24" selection-end-line="337" selection-end-column="24" />
+            <state relative-caret-position="563">
+              <caret line="478" selection-start-line="478" selection-end-line="478" selection-end-column="61" />
               <folding>
                 <element signature="e#25#43#0" expanded="true" />
               </folding>
@@ -46,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="1410" selection-start-line="1410" selection-end-line="1410" />
+            <state relative-caret-position="303">
+              <caret line="1410" column="57" selection-start-line="1410" selection-start-column="51" selection-end-line="1410" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -55,7 +58,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Grubb.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="323">
               <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
             </state>
           </provider>
@@ -82,8 +85,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+            <state relative-caret-position="17">
+              <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -91,14 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-              <folding>
-                <element signature="e#412#430#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1785">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
             </state>
           </provider>
         </entry>
@@ -106,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PredictV2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="151" lean-forward="true" selection-end-line="265" />
+            <state relative-caret-position="354">
+              <caret line="248" selection-start-line="248" selection-end-line="248" />
               <folding>
                 <element signature="e#1#19#0" expanded="true" />
               </folding>
@@ -118,8 +118,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="775">
-              <caret line="261" selection-start-line="261" selection-end-line="261" />
+            <state relative-caret-position="163">
+              <caret line="294" column="41" lean-forward="true" selection-start-line="294" selection-start-column="41" selection-end-line="294" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -141,18 +141,19 @@
       <list>
         <option value="$PROJECT_DIR$/Tod.txt" />
         <option value="$PROJECT_DIR$/commaTransform.py" />
-        <option value="$PROJECT_DIR$/PredictTod.py" />
         <option value="$PROJECT_DIR$/PredictV2.py" />
-        <option value="$PROJECT_DIR$/score.py" />
-        <option value="$PROJECT_DIR$/Predict.py" />
         <option value="$PROJECT_DIR$/logistic_mutchups.py" />
+        <option value="$PROJECT_DIR$/PredictTod.py" />
+        <option value="$PROJECT_DIR$/score.py" />
+        <option value="$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py" />
+        <option value="$PROJECT_DIR$/Predict.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1477" />
-    <option name="y" value="11" />
-    <option name="width" value="1563" />
+    <option name="x" value="1451" />
+    <option name="y" value="3" />
+    <option name="width" value="1511" />
     <option name="height" value="950" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -161,7 +162,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -173,6 +173,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,10 +321,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.logistic_mutchups" />
         <item itemvalue="Python.score" />
-        <item itemvalue="Python.PredictV2" />
         <item itemvalue="Python.PredictTod" />
+        <item itemvalue="Python.logistic_mutchups" />
+        <item itemvalue="Python.PredictV2" />
         <item itemvalue="Python.commaTransform" />
       </list>
     </recent_temporary>
@@ -342,10 +343,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1477" y="11" width="1563" height="950" extended-state="0" />
+    <frame x="1451" y="3" width="1511" height="950" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30712858" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32229123" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -463,7 +464,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Grubb.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="323">
           <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
         </state>
       </provider>
@@ -482,37 +483,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1785">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PredictTod.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1549">
-          <caret line="337" column="24" selection-start-line="337" selection-start-column="24" selection-end-line="337" selection-end-column="24" />
+        <state relative-caret-position="563">
+          <caret line="478" selection-start-line="478" selection-end-line="478" selection-end-column="61" />
           <folding>
             <element signature="e#25#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="1410" selection-start-line="1410" selection-end-line="1410" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="17">
+          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/logistic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="1410" column="57" selection-start-line="1410" selection-start-column="51" selection-end-line="1410" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PredictV2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="151" lean-forward="true" selection-end-line="265" />
+        <state relative-caret-position="354">
+          <caret line="248" selection-start-line="248" selection-end-line="248" />
           <folding>
             <element signature="e#1#19#0" expanded="true" />
           </folding>
@@ -521,27 +529,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="775">
-          <caret line="261" selection-start-line="261" selection-end-line="261" />
+        <state relative-caret-position="163">
+          <caret line="294" column="41" lean-forward="true" selection-start-line="294" selection-start-column="41" selection-end-line="294" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="797">
-          <caret line="436" column="73" selection-start-line="436" selection-start-column="59" selection-end-line="436" selection-end-column="73" />
+        <state relative-caret-position="197">
+          <caret line="401" column="20" lean-forward="true" selection-start-line="401" selection-start-column="20" selection-end-line="401" selection-end-column="20" />
           <folding>
             <element signature="e#27#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-          <folding>
-            <element signature="e#412#430#0" expanded="true" />
           </folding>
         </state>
       </provider>

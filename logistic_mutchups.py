@@ -104,7 +104,9 @@ def logistic_reg(xin):
     return y_pred_logistic
 
 
-xin = [2, 1, 4, 86, 29, 2]
+#0-Hum-t-Ne-60-660-northren
+
+xin = [0, 1, 0, 86, 3800, 3]
 logistic_reg(xin)
 
 

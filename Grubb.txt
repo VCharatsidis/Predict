@@ -370,3 +370,10 @@
 0-Hum-t-Hum-88-41-echo
 0-Hum-t-Ne-60-660-northren
 1-Hum-r-Ne-78-32-concealed
+1-Hum-t-Ud-61-528-terenas
+0-Hum-t-Ne-90-1830-concealed
+1-Hum-t-Orc-54-757-twisted
+0-Hum-t-Ud-82-1100-refuge
+0-Hum-t-Hum-87-3860-concealed
+0-Hum-t-Ud-72-43-refuge
+0-Hum-t-Hum-86-84-amazonia
