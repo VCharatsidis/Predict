@@ -1,4 +1,4 @@
-1-Ra-t-Ra-50-20-refuge
+1-Ra-r-Ra-50-20-refuge
 1-Ra-t-Ud-50-20-refuge
 1-Ra-t-Hum-50-20-refuge
 1-Ra-t-Ne-50-20-refuge
@@ -377,3 +377,6 @@
 0-Hum-t-Hum-87-3860-concealed
 0-Hum-t-Ud-72-43-refuge
 0-Hum-t-Hum-86-84-amazonia
+1-Ne-t-Hum-65-26-terenas
+0-Ne-t-Ne-67-540-amazonia
+0-Ne-t-Ne-79-161-amazonia

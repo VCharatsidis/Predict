@@ -8,6 +8,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import matplotlib.pyplot as plt
 import PredictV2
 import logistic_mutchups
+import combolearning
 
 def parse_one_hot(xin):
     print(xin)
@@ -203,7 +204,6 @@ for l in contents:
     X[5] = int(X[5])
     X[6] = X[6].rstrip("\n")
 
-
     X = np.array(X)
     input.append(X)
 
@@ -283,12 +283,13 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Hum-t-Hum-88-41-echo
-xin = [0, 1, 0, 86, 84, 4]
+xin = [2, 1, 2, 78, 100, 5]
 
+predComboLeanring, combo_importances = combolearning.predict(xin)
 predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
 
-write = True
+write = False
 # Hum = 0
 # Ne = 1
 # Orc = 2
@@ -478,10 +479,13 @@ correct_logistic = 0
 y_pred_logistic15, logit = clf15.predict_proba([xin[:-1]])
 y_pred_logistic35, logit = clf35.predict_proba([xin[:-1]])
 y_pred_logistic70, logit = clf70.predict_proba([xin[:-1]])
-y_pred_logisticRest, logit = clfRest.predict_proba([xin[:-1]])
+y_pred_logisticRest, logitRest = clfRest.predict_proba([xin[:-1]])
 
 print(y_pred_logisticRest)
 print(logit)
+
+classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
+classifier.fit(input, y)
 
 if games <= 15:
     correct_logistic = y_pred_logistic15[0][1]
@@ -535,7 +539,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(pred2)
       +"%-"+str(pred3)
       +"%-"+str(pred4)
-      +"%-"+str(0)
+      +"%-"+str(predComboLeanring)
       +"%-"+str(logistic_mutchups)
       +"%-"+str(logistic_pred)
       +"%-"+str(int(round(correct_logistic*100)))
@@ -547,10 +551,11 @@ print(log)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
-
-
+print("combo importances")
+print(combo_importances)
 avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
+print("combo learning: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("")
@@ -591,7 +596,7 @@ print(str(errors)+"--"+str(estimators))
 
 ################################## Score between classifiers ################################
 
-write = False
+
 
 if write:
     file = open("Grubb.txt", "a")

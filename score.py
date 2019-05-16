@@ -30,7 +30,7 @@ def calc_scores(preds):
 
     s = n_predictions * [0]
     excluded_list = []
-    excluded_list = [0, 1, 2, 3, 8]
+    #excluded_list = [0, 1, 2, 3, 8]
 
     for i in range(0, n_predictions-1):
 
