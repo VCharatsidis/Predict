@@ -5,7 +5,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
-
 f = open("Grubb.txt", "r")
 contents = f.readlines()
 input = []
@@ -27,7 +26,9 @@ map_wins = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0
 maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
                 'turtle': 0, 'twisted': 0}
 
+globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.87, 'Ra': 0.8, 'Ud': 0.78}
 def get_input():
+    counter = 0
     for l in contents:
         X = l.split('-')
 
@@ -35,14 +36,56 @@ def get_input():
         X[5] = int(X[5])
         X[6] = X[6].rstrip("\n")
 
-        race_games[X[1]] += 1
-        race_wins[X[1]] += int(X[0])
+        grubb_wr = globa_grubby_winrates[X[1]]
+        opp_wr = X[4]/100
+        result = int(X[0])
+        power = 5
+        coeff = 1
 
-        opponent_race_games[X[3]] += 1
-        opponent_race_wins[X[3]] += int(X[0])
+        if int(X[5]) < 15:
+            coeff = 0.4
+        elif int(X[5]) < 40:
+            coeff = 0.7
 
-        map_games[X[6]] += 1
-        map_wins[X[6]] += int(X[0])
+        if len(contents) - counter < 15:
+            coeff += 0.1
+
+        # formula = 1
+        # if int(X[0]) == 0:
+        #     if int(X[4]) < 80:
+        #         formula += 0.2
+        #     if int(X[4]) < 65:
+        #         formula += 0.3
+        # else:
+        #     if int(X[4]) < 80:
+        #         formula -= 0.1
+        #     if int(X[4]) < 65:
+        #         formula -= 0.2
+        #
+        #     if int(X[4]) > 85:
+        #         formula += 0.2
+        #
+        # formula *= coeff
+        win_scenario = ((1 - (grubb_wr - opp_wr)) ** power) * result
+        lose_scenario = ((1 - (opp_wr - grubb_wr)) ** power) * (1 - result)
+        formula = (win_scenario + lose_scenario) * coeff
+        #formula = 1
+        race_games[X[1]] += (1 * formula)
+        race_wins[X[1]] += (int(X[0]) * formula)
+
+        opponent_race_games[X[3]] += (1 * formula)
+        opponent_race_wins[X[3]] += (int(X[0]) * formula)
+
+        map_games[X[6]] += (1 * formula)
+        map_wins[X[6]] += (int(X[0]) * formula)
+
+        grubb_race = X[1]
+        opp_race = X[3]
+        map = X[6]
+        print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + str(X[4]) + "-" + str(X[5])
+              + " f: " + str(formula) + " win: " + str(win_scenario) + " lose: " + str(lose_scenario) + " coeff: "
+              + str(coeff) + " res: " + str(X[0]))
+
 
         X = np.array(X)
         input.append(X)
@@ -96,8 +139,6 @@ def input_to_onehot(input):
     return onehot_input, y
 
 
-
-
 def transform_input(input):
     labelencoder = LabelEncoder()
 
@@ -105,7 +146,7 @@ def transform_input(input):
         input[:, 1] = labelencoder.fit_transform(input[:, 1])
 
         input[i] = [race_winrates[input[i][0]], input[i][1],
-                    opponent_race_winrates[input[i][2]], int(input[i][3]),
+                    opponent_race_winrates[input[i][2]], int(input[i][3]) ,
                     int(input[i][4]), maps_winrates[input[i][5]]]
 
     return input
@@ -126,13 +167,14 @@ def predict(xin):
 
     input = input[:, 1:]
     input = transform_input(input)
+    print(input)
 
-
-    estimators = 500
+    estimators = 1000
     classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
     classifier.fit(input, y)
     importances = classifier.feature_importances_
 
+    print(xin_processed)
     prediction = classifier.predict_proba([xin_processed])
     prediction = int(round(prediction[0][1]*100))
 
@@ -141,6 +183,7 @@ def predict(xin):
 
     return prediction, importances
 
-xin = [4, 1, 4, 80, 1200, 0]
-prediction,_ = predict(xin)
+
+xin = [2, 1, 4, 60, 1200, 0]
+prediction, _ = predict(xin)
 print(str(prediction) + "%")

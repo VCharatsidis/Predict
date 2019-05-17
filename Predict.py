@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import PredictV2
 import logistic_mutchups
 import combolearning
+import predictTransformed
 
 def parse_one_hot(xin):
     print(xin)
@@ -283,9 +284,11 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Hum-t-Hum-88-41-echo
-xin = [2, 1, 2, 78, 100, 5]
+
+xin = [2, 1, 4, 60, 1200, 0]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
+rf_trasformed, _ = predictTransformed.predict(xin)
 predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
 
@@ -363,11 +366,7 @@ oob_error2 = 1 - classifier.oob_score_
 errors.append(oob_error2)
 xin = xin[:-1]
 y_pred2 = classifier.predict_proba([xin])
-print("Chanses that Grubby wins "+str(y_pred2[0][1]*100)+"%")
 
-print("")
-print("One hot ")
-print("")
 
 # One Hot ############################################################
 
@@ -402,9 +401,6 @@ errors.append(oob_error3)
 
 xin = onehot_encoded
 y_pred3 = classifier2.predict_proba([xin])
-print("parse_one_hot(onehot_input[-2])")
-print(parse_one_hot(onehot_input[-2]))
-print("Chanses that Grubby wins "+str(round(y_pred3[0][1]*100))+"%")
 
 
 xin2 = [xin[0], xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
@@ -432,11 +428,9 @@ y_pred4 = classifier3.predict_proba([xin2])
 # plt.xlabel('games')
 # plt.show()
 
-print("Logistic regression")
-print(logistic_input.shape)
+
 clf = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_input, y)
 y_pred_logistic, logit1 = clf.predict_proba([xin])
-print(y_pred_logistic)
 
 # show = [a[-1] for a in logistic_input if a[-1] <= 15]
 # show2 = [a[-2] for a in logistic_input if a[-1] <= 15]
@@ -449,28 +443,24 @@ print(y_pred_logistic)
 logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
 y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
 clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
-print("length 15 "+str(len(logistic_input15)))
 print(len(y_15))
 
 
 logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 45]
 y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 45]
 clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
-print("length 35 "+str(len(logistic_input35)))
 print(len(y_35))
 
 
 logistic_input70 = [a[:-1] for a in logistic_input if 36 <= a[-1] <= 80]
 y_70 = [a[0] for a in original_input if 36 <= int(a[-2]) <= 80]
 clf70 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input70, y_70)
-print("length 70 "+str(len(logistic_input70)))
 print(len(y_70))
 
 
 logistic_inputRest = [a[:-1] for a in logistic_input if 70 <= a[-1]]
 y_Rest = [a[0] for a in original_input if 70 <= int(a[-2])]
 clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
-print("length Rest "+str(len(logistic_inputRest)))
 print(len(y_Rest))
 
 games = xin[-1]
@@ -504,13 +494,10 @@ print(parse_one_hot(xin))
 
 np.set_printoptions(precision=2)
 importances = classifier.feature_importances_
-print("numerical maps")
-print(importances1)
+
 
 importances2 = classifier2.feature_importances_
 importances2 = ['%.2f'%(float(a)) for a in importances2]
-print(" random forests onehot maps importances")
-print(importances2)
 
 importances3 = classifier3.feature_importances_
 
@@ -543,7 +530,7 @@ log =(s+"-"+str(pred1)
       +"%-"+str(logistic_mutchups)
       +"%-"+str(logistic_pred)
       +"%-"+str(int(round(correct_logistic*100)))
-      +"%-"+str(0)
+      +"%-"+str(rf_trasformed)
       +"%-"+str(0)
       +"%-\n" )
 
@@ -555,13 +542,13 @@ print("combo importances")
 print(combo_importances)
 avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
-print("combo learning: " + str(predComboLeanring) + "%")
+print("random forests t-winrates: "+ str(rf_trasformed)+"%")
+print("random forests winrates: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
-print("")
-print("errors")
-errors = np.array(errors)
-print(str(errors)+"--"+str(estimators))
+
+#errors = np.array(errors)
+#print(str(errors)+"--"+str(estimators))
 
 
 #################################       H2O       #############################################
