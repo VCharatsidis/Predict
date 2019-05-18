@@ -286,13 +286,14 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 1, 67, 540, 0]
+xin = [1, 1, 2, 77, 790, 1]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
 predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
-preprocessed_logreg = preprocessed_logreg.logistic_reg(xin)
+preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
+preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
 
 write = False
 # Hum = 0
@@ -524,17 +525,21 @@ print("")
 if games < 60:
     logistic_mutchups = 0
 
-log =(s+"-"+str(pred1)
-      +"%-"+str(0)
-      +"%-"+str(pred3)
-      +"%-"+str(0)
-      +"%-"+str(predComboLeanring)
-      +"%-"+str(logistic_mutchups)
-      +"%-"+str(logistic_pred)
-      +"%-"+str(int(round(correct_logistic*100)))
-      +"%-"+str(rf_trasformed)
-      +"%-"+str(0)
-      +"%-\n" )
+log =(s +"-" + str(pred1)
+      +"%-" + str(0)
+      +"%-" + str(pred3)
+      +"%-" + str(0)
+      +"%-" + str(predComboLeanring)
+      +"%-" + str(logistic_mutchups)
+      +"%-" + str(logistic_pred)
+      +"%-" + str(int(round(correct_logistic*100)))
+      +"%-" + str(rf_trasformed)
+      +"%-" + str(0)
+      +"%-%"
+      +"-0%-"
+      + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
+      + str(int(round(preprocessed_logreg_formula*100))) +"%-"
+      +"\n")
 
 print(log)
 
@@ -543,7 +548,8 @@ print(log)
 print("combo importances")
 print(combo_importances)
 avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
-print("preprocessed log_reg: "+str(int(round(preprocessed_logreg[0][1]*100)))+"%")
+print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
+print("preprocessed log_reg no formula: " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
 print("random forests t-winrates: " + str(rf_trasformed)+"%")
 print("random forests winrates: " + str(predComboLeanring) + "%")
@@ -585,8 +591,6 @@ print("normal logistic: " + str(logistic_pred)+"%")
 # rf_bal.predict(input_h2o[1:6])
 
 ################################## Score between classifiers ################################
-
-write = False
 
 if write:
     file = open("Grubb.txt", "a")
