@@ -159,6 +159,11 @@ contents = f.readlines()
 
 input = []
 counter = 0
+avg_winrate = 0
+observed_grubby_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+observer_grubby_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+observer_grubby_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+
 for l in contents:
 
     X = l.split('-')
@@ -170,8 +175,16 @@ for l in contents:
     X = np.array(X)
     input.append(X)
 
+    observed_grubby_wins[X[1]] += int(X[0])
+    observer_grubby_games[X[1]] += 1
+
+    avg_winrate += int(X[4])
     counter += 1
 
+for key in observed_grubby_wins.keys():
+    observer_grubby_winrates[key] = observed_grubby_wins[key] / observer_grubby_games[key]
+
+avg_winrate /= counter
 
 input = np.array(input)
 original_input = copy.deepcopy(input)
@@ -235,7 +248,7 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 4, 82, 400, 3]
+xin = [2, 1, 0, 61, 1185, 4]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
@@ -396,7 +409,7 @@ clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRes
 print(len(y_Rest))
 
 games = xin[-1]
-correct_logistic = 0
+strong_logistic = 0
 
 y_pred_logistic15, logit = clf15.predict_proba([xin[:-1]])
 y_pred_logistic35, logit = clf35.predict_proba([xin[:-1]])
@@ -410,13 +423,13 @@ classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob
 classifier.fit(input, y)
 
 if games <= 15:
-    correct_logistic = y_pred_logistic15[0][1]
+    strong_logistic = y_pred_logistic15[0][1]
 elif games <= 35:
-    correct_logistic = y_pred_logistic35[0][1]
+    strong_logistic = y_pred_logistic35[0][1]
 elif games <= 70:
-    correct_logistic = y_pred_logistic70[0][1]
+    strong_logistic = y_pred_logistic70[0][1]
 else:
-    correct_logistic = y_pred_logisticRest[0][1]
+    strong_logistic = y_pred_logisticRest[0][1]
 
 
 ###############################  K nearest neightours   ##############################################
@@ -459,10 +472,10 @@ log =(s +"-" + str(pred1)
       +"%-" + str(predComboLeanring)
       +"%-" + str(logistic_mutchups)
       +"%-" + str(logistic_pred)
-      +"%-" + str(int(round(correct_logistic*100)))
+      +"%-" + str(int(round(strong_logistic * 100)))
       +"%-" + str(rf_trasformed)
       +"%-" + str(0)
-      +"%-%"
+      +"%-0%"
       +"-0%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
       + str(int(round(preprocessed_logreg_formula*100))) +"%-"
@@ -472,10 +485,12 @@ print(log)
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
+print("avg winrate: " + str(avg_winrate))
+print("avg Grubby winrate: " + str(observer_grubby_winrates))
 print("combo importances")
 print(combo_importances)
 
-print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
+print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")

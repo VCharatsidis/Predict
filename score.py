@@ -1,7 +1,7 @@
 from operator import add
 import numpy as np
 
-n_predictions = 11
+n_predictions = 14
 participations = n_predictions * [0]
 cap = 95
 
@@ -10,7 +10,7 @@ def excluded(i, excluded):
         if i == e:
             return True
 
-last_predictions = 150
+last_predictions = -1
 def calc_scores(preds):
     z = preds.split("-")
     print(z)
@@ -30,7 +30,7 @@ def calc_scores(preds):
 
     s = n_predictions * [0]
     excluded_list = []
-    excluded_list = [7, 0, 1, 4, 3, 5, 6, 9, 8]
+    excluded_list = [2, 0, 1, 4, 3, 5, 6, 7, 8]
 
     for i in range(0, n_predictions-1):
 

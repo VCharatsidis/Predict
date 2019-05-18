@@ -394,3 +394,9 @@
 1-Orc-r-Ud-65-160-terenas
 1-Orc-r-Ne-73-415-northren
 1-Ud-r-Ne-57-310-echo
+1-Orc-t-Ud-87-3950-terenas
+1-Orc-t-Ne-73-430-twisted
+1-Orc-t-Ud-58-102-terenas
+1-Orc-t-Orc-55-147-concealed
+1-Orc-t-Hum-82-11-refuge
+1-Orc-t-Hum-61-1185-refuge
