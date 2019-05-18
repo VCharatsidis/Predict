@@ -180,8 +180,22 @@ def get_input():
     return data
 
 def fill_winrates_dictionary():
-    saturation = 0.004
-    epsilon = 0.005
+
+    for key in race_wins.keys():
+        race_winrates[key] = (round((race_wins[key] / race_games[key]) * 10000)) / 10000
+        opponent_race_winrates[key] = (round((opponent_race_wins[key] / opponent_race_games[key]) * 10000)) / 10000
+
+    print("race winrates: " + str(race_winrates))
+    print("oppenent race winrates: " + str(opponent_race_winrates))
+
+    for key in map_wins.keys():
+        maps_winrates[key] = (round((map_wins[key] / map_games[key]) * 10000)) / 10000
+
+    print("maps winrates: " + str(maps_winrates))
+    print("maps games: " + str(map_games))
+
+    saturation = 4
+    epsilon = 5
     for grubb_race in matchup_wins.keys():
         for opp_race in matchup_wins[grubb_race].keys():
             for map in matchup_wins[grubb_race][opp_race].keys():
@@ -201,6 +215,9 @@ def transform_input(input):
         opp_race = input[i][2]
         map = input[i][5]
 
+        transformed_instance.append(race_winrates[input[i][0]])
+        transformed_instance.append(opponent_race_winrates[input[i][2]])
+        transformed_instance.append(maps_winrates[input[i][5]])
         transformed_instance.append(matchup_winrates[grubb_race][opp_race][map])
         transformed_instance.append(input[i][1])
         transformed_instance.append(input[i][3])
@@ -211,6 +228,10 @@ def transform_input(input):
 
 
 def logistic_reg(xin):
+    races = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
+
+    maps = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas',
+            7: 'turtle', 8: 'twisted'}
 
     input = get_input()
     fill_winrates_dictionary()
@@ -227,17 +248,27 @@ def logistic_reg(xin):
     Grubby_race = race_dict[xin[0]]
     opponent_race = race_dict[xin[2]]
     map = map_dict[xin[5]]
-    xin = [matchup_winrates[Grubby_race][opponent_race][map], xin[1], xin[3]]
 
+    t = [races[xin[0]], xin[1], races[xin[2]], xin[3], xin[4], maps[xin[5]]]
+    xin_processed = [race_winrates[t[0]], t[1], opponent_race_winrates[t[2]], t[3], t[4], maps_winrates[t[5]]]
 
-    print("xin " + str(xin))
+    transformed_xin = []
+    transformed_xin.append(race_winrates[t[0]])
+    transformed_xin.append(opponent_race_winrates[t[2]])
+    transformed_xin.append(maps_winrates[t[5]])
+    transformed_xin.append(matchup_winrates[Grubby_race][opponent_race][map])
+    transformed_xin.append(t[1])
+    transformed_xin.append(t[3])
+    #transformed_xin = np.array(transformed_xin)
+
+    print("xin " + str(transformed_xin))
 
     print("Logistic regression preprocessed")
-    y_pred_logistic, _ = clf.predict_proba([xin])
+    y_pred_logistic, _ = clf.predict_proba([transformed_xin])
     print(y_pred_logistic)
 
     return y_pred_logistic
 
 
 xin = [1, 1, 1, 67, 540, 0]
-logistic_reg(xin)
+pred = logistic_reg(xin)

@@ -149,8 +149,7 @@ def transform_input(input):
     for i in range(len(input)):
         input[:, 1] = labelencoder.fit_transform(input[:, 1])
 
-        input[i] = [race_winrates[input[i][0]], input[i][1],
-                    opponent_race_winrates[input[i][2]], int(input[i][3]) ,
+        input[i] = [race_winrates[input[i][0]], input[i][1], opponent_race_winrates[input[i][2]], int(input[i][3]),
                     int(input[i][4]), maps_winrates[input[i][5]]]
 
     return input
