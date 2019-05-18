@@ -10,6 +10,7 @@ import PredictV2
 import logistic_mutchups
 import combolearning
 import predictTransformed
+import preprocessed_logreg
 
 def parse_one_hot(xin):
     print(xin)
@@ -285,12 +286,13 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [2, 1, 4, 60, 1200, 0]
+xin = [4, 1, 1, 67, 540, 0]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
 predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
+preprocessed_logreg = preprocessed_logreg.logistic_reg(xin)
 
 write = False
 # Hum = 0
@@ -523,9 +525,9 @@ if games < 60:
     logistic_mutchups = 0
 
 log =(s+"-"+str(pred1)
-      +"%-"+str(pred2)
+      +"%-"+str(0)
       +"%-"+str(pred3)
-      +"%-"+str(pred4)
+      +"%-"+str(0)
       +"%-"+str(predComboLeanring)
       +"%-"+str(logistic_mutchups)
       +"%-"+str(logistic_pred)
@@ -541,8 +543,9 @@ print(log)
 print("combo importances")
 print(combo_importances)
 avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
+print("preprocessed log_reg: "+str(int(round(preprocessed_logreg[0][1]*100)))+"%")
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
-print("random forests t-winrates: "+ str(rf_trasformed)+"%")
+print("random forests t-winrates: " + str(rf_trasformed)+"%")
 print("random forests winrates: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
@@ -583,7 +586,7 @@ print("normal logistic: " + str(logistic_pred)+"%")
 
 ################################## Score between classifiers ################################
 
-
+write = False
 
 if write:
     file = open("Grubb.txt", "a")

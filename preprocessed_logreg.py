@@ -2,6 +2,23 @@
 race_dict = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
 map_dict = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas', 7: 'turtle', 8: 'twisted'}
 
+race_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+race_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+race_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+
+opponent_race_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+opponent_race_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+opponent_race_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+
+map_games = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
+             'turtle': 0, 'twisted': 0}
+
+map_wins = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
+             'turtle': 0, 'twisted': 0}
+
+maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
+                'turtle': 0, 'twisted': 0}
+
 matchup_games = {'Hum': {'Hum': {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0, 'turtle': 0, 'twisted': 0},
                          'Ne': {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0, 'turtle': 0, 'twisted': 0},
                          'Orc': {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0, 'turtle': 0, 'twisted': 0},
@@ -121,19 +138,31 @@ def get_input():
         result = int(X[0])
         power = 4
 
-        coeff = 1
+        few_games_coeff = 1
+        last_games_coeff = 0.1
 
         if int(X[5]) < 15:
-            coeff = 0.3
+            few_games_coeff = 0.7
         elif int(X[5]) < 40:
-            coeff = 0.5
+            few_games_coeff = 0.9
 
-        if len(contents) - counter < 15:
-            coeff += 0.1
+        if len(contents) - counter < 20:
+            last_games_coeff += 0.1
+        elif len(contents) - counter < 50:
+            last_games_coeff += 0.06
 
         win_scenario = ((1 - (grubb_wr - opp_wr)) ** power) * result
         lose_scenario = ((1 - (opp_wr - grubb_wr)) ** power) * (1 - result)
-        formula = (win_scenario + lose_scenario) * coeff
+        formula = (win_scenario + lose_scenario) * few_games_coeff
+
+        race_games[X[1]] += (1 * formula)
+        race_wins[X[1]] += (int(X[0]) * formula)
+
+        opponent_race_games[X[3]] += (1 * formula)
+        opponent_race_wins[X[3]] += (int(X[0]) * formula)
+
+        map_games[X[6]] += (1 * formula)
+        map_wins[X[6]] += (int(X[0]) * formula)
 
         grubb_race = X[1]
         opp_race = X[3]
@@ -142,7 +171,7 @@ def get_input():
         matchup_games[grubb_race][opp_race][map] += (1 * formula)
         matchup_wins[grubb_race][opp_race][map] += (int(X[0]) * formula)
 
-        print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + X[4]+"-"+X[5]+ " f: "+ str(formula)+" win: "+str(win_scenario)+" lose: "+str(lose_scenario)+" coeff: "+str(coeff) +" res: "+X[0])
+        print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + X[4]+"-"+X[5]+ " f: "+ str(formula)+" win: "+str(win_scenario)+" lose: "+str(lose_scenario)+" coeff: "+str(few_games_coeff) +" res: "+X[0])
 
         counter += 1
         X = np.array(X)
@@ -151,14 +180,13 @@ def get_input():
     return data
 
 def fill_winrates_dictionary():
-    epsilon = 0.1
+    saturation = 0.004
+    epsilon = 0.005
     for grubb_race in matchup_wins.keys():
-        for opp_race  in matchup_wins[grubb_race].keys():
+        for opp_race in matchup_wins[grubb_race].keys():
             for map in matchup_wins[grubb_race][opp_race].keys():
-                print(matchup_wins[grubb_race][opp_race][map])
-                print(matchup_games[grubb_race][opp_race][map])
-                matchup_winrates[grubb_race][opp_race][map] = (round(((matchup_wins[grubb_race][opp_race][map]+0.05) / (matchup_games[grubb_race][opp_race][map] + epsilon)) * 10000)) / 10000
-                print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][opp_race][map] + 0.05) / (matchup_games[grubb_race][opp_race][map] + epsilon)) * 10000)) / 10000))
+                matchup_winrates[grubb_race][opp_race][map] = (round(((matchup_wins[grubb_race][opp_race][map]+saturation) / (matchup_games[grubb_race][opp_race][map] + epsilon)) * 10000)) / 10000
+                print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][opp_race][map] + saturation) / (matchup_games[grubb_race][opp_race][map] + epsilon)) * 10000)) / 10000))
 
 
 def transform_input(input):
@@ -177,7 +205,6 @@ def transform_input(input):
         transformed_instance.append(input[i][1])
         transformed_instance.append(input[i][3])
 
-        print(transformed_instance)
         transformed_input.append(transformed_instance)
 
     return transformed_input
@@ -190,11 +217,9 @@ def logistic_reg(xin):
 
     input = np.array(input)
 
-    print(input)
     y = input[:, 0]
     input = input[:, 1:]
     input = transform_input(input)
-    print(input)
 
     print("Logistic regression train")
     clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(input, y)
@@ -208,11 +233,11 @@ def logistic_reg(xin):
     print("xin " + str(xin))
 
     print("Logistic regression preprocessed")
-    y_pred_logistic,_ = clf.predict_proba([xin])
+    y_pred_logistic, _ = clf.predict_proba([xin])
     print(y_pred_logistic)
 
     return y_pred_logistic
 
 
-xin = [2, 1, 4, 98, 1200, 0]
+xin = [1, 1, 1, 67, 540, 0]
 logistic_reg(xin)

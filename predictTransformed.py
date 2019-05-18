@@ -29,6 +29,7 @@ maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refug
 globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.87, 'Ra': 0.8, 'Ud': 0.78}
 def get_input():
     counter = 0
+    print(len(contents))
     for l in contents:
         X = l.split('-')
 
@@ -39,16 +40,19 @@ def get_input():
         grubb_wr = globa_grubby_winrates[X[1]]
         opp_wr = X[4]/100
         result = int(X[0])
-        power = 5
+        power = 4
         coeff = 1
 
         if int(X[5]) < 15:
-            coeff = 0.4
-        elif int(X[5]) < 40:
             coeff = 0.7
+        elif int(X[5]) < 40:
+            coeff = 0.9
 
-        if len(contents) - counter < 15:
+        print(counter)
+        if len(contents) - counter < 20:
             coeff += 0.1
+        elif len(contents) - counter < 50:
+            coeff += 0.06
 
         # formula = 1
         # if int(X[0]) == 0:
@@ -86,7 +90,7 @@ def get_input():
               + " f: " + str(formula) + " win: " + str(win_scenario) + " lose: " + str(lose_scenario) + " coeff: "
               + str(coeff) + " res: " + str(X[0]))
 
-
+        counter += 1
         X = np.array(X)
         input.append(X)
 
