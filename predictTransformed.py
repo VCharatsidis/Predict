@@ -53,26 +53,10 @@ def get_input():
         elif len(contents) - counter < 50:
             coeff += 0.06
 
-        # formula = 1
-        # if int(X[0]) == 0:
-        #     if int(X[4]) < 80:
-        #         formula += 0.2
-        #     if int(X[4]) < 65:
-        #         formula += 0.3
-        # else:
-        #     if int(X[4]) < 80:
-        #         formula -= 0.1
-        #     if int(X[4]) < 65:
-        #         formula -= 0.2
-        #
-        #     if int(X[4]) > 85:
-        #         formula += 0.2
-        #
-        # formula *= coeff
         win_scenario = ((1 - (grubb_wr - opp_wr)) ** power) * result
         lose_scenario = ((1 - (opp_wr - grubb_wr)) ** power) * (1 - result)
         formula = (win_scenario + lose_scenario) * coeff
-        #formula = 1
+
         race_games[X[1]] += (1 * formula)
         race_wins[X[1]] += (int(X[0]) * formula)
 
@@ -186,6 +170,6 @@ def predict(xin):
     return prediction, importances
 
 
-xin = [2, 1, 4, 60, 1200, 0]
+xin = [2, 1, 4, 80, 1200, 4]
 prediction, _ = predict(xin)
 print(str(prediction) + "%")

@@ -235,7 +235,7 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 4, 82, 400, 0]
+xin = [4, 1, 4, 82, 400, 3]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
@@ -475,10 +475,10 @@ print(log)
 print("combo importances")
 print(combo_importances)
 
-print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
-print("preprocessed log_reg no formula: " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")
-print("random forests t-winrates: " + str(rf_trasformed)+"%")
+print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
+print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
+print("random forests formula winrates: " + str(rf_trasformed)+"%")
 print("random forests winrates: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")

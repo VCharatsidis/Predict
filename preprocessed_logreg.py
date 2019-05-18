@@ -183,10 +183,15 @@ def get_input(enable_formula = False):
 
     return data
 
-def fill_winrates_dictionary():
+def fill_winrates_dictionary(enable_formula=False):
 
     for key in race_wins.keys():
-        race_winrates[key] = (round((race_wins[key] / race_games[key]) * 10000)) / 10000
+
+        if not enable_formula:
+            race_winrates[key] = globa_grubby_winrates[key]
+        else:
+            race_winrates[key] = (round((race_wins[key] / race_games[key]) * 10000)) / 10000
+
         opponent_race_winrates[key] = (round((opponent_race_wins[key] / opponent_race_games[key]) * 10000)) / 10000
 
     for key in map_wins.keys():
@@ -197,10 +202,8 @@ def fill_winrates_dictionary():
     for grubb_race in matchup_wins.keys():
         for opp_race in matchup_wins[grubb_race].keys():
             for map in matchup_wins[grubb_race][opp_race].keys():
-                a = statistics.mean(matchup_winrates[grubb_race][opp_race].values())
-                b = maps_winrates[map]
                 if matchup_games[grubb_race][opp_race][map] == 0:
-                    matchup_winrates[grubb_race][opp_race][map] = 0.8 * a + 0.2 * b
+                    matchup_winrates[grubb_race][opp_race][map] = 0.7
                 else:
                     matchup_winrates[grubb_race][opp_race][map] = (round(((matchup_wins[grubb_race][opp_race][map]) / (matchup_games[grubb_race][opp_race][map])) * 10000)) / 10000
                     # print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][
@@ -243,7 +246,7 @@ def logistic_reg(xin, formula):
             7: 'turtle', 8: 'twisted'}
 
     input = get_input(formula)
-    fill_winrates_dictionary()
+    fill_winrates_dictionary(formula)
 
     input = np.array(input)
 
