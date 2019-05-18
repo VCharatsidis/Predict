@@ -55,14 +55,14 @@ def fill_dictionaries():
         race_winrates[key] = (round((race_wins[key] / race_games[key]) * 10000)) / 10000
         opponent_race_winrates[key] = (round((opponent_race_wins[key] / opponent_race_games[key]) * 10000)) / 10000
 
-    print("race winrates: " + str(race_winrates))
-    print("oppenent race winrates: " + str(opponent_race_winrates))
+    # print("race winrates: " + str(race_winrates))
+    # print("oppenent race winrates: " + str(opponent_race_winrates))
 
     for key in map_wins.keys():
         maps_winrates[key] = (round((map_wins[key] / map_games[key]) * 10000)) / 10000
 
-    print("maps winrates: " + str(maps_winrates))
-    print("maps games: " + str(map_games))
+    # print("maps winrates: " + str(maps_winrates))
+    # print("maps games: " + str(map_games))
 
 
 def xin_to_onehot(xin):
@@ -87,12 +87,10 @@ def input_to_onehot(input):
     input = input[:, 1]
     input = labelencoder.fit_transform(input)
     input = [int(x) for x in input]
-    print(input)
 
     onehot_input = np.zeros((len(input), 5))
     onehot_input[np.arange(len(input)), input] = 1
 
-    print(onehot_input)
     return onehot_input, y
 
 

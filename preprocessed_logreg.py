@@ -175,7 +175,7 @@ def get_input(enable_formula = False):
         matchup_games[grubb_race][opp_race][map] += ((1 * formula) + satur)
         matchup_wins[grubb_race][opp_race][map] += (int(X[0]) * formula)
 
-        print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + X[4]+"-"+X[5]+ " f: "+ str(formula)+" win: "+str(win_scenario)+" lose: "+str(lose_scenario)+" coeff: "+str(few_games_coeff) +" res: "+X[0])
+        #print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + X[4]+"-"+X[5]+ " f: "+ str(formula)+" win: "+str(win_scenario)+" lose: "+str(lose_scenario)+" coeff: "+str(few_games_coeff) +" res: "+X[0])
 
         counter += 1
         X = np.array(X)
@@ -203,8 +203,8 @@ def fill_winrates_dictionary():
                     matchup_winrates[grubb_race][opp_race][map] = 0.8 * a + 0.2 * b
                 else:
                     matchup_winrates[grubb_race][opp_race][map] = (round(((matchup_wins[grubb_race][opp_race][map]) / (matchup_games[grubb_race][opp_race][map])) * 10000)) / 10000
-                    print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][
-                        opp_race][map]) / (matchup_games[grubb_race][opp_race][map])) * 10000)) / 10000))
+                    # print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][
+                    #     opp_race][map]) / (matchup_games[grubb_race][opp_race][map])) * 10000)) / 10000))
 
 
     print("RACE winrates: " + str(race_winrates))

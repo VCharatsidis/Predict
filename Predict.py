@@ -13,7 +13,7 @@ import predictTransformed
 import preprocessed_logreg
 
 def parse_one_hot(xin):
-    print(xin)
+
     data = ""
     if xin[0] ==1:
         data += "Hum "
@@ -48,7 +48,7 @@ def parse_one_hot(xin):
     # terenas = 6
     # turtle = 7
     # twisted = 8
-    print("len xin "+str(len(xin)))
+
     if len(xin) > 11:
         if xin[12] == 1:
             data += " amazonia "
@@ -155,38 +155,6 @@ def parse_x(xin):
 
     return data
 
-def less_buckets(games):
-    bucket = 0
-
-    if games <= 20:
-        bucket = 1
-    elif games <= 60:
-        bucket = 2
-    elif games <= 150:
-        bucket = 3
-    else:
-        bucket = 4
-
-    return bucket
-
-def bucket_games(games):
-    bucket = 0
-
-    if games <= 12:
-        bucket = 12
-    elif games <= 20:
-        bucket = 20
-    elif games <= 35:
-        bucket = 35
-    elif games <= 60:
-        bucket = 60
-    elif games <= 120:
-        bucket = 120
-    else:
-        bucket = 1000
-
-    return bucket
-
 contents = f.readlines()
 
 input = []
@@ -194,13 +162,6 @@ counter = 0
 for l in contents:
 
     X = l.split('-')
-    # z = int(X[4])
-    # stats_adipalou = (round(z/5))*5
-    # X[4] = stats_adipalou
-    # games_adipalou = int(X[5])
-    # b = less_buckets(games_adipalou)
-    # X[5] = b
-    # X[6] = X[6].rstrip("\n")
 
     X[4] = int(X[4])
     X[5] = int(X[5])
@@ -209,12 +170,6 @@ for l in contents:
     X = np.array(X)
     input.append(X)
 
-    # print("bucket "+str(b))
-    # print("stats adipalou rounded "+str(stats_adipalou))
-    # print("stats adipalou "+str(z))
-
-    print(X)
-    print(l)
     counter += 1
 
 
@@ -242,16 +197,10 @@ input = input[:, 1:]
 # print(x3.shape)
 # input[:,3] = x3[:,0]
 # input[:,4] = x4[:,0]
-print("scaller-----------------------------------------------------------------------------")
-print(input[-1])
+
 input_h2o = copy.deepcopy(input)
 
-print(y)
-print(input)
-print(input[18])
-#
-# input = labelencoder.fit_transform(input)
-# print(input)
+
 input[:, 0] = labelencoder.fit_transform(input[:, 0])
 input[:, 0] = [int(x) for x in input[:, 0]]
 
@@ -263,7 +212,7 @@ input[:, 2] = [int(x) for x in input[:, 2]]
 
 input[:, 5] = labelencoder.fit_transform(input[:, 5])
 input[:, 5] = [int(x) for x in input[:, 5]]
-print(input)
+
 
 input2 = copy.deepcopy(input)
 
@@ -286,11 +235,11 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [1, 1, 2, 77, 790, 1]
+xin = [4, 1, 4, 82, 400, 0]
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
-predV2_logistic = PredictV2.logistic_reg(xin)
+#predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
 preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
 preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
@@ -312,7 +261,6 @@ write = False
 # xin[3] = xin3[0][0]
 # xin[4] = xin4[0][0]
 print(xin)
-print("hsasasasasasasasasasasasasasasasasasasasasasasasasasasasasasa")
 
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print))
@@ -350,25 +298,10 @@ onehot_encoded = np.append(onehot_encoded, xin[4])
 onehot_encoded.flatten()
 
 
-print("manual one hot "+str(onehot_encoded))
-print(len(onehot_encoded))
 # print(parse_one_hot(xin))
 
 # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 y_pred1 = classifier.predict_proba([xin])
-print(xin)
-print("Chanses that Grubby wins "+str(y_pred1[0][1]*100)+"%")
-
-#   Without map prediction   ##############################################
-
-print("")
-print("Without map prediciton ")
-input = input[:, :-1]
-classifier.fit(input, y)
-oob_error2 = 1 - classifier.oob_score_
-errors.append(oob_error2)
-xin = xin[:-1]
-y_pred2 = classifier.predict_proba([xin])
 
 
 # One Hot ############################################################
@@ -406,22 +339,18 @@ xin = onehot_encoded
 y_pred3 = classifier2.predict_proba([xin])
 
 
-xin2 = [xin[0], xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
-
-input2 = input2[:, :-1]
-onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
-onehot_input = onehotencoder.fit_transform(input2).toarray()
-
-print("")
-print("Without map prediciton ")
-
-classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
-classifier3.fit(onehot_input, y)
-oob_error4 = 1 - classifier3.oob_score_
-errors.append(oob_error4)
-
-print(xin2)
-y_pred4 = classifier3.predict_proba([xin2])
+# xin2 = [xin[0], xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
+#
+# input2 = input2[:, :-1]
+# onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
+# onehot_input = onehotencoder.fit_transform(input2).toarray()
+#
+#
+# classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
+# classifier3.fit(onehot_input, y)
+# oob_error4 = 1 - classifier3.oob_score_
+# errors.append(oob_error4)
+# y_pred4 = classifier3.predict_proba([xin2])
 
 ################################## Logistic  -------------------------------------------------
 
@@ -502,14 +431,12 @@ importances = classifier.feature_importances_
 importances2 = classifier2.feature_importances_
 importances2 = ['%.2f'%(float(a)) for a in importances2]
 
-importances3 = classifier3.feature_importances_
 
 s = parse_x(to_print)
 
 pred1 = int(round(y_pred1[0][1]*100))
-pred2 = int(round(y_pred2[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
-pred4 = int(round(y_pred4[0][1]*100))
+
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 #predV2_logistic = int(round(predV2_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
@@ -547,7 +474,7 @@ print(log)
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("combo importances")
 print(combo_importances)
-avg_prediction = (y_pred1[0][1]*100 + y_pred2[0][1]*100 + y_pred3[0][1]*100 + y_pred4[0][1]*100)/4
+
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg no formula: " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("strong logistic: " + str(int(round(correct_logistic*100)))+"%")

@@ -48,7 +48,6 @@ def get_input():
         elif int(X[5]) < 40:
             coeff = 0.9
 
-        print(counter)
         if len(contents) - counter < 20:
             coeff += 0.1
         elif len(contents) - counter < 50:
@@ -86,9 +85,9 @@ def get_input():
         grubb_race = X[1]
         opp_race = X[3]
         map = X[6]
-        print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + str(X[4]) + "-" + str(X[5])
-              + " f: " + str(formula) + " win: " + str(win_scenario) + " lose: " + str(lose_scenario) + " coeff: "
-              + str(coeff) + " res: " + str(X[0]))
+        # print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + str(X[4]) + "-" + str(X[5])
+        #       + " f: " + str(formula) + " win: " + str(win_scenario) + " lose: " + str(lose_scenario) + " coeff: "
+        #       + str(coeff) + " res: " + str(X[0]))
 
         counter += 1
         X = np.array(X)
@@ -102,14 +101,14 @@ def fill_dictionaries():
         race_winrates[key] = (round((race_wins[key] / race_games[key]) * 10000)) / 10000
         opponent_race_winrates[key] = (round((opponent_race_wins[key] / opponent_race_games[key]) * 10000)) / 10000
 
-    print("race winrates: " + str(race_winrates))
-    print("oppenent race winrates: " + str(opponent_race_winrates))
+    # print("race winrates: " + str(race_winrates))
+    # print("oppenent race winrates: " + str(opponent_race_winrates))
 
     for key in map_wins.keys():
         maps_winrates[key] = (round((map_wins[key] / map_games[key]) * 10000)) / 10000
 
-    print("maps winrates: " + str(maps_winrates))
-    print("maps games: " + str(map_games))
+    # print("maps winrates: " + str(maps_winrates))
+    # print("maps games: " + str(map_games))
 
 
 def xin_to_onehot(xin):
@@ -134,12 +133,12 @@ def input_to_onehot(input):
     input = input[:, 1]
     input = labelencoder.fit_transform(input)
     input = [int(x) for x in input]
-    print(input)
+    #print(input)
 
     onehot_input = np.zeros((len(input), 5))
     onehot_input[np.arange(len(input)), input] = 1
 
-    print(onehot_input)
+
     return onehot_input, y
 
 
@@ -170,7 +169,7 @@ def predict(xin):
 
     input = input[:, 1:]
     input = transform_input(input)
-    print(input)
+    #print(input)
 
     estimators = 1000
     classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
