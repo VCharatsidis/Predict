@@ -164,11 +164,18 @@ observed_grubby_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 observer_grubby_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 observer_grubby_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 
+wins_less_than_60 = 0
+games_less_than_60 = 0
+
 for l in contents:
 
     X = l.split('-')
 
     X[4] = int(X[4])
+    if 60 < X[4]:
+        games_less_than_60 += 1
+        wins_less_than_60 += int(X[0])
+
     X[5] = int(X[5])
     X[6] = X[6].rstrip("\n")
 
@@ -248,7 +255,8 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [2, 1, 0, 61, 1185, 4]
+xin = [0, 1, 0, 61, 590, 3]
+my_prediction = 86
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
@@ -475,7 +483,7 @@ log =(s +"-" + str(pred1)
       +"%-" + str(int(round(strong_logistic * 100)))
       +"%-" + str(rf_trasformed)
       +"%-" + str(0)
-      +"%-0%"
+      +"%-" + str(my_prediction)+"%"
       +"-0%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
       + str(int(round(preprocessed_logreg_formula*100))) +"%-"
@@ -483,7 +491,7 @@ log =(s +"-" + str(pred1)
 
 print(log)
 
-
+print(wins_less_than_60 / games_less_than_60)
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("avg winrate: " + str(avg_winrate))
 print("avg Grubby winrate: " + str(observer_grubby_winrates))
@@ -497,6 +505,7 @@ print("random forests formula winrates: " + str(rf_trasformed)+"%")
 print("random forests winrates: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
+print("one hot rf: " + str(pred3) + "%")
 
 #errors = np.array(errors)
 #print(str(errors)+"--"+str(estimators))

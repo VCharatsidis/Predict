@@ -1,19 +1,17 @@
 from operator import add
 import numpy as np
 
-n_predictions = 14
-participations = n_predictions * [0]
-cap = 95
+
 
 def excluded(i, excluded):
     for e in excluded:
         if i == e:
             return True
 
-last_predictions = -1
-def calc_scores(preds):
+
+def calc_scores(preds, participations, excluded_list=[], cap=95):
     z = preds.split("-")
-    print(z)
+    #print(z)
     predictions = []
 
     for s in z:
@@ -26,11 +24,9 @@ def calc_scores(preds):
         predictions.append(0)
 
     result = int(z[0])
-    print("result "+str(result))
+    #print("result "+str(result))
 
     s = n_predictions * [0]
-    excluded_list = []
-    excluded_list = [2, 0, 1, 4, 3, 5, 6, 7, 8]
 
     for i in range(0, n_predictions-1):
 
@@ -59,12 +55,12 @@ def calc_scores(preds):
             if predictions[j] == 0:
                 continue
 
-            participations[i] += 1
-            participations[j] += 1
-
             if predictions[i] == predictions[j]:
                 continue
 
+
+            participations[i] += 1
+            participations[j] += 1
             if result == 1:
                 if predictions[i] > predictions[j]:
                     if predictions[i] > 50:
@@ -107,8 +103,6 @@ def calc_scores(preds):
     if sum(s) > 0.00001:
         print("error no zero sum")
         return n_predictions * [0]
-    else:
-        print(s)
 
     return s
 
@@ -116,17 +110,77 @@ def calc_scores(preds):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
+n_predictions = 14
+participations = n_predictions * [0]
+
+counter = 0
+cap = 95
+last_predictions = 150
+
+
+print("cap "+str(cap))
+
+participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
+                6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
+                12: "winrates logistic", 13: "formula winrates logistic"}
+
+
+def calc_scores_vs_opponent(opponent, cap=95):
+    scores_vs_opponent = n_predictions * [0]
+    for participant in range(n_predictions):
+
+        if participant == opponent:
+            continue
+
+
+        total_scores = n_predictions * [0]
+        total_scores = np.array(total_scores)
+        participations = n_predictions * [0]
+
+        excluded = list(range(0, n_predictions+1))
+
+        excluded.remove(participant)
+        excluded.remove(opponent)
+
+        counter = 0
+        for i in contents:
+            if counter > last_predictions:
+                s = calc_scores(i, participations, excluded, cap)
+                s = np.array(s)
+                total_scores = s + total_scores
+
+            counter += 1
+
+        if participations[participant] == 0:
+            continue
+
+        scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
+
+        if participant == 1 or participant == 3 or participant == 11:
+            continue
+        print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) +" se " + str(participations[participant]))
+
+    return scores_vs_opponent
+
+opp = 10
+scores_vs_opp = calc_scores_vs_opponent(opp, 92)
+# for p in range(n_predictions):
+#     if p == 1 or p == 3 or p == 11:
+#         continue
+#
+#     print(participants[p] + " vs " + participants[opp] + " " + str(scores_vs_opp[p]))
+
 total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
 counter = 0
+participations = n_predictions * [0]
+exc = [0, 1, 3]
 for i in contents:
     if counter > last_predictions:
-        s = calc_scores(i)
+        s = calc_scores(i, participations, exc)
         s = np.array(s)
         total_scores = s + total_scores
-        print("total")
-        print(total_scores)
-        print("")
+
     counter += 1
 
 print("participations")

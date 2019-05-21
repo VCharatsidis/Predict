@@ -119,7 +119,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 ################################## Logistic  -------------------------------------------------
 
-globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.87, 'Ra': 0.8, 'Ud': 0.78}
+globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.776}
 
 def get_input(enable_formula = False):
     f = open("Grubb.txt", "r")
@@ -157,7 +157,7 @@ def get_input(enable_formula = False):
         if not enable_formula:
             formula = 1 * few_games_coeff
 
-        satur = 0.1
+        satur = 0.00
 
         race_games[X[1]] += ((1 * formula) )
         race_wins[X[1]] += (int(X[0]) * formula)
