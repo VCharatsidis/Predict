@@ -61,7 +61,7 @@ def logistic_reg(xin):
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
     print("Logistic regression train")
-    clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(onehot_input, y)
+    clf = LogisticRegression(solver='lbfgs', max_iter=300, class_weight='balanced').fit(onehot_input, y)
 
     Grubby_race = race_dict[xin[0]]
     opponent_race = race_dict[xin[2]]

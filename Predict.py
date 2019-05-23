@@ -172,11 +172,16 @@ for l in contents:
     X = l.split('-')
 
     X[4] = int(X[4])
-    if 60 < X[4]:
-        games_less_than_60 += 1
-        wins_less_than_60 += int(X[0])
+    if X[4] < 58:
+        continue
 
     X[5] = int(X[5])
+
+    if X[5] < 15:
+        X[5] = int(X[5] * 0.88)
+    elif X[5] < 30:
+        X[5] = int(X[5] * 0.93)
+
     X[6] = X[6].rstrip("\n")
 
     X = np.array(X)
@@ -255,8 +260,9 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [0, 1, 0, 61, 590, 3]
-my_prediction = 86
+xin = [2, 1, 4, 98, 1000, 0]
+my_prediction = 68
+
 
 predComboLeanring, combo_importances = combolearning.predict(xin)
 rf_trasformed, _ = predictTransformed.predict(xin)
@@ -382,7 +388,7 @@ y_pred3 = classifier2.predict_proba([xin])
 # plt.show()
 
 
-clf = LogisticRegression(solver='lbfgs', max_iter=800).fit(logistic_input, y)
+clf = LogisticRegression(solver='lbfgs', max_iter=800, class_weight='balanced').fit(logistic_input, y)
 y_pred_logistic, logit1 = clf.predict_proba([xin])
 
 # show = [a[-1] for a in logistic_input if a[-1] <= 15]
@@ -395,25 +401,19 @@ y_pred_logistic, logit1 = clf.predict_proba([xin])
 
 logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
 y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
-clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
+clf15 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input15, y_15)
 print(len(y_15))
 
 
-logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 45]
-y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 45]
-clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
+logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 40]
+y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 40]
+clf35 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input35, y_35)
 print(len(y_35))
 
 
-logistic_input70 = [a[:-1] for a in logistic_input if 36 <= a[-1] <= 80]
-y_70 = [a[0] for a in original_input if 36 <= int(a[-2]) <= 80]
-clf70 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input70, y_70)
-print(len(y_70))
-
-
-logistic_inputRest = [a[:-1] for a in logistic_input if 70 <= a[-1]]
-y_Rest = [a[0] for a in original_input if 70 <= int(a[-2])]
-clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
+logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
+y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
+clfRest = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(logistic_inputRest, y_Rest)
 print(len(y_Rest))
 
 games = xin[-1]
@@ -421,7 +421,6 @@ strong_logistic = 0
 
 y_pred_logistic15, logit = clf15.predict_proba([xin[:-1]])
 y_pred_logistic35, logit = clf35.predict_proba([xin[:-1]])
-y_pred_logistic70, logit = clf70.predict_proba([xin[:-1]])
 y_pred_logisticRest, logitRest = clfRest.predict_proba([xin[:-1]])
 
 print(y_pred_logisticRest)
@@ -434,8 +433,6 @@ if games <= 15:
     strong_logistic = y_pred_logistic15[0][1]
 elif games <= 35:
     strong_logistic = y_pred_logistic35[0][1]
-elif games <= 70:
-    strong_logistic = y_pred_logistic70[0][1]
 else:
     strong_logistic = y_pred_logisticRest[0][1]
 
@@ -491,7 +488,6 @@ log =(s +"-" + str(pred1)
 
 print(log)
 
-print(wins_less_than_60 / games_less_than_60)
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("avg winrate: " + str(avg_winrate))
 print("avg Grubby winrate: " + str(observer_grubby_winrates))
@@ -506,6 +502,9 @@ print("random forests winrates: " + str(predComboLeanring) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
+
+
+
 
 #errors = np.array(errors)
 #print(str(errors)+"--"+str(estimators))

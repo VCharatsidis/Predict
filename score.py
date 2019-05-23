@@ -1,7 +1,7 @@
 from operator import add
 import numpy as np
 
-
+BALANCED = 305
 
 def excluded(i, excluded):
     for e in excluded:
@@ -38,7 +38,7 @@ def calc_scores(preds, participations, excluded_list=[], cap=95):
         if predictions[i] == 0:
             continue
 
-        if int(z[5]) <= 70:
+        if int(z[5]) <= 40:
             predictions[7] = 0
 
         opponent = i+1
@@ -162,7 +162,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
     return scores_vs_opponent
 
-opp = 10
+opp = 9
 scores_vs_opp = calc_scores_vs_opponent(opp, 92)
 # for p in range(n_predictions):
 #     if p == 1 or p == 3 or p == 11:
@@ -190,3 +190,8 @@ participations = np.array(participations)
 total_scores = total_scores/(participations+1)
 print(total_scores)
 print("cap "+str(cap))
+
+# result_dict = {"strong: ": int(round(strong_logistic * 100)), "p_log_reg formula: ": int(round(preprocessed_logreg_formula*100)),
+#                "p_log_reg: ": int(round(preprocessed_logreg_no_formula * 100)), "rf_winrates formula: ": rf_trasformed,
+#                "rf_winrates: ": predComboLeanring, "matchups logistic: ": logistic_mutchups, "normal logistic: ":logistic_pred,
+#                "one hot rf: ": pred3}

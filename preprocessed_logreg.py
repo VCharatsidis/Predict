@@ -119,7 +119,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 ################################## Logistic  -------------------------------------------------
 
-globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.776}
+globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.776}
 
 def get_input(enable_formula = False):
     f = open("Grubb.txt", "r")
@@ -140,22 +140,23 @@ def get_input(enable_formula = False):
 
         few_games_coeff = 1
 
-        if int(X[5]) < 15:
-            few_games_coeff = 0.7
-        elif int(X[5]) < 40:
-            few_games_coeff = 0.9
 
+        if int(X[5]) < 30:
+            continue
+
+        counter += 1
+        recent_games_coeff = 0
         if len(contents) - counter < 20:
-            few_games_coeff += 0.1
+            recent_games_coeff += 0.1
         elif len(contents) - counter < 50:
-            few_games_coeff += 0.06
+            recent_games_coeff += 0.06
 
         win_scenario = ((1 - (grubb_wr - opp_wr)) ** power) * result
         lose_scenario = ((1 - (opp_wr - grubb_wr)) ** power) * (1 - result)
-        formula = (win_scenario + lose_scenario) * few_games_coeff
+        formula = (win_scenario + lose_scenario) +recent_games_coeff
 
         if not enable_formula:
-            formula = 1 * few_games_coeff
+            formula = 1 + recent_games_coeff
 
         satur = 0.00
 
@@ -177,11 +178,13 @@ def get_input(enable_formula = False):
 
         #print("g: " + grubb_race + " o: " + opp_race + " map: " + map + " opp wr games: " + X[4]+"-"+X[5]+ " f: "+ str(formula)+" win: "+str(win_scenario)+" lose: "+str(lose_scenario)+" coeff: "+str(few_games_coeff) +" res: "+X[0])
 
-        counter += 1
+
         X = np.array(X)
         data.append(X)
 
+    print(counter)
     return data
+
 
 def fill_winrates_dictionary(enable_formula=False):
 
@@ -230,6 +233,20 @@ def transform_input(input):
         transformed_instance.append(opponent_race_winrates[input[i][2]])
         transformed_instance.append(maps_winrates[input[i][5]])
         transformed_instance.append(statistics.mean(matchup_winrates[grubb_race][opp_race].values()))
+
+        races = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
+        grub_map_performance = 0
+        for i in range(5):
+            grub_map_performance += matchup_winrates[grubb_race][races[i]][map]
+
+        transformed_instance.append(grub_map_performance/5)
+
+        opp_map_performance = 0
+        for i in range(5):
+            opp_map_performance += matchup_winrates[races[i]][opp_race][map]
+
+        transformed_instance.append(opp_map_performance / 5)
+
         #transformed_instance.append(matchup_winrates[grubb_race][opp_race][map])
         transformed_instance.append(input[i][1])
         transformed_instance.append(input[i][3])
@@ -254,7 +271,7 @@ def logistic_reg(xin, formula):
     input = input[:, 1:]
     input = transform_input(input)
 
-    clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(input, y)
+    clf = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(input, y)
 
     Grubby_race = race_dict[xin[0]]
     opponent_race = race_dict[xin[2]]
@@ -267,7 +284,22 @@ def logistic_reg(xin, formula):
     transformed_xin.append(opponent_race_winrates[t[2]])
     transformed_xin.append(maps_winrates[t[5]])
     transformed_xin.append(statistics.mean(matchup_winrates[Grubby_race][opponent_race].values()))
+
+    races = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
+    grub_map_performance = 0
+    for i in range(5):
+        grub_map_performance += matchup_winrates[Grubby_race][races[i]][map]
+
+    transformed_xin.append(grub_map_performance / 5)
+
+    opp_map_performance = 0
+    for i in range(5):
+        opp_map_performance += matchup_winrates[races[i]][opponent_race][map]
+
+    transformed_xin.append(opp_map_performance / 5)
+
     #transformed_xin.append(matchup_winrates[Grubby_race][opponent_race][map])
+
     transformed_xin.append(t[1])
     transformed_xin.append(t[3])
 
@@ -275,10 +307,10 @@ def logistic_reg(xin, formula):
 
     print("Logistic regression preprocessed")
     y_pred_logistic, _ = clf.predict_proba([transformed_xin])
-    print(y_pred_logistic)
+    print(str(y_pred_logistic[0][1]) + "%")
 
     return y_pred_logistic
 
 
-xin = [1, 1, 1, 67, 540, 0]
+xin = [0, 1, 0, 87, 540, 3]
 pred = logistic_reg(xin, False)

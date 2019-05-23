@@ -26,7 +26,7 @@ map_wins = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0
 maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
                 'turtle': 0, 'twisted': 0}
 
-globa_grubby_winrates = {'Hum': 0.82, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.776}
+globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.87, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.78}
 def get_input():
     counter = 0
     print(len(contents))
@@ -44,8 +44,10 @@ def get_input():
         coeff = 1
 
         if int(X[5]) < 15:
+
             coeff = 0.7
-        elif int(X[5]) < 40:
+        elif int(X[5]) < 30:
+
             coeff = 0.9
 
         if len(contents) - counter < 20:
