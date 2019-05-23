@@ -40,14 +40,14 @@ def get_input():
         grubb_wr = globa_grubby_winrates[X[1]]
         opp_wr = X[4]/100
         result = int(X[0])
-        power = 4
+        power = 6
         coeff = 1
 
         if int(X[5]) < 15:
-
+            continue
             coeff = 0.7
         elif int(X[5]) < 30:
-
+            continue
             coeff = 0.9
 
         if len(contents) - counter < 20:

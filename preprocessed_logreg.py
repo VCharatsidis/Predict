@@ -119,7 +119,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 ################################## Logistic  -------------------------------------------------
 
-globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.776}
+globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.78}
 
 def get_input(enable_formula = False):
     f = open("Grubb.txt", "r")
@@ -136,7 +136,7 @@ def get_input(enable_formula = False):
         grubb_wr = globa_grubby_winrates[X[1]]
         opp_wr = int(X[4]) / 100
         result = int(X[0])
-        power = 2
+        power = 5
 
         few_games_coeff = 1
 
@@ -153,7 +153,7 @@ def get_input(enable_formula = False):
 
         win_scenario = ((1 - (grubb_wr - opp_wr)) ** power) * result
         lose_scenario = ((1 - (opp_wr - grubb_wr)) ** power) * (1 - result)
-        formula = (win_scenario + lose_scenario) +recent_games_coeff
+        formula = (win_scenario + lose_scenario) + recent_games_coeff
 
         if not enable_formula:
             formula = 1 + recent_games_coeff
@@ -313,4 +313,4 @@ def logistic_reg(xin, formula):
 
 
 xin = [0, 1, 0, 87, 540, 3]
-pred = logistic_reg(xin, False)
+pred = logistic_reg(xin, True)

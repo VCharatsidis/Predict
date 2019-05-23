@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/automagic.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logistic_mutchups.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predictTransformed.py" beforeDir="false" afterPath="$PROJECT_DIR$/predictTransformed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessed_logreg.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessed_logreg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predictTransformed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="46" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="2210">
+              <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -47,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preprocessed_logreg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3448">
-              <caret line="273" column="82" selection-start-line="273" selection-start-column="57" selection-end-line="273" selection-end-column="82" />
+            <state relative-caret-position="-2380">
+              <caret line="153" column="38" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -65,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="536" column="41" lean-forward="true" selection-start-line="536" selection-start-column="41" selection-end-line="536" selection-end-column="41" />
+            <state relative-caret-position="238">
+              <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
               </folding>
@@ -77,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+            <state relative-caret-position="136">
+              <caret line="182" lean-forward="true" selection-start-line="182" selection-end-line="182" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -145,11 +139,11 @@
         <option value="$PROJECT_DIR$/PredictTod.py" />
         <option value="$PROJECT_DIR$/venv/Lib/site-packages/sklearn/linear_model/base.py" />
         <option value="$PROJECT_DIR$/combolearning.py" />
-        <option value="$PROJECT_DIR$/preprocessed_logreg.py" />
         <option value="$PROJECT_DIR$/logistic_mutchups.py" />
-        <option value="$PROJECT_DIR$/predictTransformed.py" />
-        <option value="$PROJECT_DIR$/Predict.py" />
         <option value="$PROJECT_DIR$/score.py" />
+        <option value="$PROJECT_DIR$/predictTransformed.py" />
+        <option value="$PROJECT_DIR$/preprocessed_logreg.py" />
+        <option value="$PROJECT_DIR$/Predict.py" />
       </list>
     </option>
   </component>
@@ -195,7 +189,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.score">
+  <component name="RunManager" selected="Python.Predict">
     <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -324,9 +318,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.score" />
         <item itemvalue="Python.preprocessed_logreg" />
         <item itemvalue="Python.predictTransformed" />
+        <item itemvalue="Python.score" />
         <item itemvalue="Python.logistic_mutchups" />
         <item itemvalue="Python.combolearning" />
       </list>
@@ -349,12 +343,12 @@
     <frame x="275" y="61" width="1655" height="950" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31701192" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31701192" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.3398773" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.3398773" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39754602" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -516,30 +510,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PredictV2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
-          <folding>
-            <element signature="e#1#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/combolearning.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1051">
           <caret line="143" column="28" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predictTransformed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -553,29 +527,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/score.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="182" lean-forward="true" selection-start-line="182" selection-end-line="182" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predictTransformed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2210">
+          <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PredictV2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/preprocessed_logreg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3448">
-          <caret line="273" column="82" selection-start-line="273" selection-start-column="57" selection-end-line="273" selection-end-column="82" />
+        <state relative-caret-position="-2380">
+          <caret line="153" column="38" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="536" column="41" lean-forward="true" selection-start-line="536" selection-start-column="41" selection-end-line="536" selection-end-column="41" />
+        <state relative-caret-position="238">
+          <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding>
             <element signature="e#27#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/score.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

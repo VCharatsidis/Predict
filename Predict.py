@@ -260,7 +260,7 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [2, 1, 4, 98, 1000, 0]
+xin = [1, 1, 1, 90, 2470, 2]
 my_prediction = 68
 
 
@@ -459,15 +459,10 @@ logistic_pred = int(round(y_pred_logistic[0][1]*100))
 #predV2_logistic = int(round(predV2_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 
-ensemble_logistic = 0
-if games > 70:
-    ensemble_logistic = int(round(y_pred_logisticRest[0][1]*100))
-else:
-    ensemble_logistic = pred3
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
-if games < 60:
+if games < 40:
     logistic_mutchups = 0
 
 log =(s +"-" + str(pred1)
