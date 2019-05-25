@@ -115,7 +115,7 @@ participations = n_predictions * [0]
 
 counter = 0
 cap = 95
-last_predictions = 150
+last_predictions = BALANCED
 
 
 print("cap "+str(cap))

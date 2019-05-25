@@ -136,10 +136,11 @@ def get_input(enable_formula = False):
         grubb_wr = globa_grubby_winrates[X[1]]
         opp_wr = int(X[4]) / 100
         result = int(X[0])
-        power = 5
+        power = 2
 
-        few_games_coeff = 1
-
+        X[4] = int(X[4])
+        if X[4] < 58:
+            continue
 
         if int(X[5]) < 30:
             continue
@@ -160,7 +161,8 @@ def get_input(enable_formula = False):
 
         satur = 0.00
 
-        race_games[X[1]] += ((1 * formula) )
+
+        race_games[X[1]] += (1 * formula)
         race_wins[X[1]] += (int(X[0]) * formula)
 
         opponent_race_games[X[3]] += ((1 * formula))
@@ -206,7 +208,8 @@ def fill_winrates_dictionary(enable_formula=False):
         for opp_race in matchup_wins[grubb_race].keys():
             for map in matchup_wins[grubb_race][opp_race].keys():
                 if matchup_games[grubb_race][opp_race][map] == 0:
-                    matchup_winrates[grubb_race][opp_race][map] = 0.7
+                    matchup_winrates[grubb_race][opp_race][map] = race_winrates[grubb_race]
+
                 else:
                     matchup_winrates[grubb_race][opp_race][map] = (round(((matchup_wins[grubb_race][opp_race][map]) / (matchup_games[grubb_race][opp_race][map])) * 10000)) / 10000
                     # print(grubb_race + " " + opp_race + " " + map + " winrate " + str((round(((matchup_wins[grubb_race][
@@ -223,6 +226,7 @@ def transform_input(input):
     transformed_input = []
     for i in range(len(input)):
         transformed_instance = []
+
         input[:, 1] = labelencoder.fit_transform(input[:, 1])
 
         grubb_race = input[i][0]
@@ -263,6 +267,7 @@ def logistic_reg(xin, formula):
             7: 'turtle', 8: 'twisted'}
 
     input = get_input(formula)
+    print(race_games)
     fill_winrates_dictionary(formula)
 
     input = np.array(input)
@@ -271,7 +276,7 @@ def logistic_reg(xin, formula):
     input = input[:, 1:]
     input = transform_input(input)
 
-    clf = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(input, y)
+    clf = LogisticRegression(solver='lbfgs', max_iter=500).fit(input, y)
 
     Grubby_race = race_dict[xin[0]]
     opponent_race = race_dict[xin[2]]
@@ -306,11 +311,11 @@ def logistic_reg(xin, formula):
     print("transformed xin " + str(transformed_xin))
 
     print("Logistic regression preprocessed")
-    y_pred_logistic, _ = clf.predict_proba([transformed_xin])
+    y_pred_logistic = clf.predict_proba([transformed_xin])
     print(str(y_pred_logistic[0][1]) + "%")
 
     return y_pred_logistic
 
 
-xin = [0, 1, 0, 87, 540, 3]
-pred = logistic_reg(xin, True)
+xin = [0, 1, 0, 87, 540, 6]
+pred = logistic_reg(xin, False)

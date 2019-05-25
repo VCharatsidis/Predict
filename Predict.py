@@ -8,8 +8,8 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import matplotlib.pyplot as plt
 import PredictV2
 import logistic_mutchups
-import combolearning
-import predictTransformed
+import rf_winrates
+import rf_transformed
 import preprocessed_logreg
 
 def parse_one_hot(xin):
@@ -90,8 +90,8 @@ def parse_one_hot(xin):
 
     return data
 
-def parse_x(xin):
-    data = "1-"
+def parse_x(xin, result):
+    data = str(result)+"-"
 
 
     if xin[0] == 0:
@@ -159,10 +159,10 @@ contents = f.readlines()
 
 input = []
 counter = 0
-avg_winrate = 0
+avg_opponents_winrate = 0
 observed_grubby_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 observer_grubby_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
-observer_grubby_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
+observed_grubby_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 
 wins_less_than_60 = 0
 games_less_than_60 = 0
@@ -178,9 +178,9 @@ for l in contents:
     X[5] = int(X[5])
 
     if X[5] < 15:
-        X[5] = int(X[5] * 0.88)
+        X[4] = int(X[4] * 0.88)
     elif X[5] < 30:
-        X[5] = int(X[5] * 0.93)
+        X[4] = int(X[4] * 0.93)
 
     X[6] = X[6].rstrip("\n")
 
@@ -190,13 +190,13 @@ for l in contents:
     observed_grubby_wins[X[1]] += int(X[0])
     observer_grubby_games[X[1]] += 1
 
-    avg_winrate += int(X[4])
+    avg_opponents_winrate += int(X[4])
     counter += 1
 
 for key in observed_grubby_wins.keys():
-    observer_grubby_winrates[key] = observed_grubby_wins[key] / observer_grubby_games[key]
+    observed_grubby_winrates[key] = observed_grubby_wins[key] / observer_grubby_games[key]
 
-avg_winrate /= counter
+avg_opponents_winrate /= counter
 
 input = np.array(input)
 original_input = copy.deepcopy(input)
@@ -260,18 +260,21 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [1, 1, 1, 90, 2470, 2]
-my_prediction = 68
+xin = [2, 1, 1, 80, 118, 0]
+my_prediction = 56
+Vagelis = 53
+result = 1
 
+write = True
 
-predComboLeanring, combo_importances = combolearning.predict(xin)
-rf_trasformed, _ = predictTransformed.predict(xin)
+predComboLeanring, combo_importances = rf_winrates.predict(xin)
+rf_trasformed,_ = rf_transformed.predict(xin)
 #predV2_logistic = PredictV2.logistic_reg(xin)
-logistic_mutchups, logit_mu = logistic_mutchups.logistic_reg(xin)
+logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
 preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
 
-write = False
+
 # Hum = 0
 # Ne = 1
 # Orc = 2
@@ -290,7 +293,7 @@ write = False
 print(xin)
 
 to_print = copy.deepcopy(xin)
-print(parse_x(to_print))
+print(parse_x(to_print, result))
 
 
 onehot_encoded = []
@@ -388,8 +391,8 @@ y_pred3 = classifier2.predict_proba([xin])
 # plt.show()
 
 
-clf = LogisticRegression(solver='lbfgs', max_iter=800, class_weight='balanced').fit(logistic_input, y)
-y_pred_logistic, logit1 = clf.predict_proba([xin])
+clf = LogisticRegression(solver='lbfgs', max_iter=400, class_weight='balanced').fit(logistic_input, y)
+y_pred_logistic = clf.predict_proba([xin])
 
 # show = [a[-1] for a in logistic_input if a[-1] <= 15]
 # show2 = [a[-2] for a in logistic_input if a[-1] <= 15]
@@ -398,43 +401,39 @@ y_pred_logistic, logit1 = clf.predict_proba([xin])
 # plt.xlabel('games')
 # plt.show()
 
-
-logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
-y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
-clf15 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input15, y_15)
-print(len(y_15))
-
-
-logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 40]
-y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 40]
-clf35 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input35, y_35)
-print(len(y_35))
-
-
-logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
-y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
-clfRest = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(logistic_inputRest, y_Rest)
-print(len(y_Rest))
-
 games = xin[-1]
 strong_logistic = 0
 
-y_pred_logistic15, logit = clf15.predict_proba([xin[:-1]])
-y_pred_logistic35, logit = clf35.predict_proba([xin[:-1]])
-y_pred_logisticRest, logitRest = clfRest.predict_proba([xin[:-1]])
+if games <= 15:
+    logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
+    y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
+    clf15 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input15, y_15)
+    y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
+    strong_logistic = y_pred_logistic15[0][1]
 
-print(y_pred_logisticRest)
-print(logit)
+elif games < 40:
+    logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
+    y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 60]
+    clf35 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input35, y_35)
+    print(len(y_35))
+    y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
+    strong_logistic = y_pred_logistic35[0][1]
+
+else:
+    logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
+    y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
+    clfRest = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(logistic_inputRest, y_Rest)
+    print(len(y_Rest))
+
+    y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
+    strong_logistic = y_pred_logisticRest[0][1]
+
+
+#print(y_pred_logisticRest)
+
 
 classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
 classifier.fit(input, y)
-
-if games <= 15:
-    strong_logistic = y_pred_logistic15[0][1]
-elif games <= 35:
-    strong_logistic = y_pred_logistic35[0][1]
-else:
-    strong_logistic = y_pred_logisticRest[0][1]
 
 
 ###############################  K nearest neightours   ##############################################
@@ -444,25 +443,24 @@ print(parse_one_hot(xin))
 
 np.set_printoptions(precision=2)
 importances = classifier.feature_importances_
-
-
 importances2 = classifier2.feature_importances_
 importances2 = ['%.2f'%(float(a)) for a in importances2]
 
 
-s = parse_x(to_print)
+s = parse_x(to_print, result)
 
 pred1 = int(round(y_pred1[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
-#predV2_logistic = int(round(predV2_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 40:
+    preprocessed_logreg_no_formula = 0
+    preprocessed_logreg_formula = 0
     logistic_mutchups = 0
 
 log =(s +"-" + str(pred1)
@@ -474,7 +472,7 @@ log =(s +"-" + str(pred1)
       +"%-" + str(logistic_pred)
       +"%-" + str(int(round(strong_logistic * 100)))
       +"%-" + str(rf_trasformed)
-      +"%-" + str(0)
+      +"%-" + str(Vagelis)
       +"%-" + str(my_prediction)+"%"
       +"-0%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
@@ -484,8 +482,8 @@ log =(s +"-" + str(pred1)
 print(log)
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
-print("avg winrate: " + str(avg_winrate))
-print("avg Grubby winrate: " + str(observer_grubby_winrates))
+print("avg opponent winrate: " + str(avg_opponents_winrate))
+print("observed Grubby winrates: " + str(observed_grubby_winrates))
 print("combo importances")
 print(combo_importances)
 
