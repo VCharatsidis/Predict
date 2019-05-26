@@ -262,15 +262,15 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [0, 1, 0, 60, 1200, 4]
+xin = [0, 1, 0, 85, 1200, 4]
 my_prediction = 64
 Vagelis = 0
 result = 0
 
 write = False
 
-predComboLeanring, combo_importances = rf_winrates.predict(xin)
-rf_trasformed,_ = rf_transformed.predict(xin)
+rf_winrates_res, combo_importances = rf_winrates.predict(xin)
+rf_trasformed, _ = rf_transformed.predict(xin)
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
 preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
@@ -360,20 +360,30 @@ y_pred1 = classifier.predict_proba([xin])
 
 onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
+logistic_input = copy.deepcopy(onehot_input)
 
 
+X_train = onehot_input
+
+mean = np.mean(X_train, axis=0)
+std = np.std(X_train, axis=0)
+
+onehot_neural = onehot_encoded
+onehot_neural = onehot_neural - mean
+onehot_neural = onehot_neural / std
 
 model = torch.load('grubbyStar.model')
 model.eval()
-x = Variable(torch.FloatTensor([onehot_encoded]))
+x = Variable(torch.FloatTensor([onehot_neural]))
 pred = model.forward(x)
 print("neural prediction")
 print(pred)
-predi = pred[0, 1] / (pred[0, 0] + pred[0, 1])
+predi = pred
 neural_pred = predi.detach().numpy()
 print(neural_pred)
 
-logistic_input = copy.deepcopy(onehot_input)
+
+
 
 estimators2 = 300
 classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
@@ -483,14 +493,14 @@ log =(s +"-" + str(pred1)
       +"%-" + str(0)
       +"%-" + str(pred3)
       +"%-" + str(0)
-      +"%-" + str(predComboLeanring)
+      +"%-" + str(rf_winrates_res)
       +"%-" + str(logistic_mutchups)
       +"%-" + str(logistic_pred)
       +"%-" + str(int(round(strong_logistic * 100)))
       +"%-" + str(rf_trasformed)
       +"%-" + str(Vagelis)
       +"%-" + str(my_prediction)+"%"
-      +"-"+ str(neural_pred) +"%-"
+      #+"-"+ str(neural_pred) +"%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
       + str(int(round(preprocessed_logreg_formula*100))) +"%-"
       +"\n")
@@ -508,7 +518,7 @@ print("neural pred: "+ str(neural_pred))
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")
-print("random forests winrates: " + str(predComboLeanring) + "%")
+print("random forests winrates: " + str(rf_winrates_res) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")

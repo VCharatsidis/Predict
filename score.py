@@ -174,7 +174,7 @@ total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
-exc = [0, 1, 3]
+exc = [0, 1, 2, 3, 4]
 for i in contents:
     if counter > last_predictions:
         s = calc_scores(i, participations, exc)

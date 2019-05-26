@@ -41,7 +41,8 @@ class MLP(nn.Module):
             nn.Linear(n_inputs, 2),
             nn.BatchNorm1d(2),
             nn.Tanh(),
-            nn.Softmax(dim=1)
+            nn.Linear(2, 1),
+            nn.Sigmoid()
 
         )
 
@@ -64,10 +65,11 @@ class MLP(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
 
-        out = x
-        for layer in self.layers:
-            out = layer.forward(out)
+        # out = x
+        # for layer in self.layers:
+        #     out = layer.forward(out)
 
+        out = self.layers(x)
         ########################
         # END OF YOUR CODE    #
         #######################

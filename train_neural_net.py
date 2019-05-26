@@ -18,10 +18,10 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-4
-MAX_STEPS_DEFAULT = 300
-BATCH_SIZE_DEFAULT = 2
-EVAL_FREQ_DEFAULT = 1
+LEARNING_RATE_DEFAULT = 1e-3
+MAX_STEPS_DEFAULT = 10000
+BATCH_SIZE_DEFAULT = 8
+EVAL_FREQ_DEFAULT = 5
 
 
 FLAGS = None
@@ -46,10 +46,16 @@ def accuracy(predictions, targets):
     """
 
     predictions = predictions.detach().numpy()
-    preds = np.argmax(predictions, 1)
+    predictions =  predictions.flatten()
+    preds = np.round(predictions)
+    # print(preds)
+    # print(targets)
     result = preds == targets
+
     sum = np.sum(result)
+
     accuracy = sum / float(targets.shape[0])
+    print(accuracy)
 
     return accuracy
 
@@ -120,27 +126,15 @@ def train():
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
     print("standardize")
-    # onehot_input[:, -1] = standardize(onehot_input[:, -1])
-    # onehot_input[:, -2] = standardize(onehot_input[:, -2])
-    onehot_input = standardize(onehot_input)
+    onehot_input[:, -1] = standardize(onehot_input[:, -1])
+    onehot_input[:, -2] = standardize(onehot_input[:, -2])
+    #onehot_input = standardize(onehot_input)
     print(onehot_input)
 
     # Set the random seeds for reproducibility
     np.random.seed(42)
 
-    ## Prepare all functions
-    # Get number of units in each hidden layer specified in the string such as 100,100
-    if FLAGS.dnn_hidden_units:
-        dnn_hidden_units = FLAGS.dnn_hidden_units.split(",")
-        dnn_hidden_units = [int(dnn_hidden_unit_) for dnn_hidden_unit_ in dnn_hidden_units]
-    else:
-        dnn_hidden_units = []
-
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-
-    validation_games = 40
+    validation_games = 50
 
     X_train = onehot_input[0: -validation_games, :]
     y_train = y[0: -validation_games]
@@ -165,14 +159,13 @@ def train():
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9)
 
-    loss_fn = nn.CrossEntropyLoss()
-
     accuracies = []
     losses = []
     max_acc = 0
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 2
+        BATCH_SIZE_DEFAULT = 8
         model.train()
+
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
         X_train_batch = X_train[ids, :]
         y_train_batch = y_train[ids]
@@ -182,12 +175,16 @@ def train():
 
         output = model.forward(X_train_batch)
 
+        y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
+        y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-        y_train_batch = Variable(torch.LongTensor(y_train_batch))
+        # print(output)
+        # print(iteration)
+        # print(y_train_batch)
 
+        loss = nn.functional.binary_cross_entropy(output, y_train_batch)
 
-        loss = loss_fn(output, y_train_batch)
-        optimizer.zero_grad()
+        model.zero_grad()
         loss.backward()
         optimizer.step()
 
@@ -204,15 +201,13 @@ def train():
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
-            print(pred)
-            print(targets)
+
 
             acc = accuracy(pred, targets)
-            # accuracies.append(acc)
-            targets = Variable(torch.LongTensor(targets))
+            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = Variable(torch.FloatTensor(targets))
 
-            batch_loss = nn.CrossEntropyLoss()
-            calc_loss = batch_loss.forward(pred, targets)
+            calc_loss = nn.functional.binary_cross_entropy(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
