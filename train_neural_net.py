@@ -14,15 +14,15 @@ from neural_net import MLP
 import torch.nn as nn
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 # Default constants
-DNN_HIDDEN_UNITS_DEFAULT = '1000'
-LEARNING_RATE_DEFAULT = 2e-3
-MAX_STEPS_DEFAULT = 6000
-BATCH_SIZE_DEFAULT = 200
-EVAL_FREQ_DEFAULT = 200
+DNN_HIDDEN_UNITS_DEFAULT = '2'
+LEARNING_RATE_DEFAULT = 2e-4
+MAX_STEPS_DEFAULT = 300
+BATCH_SIZE_DEFAULT = 2
+EVAL_FREQ_DEFAULT = 1
 
-# Directory in which cifar data is saved
 
 FLAGS = None
 
@@ -54,14 +54,77 @@ def accuracy(predictions, targets):
     return accuracy
 
 
+def get_input(enable_formula = False):
+    f = open("Grubb.txt", "r")
+
+    contents = f.readlines()
+
+    data = []
+    counter = 0
+    for l in contents:
+        X = l.split('-')
+
+        X[0] = int(X[0])
+        X[4] = int(X[4])
+        X[5] = int(X[5])
+        X[6] = X[6].rstrip("\n")
+
+        X = np.array(X)
+        data.append(X)
+
+    print(counter)
+    return data
+
+
+def center(X):
+    newX = X - np.mean(X, axis=0)
+    return newX
+
+
+def standardize(X):
+    newX = center(X)/np.std(X, axis=0)
+
+    return newX
+
+
 def train():
     """
     Performs training and evaluation of MLP model.
     TODO:
     Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
     """
+    labelencoder = LabelEncoder()
+    input = get_input()
+    input = np.array(input)
 
-    ### DO NOT CHANGE SEEDS!
+
+    y = input[:, 0]
+    y = [int(x) for x in y]
+    y = np.array(y)
+
+    input = input[:, 1:]
+
+    input[:, 0] = labelencoder.fit_transform(input[:, 0])
+    input[:, 0] = [int(x) for x in input[:, 0]]
+
+    input[:, 1] = labelencoder.fit_transform(input[:, 1])
+    input[:, 1] = [int(x) for x in input[:, 1]]
+
+    input[:, 2] = labelencoder.fit_transform(input[:, 2])
+    input[:, 2] = [int(x) for x in input[:, 2]]
+
+    input[:, 5] = labelencoder.fit_transform(input[:, 5])
+    input[:, 5] = [int(x) for x in input[:, 5]]
+
+    onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
+    onehot_input = onehotencoder.fit_transform(input).toarray()
+
+    print("standardize")
+    # onehot_input[:, -1] = standardize(onehot_input[:, -1])
+    # onehot_input[:, -2] = standardize(onehot_input[:, -2])
+    onehot_input = standardize(onehot_input)
+    print(onehot_input)
+
     # Set the random seeds for reproducibility
     np.random.seed(42)
 
@@ -76,14 +139,28 @@ def train():
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    classes = 10
-    input_dim = 3 * 32 * 32
 
-    X_train_raw, y_train_raw, X_test_raw, y_test_raw = cifar10_utils.load_cifar10(cifar10_utils.CIFAR10_FOLDER)
-    X_train, y_train, X_test, y_test = cifar10_utils.preprocess_cifar10_data(X_train_raw, y_train_raw, X_test_raw,
-                                                                             y_test_raw)
+    validation_games = 40
 
-    model = MLP(input_dim, dnn_hidden_units, classes)
+    X_train = onehot_input[0: -validation_games, :]
+    y_train = y[0: -validation_games]
+
+    print("X train")
+
+    print(X_train.shape)
+    print(y_train.shape)
+
+    X_test = onehot_input[-validation_games:, :]
+    y_test = y[-validation_games:]
+
+    print("X test")
+
+    print(X_test.shape)
+    print(y_test.shape)
+
+    print(onehot_input.shape)
+
+    model = MLP(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9)
@@ -92,20 +169,23 @@ def train():
 
     accuracies = []
     losses = []
-
+    max_acc = 0
     for iteration in range(MAX_STEPS_DEFAULT):
+        BATCH_SIZE_DEFAULT = 2
         model.train()
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
         X_train_batch = X_train[ids, :]
         y_train_batch = y_train[ids]
 
         X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
-
         X_train_batch = Variable(torch.FloatTensor(X_train_batch))
 
         output = model.forward(X_train_batch)
 
+
         y_train_batch = Variable(torch.LongTensor(y_train_batch))
+
+
         loss = loss_fn(output, y_train_batch)
         optimizer.zero_grad()
         loss.backward()
@@ -113,36 +193,34 @@ def train():
 
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
-            total_acc = 0
-            total_loss = 0
 
-            for i in range(BATCH_SIZE_DEFAULT, len(X_test) + BATCH_SIZE_DEFAULT, BATCH_SIZE_DEFAULT):
-                ids = np.array(range(i - BATCH_SIZE_DEFAULT, i))
+            BATCH_SIZE_DEFAULT = len(X_test)
+            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            x = X_test[ids, :]
+            targets = y_test[ids]
 
-                x = X_test[ids, :]
-                targets = y_test[ids]
+            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
-                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            x = Variable(torch.FloatTensor(x))
 
-                x = Variable(torch.FloatTensor(x))
+            pred = model.forward(x)
+            print(pred)
+            print(targets)
 
-                pred = model.forward(x)
-                acc = accuracy(pred, targets)
-                # accuracies.append(acc)
-                targets = Variable(torch.LongTensor(targets))
-                total_acc += acc
-                batch_loss = nn.CrossEntropyLoss()
-                calc_loss = batch_loss.forward(pred, targets)
-                # losses.append(calc_loss.item())
-                total_loss += calc_loss.item()
+            acc = accuracy(pred, targets)
+            # accuracies.append(acc)
+            targets = Variable(torch.LongTensor(targets))
 
-            denom = len(X_test) / BATCH_SIZE_DEFAULT
-            total_acc = total_acc / denom
-            total_loss = total_loss / denom
-            accuracies.append(total_acc)
-            losses.append(total_loss)
+            batch_loss = nn.CrossEntropyLoss()
+            calc_loss = batch_loss.forward(pred, targets)
 
-            print("total accuracy " + str(total_acc) + " total loss " + str(total_loss))
+            accuracies.append(acc)
+            losses.append(calc_loss.item())
+
+            if acc > max_acc:
+                max_acc = acc
+                torch.save(model, 'grubbyStar.model')
+            print("total accuracy " + str(acc) + " total loss " + str(calc_loss.item()))
 
     plt.plot(accuracies)
     plt.ylabel('accuracies')
@@ -170,10 +248,6 @@ def main():
     """
     # Print all Flags to confirm parameter settings
     print_flags()
-
-    if not os.path.exists(FLAGS.data_dir):
-        os.makedirs(FLAGS.data_dir)
-
     # Run the training operation
     train()
 
@@ -191,8 +265,7 @@ if __name__ == '__main__':
                         help='Batch size to run trainer.')
     parser.add_argument('--eval_freq', type=int, default=EVAL_FREQ_DEFAULT,
                         help='Frequency of evaluation on the test set')
-    parser.add_argument('--data_dir', type=str, default=DATA_DIR_DEFAULT,
-                        help='Directory for storing input data')
+
     FLAGS, unparsed = parser.parse_known_args()
 
     main()

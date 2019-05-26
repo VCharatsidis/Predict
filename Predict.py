@@ -11,6 +11,8 @@ import logistic_mutchups
 import rf_winrates
 import rf_transformed
 import preprocessed_logreg
+import torch
+from torch.autograd import Variable
 
 def parse_one_hot(xin):
 
@@ -260,19 +262,21 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [2, 1, 1, 80, 118, 0]
-my_prediction = 56
-Vagelis = 53
-result = 1
+xin = [0, 1, 0, 60, 1200, 4]
+my_prediction = 64
+Vagelis = 0
+result = 0
 
-write = True
+write = False
 
 predComboLeanring, combo_importances = rf_winrates.predict(xin)
 rf_trasformed,_ = rf_transformed.predict(xin)
-#predV2_logistic = PredictV2.logistic_reg(xin)
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
 preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
+
+
+
 
 
 # Hum = 0
@@ -356,6 +360,18 @@ y_pred1 = classifier.predict_proba([xin])
 
 onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
+
+
+
+model = torch.load('grubbyStar.model')
+model.eval()
+x = Variable(torch.FloatTensor([onehot_encoded]))
+pred = model.forward(x)
+print("neural prediction")
+print(pred)
+predi = pred[0, 1] / (pred[0, 0] + pred[0, 1])
+neural_pred = predi.detach().numpy()
+print(neural_pred)
 
 logistic_input = copy.deepcopy(onehot_input)
 
@@ -474,7 +490,7 @@ log =(s +"-" + str(pred1)
       +"%-" + str(rf_trasformed)
       +"%-" + str(Vagelis)
       +"%-" + str(my_prediction)+"%"
-      +"-0%-"
+      +"-"+ str(neural_pred) +"%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
       + str(int(round(preprocessed_logreg_formula*100))) +"%-"
       +"\n")
@@ -488,6 +504,7 @@ print("combo importances")
 print(combo_importances)
 
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
+print("neural pred: "+ str(neural_pred))
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")

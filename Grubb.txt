@@ -453,3 +453,8 @@
 1-Orc-t-Hum-70-23-twisted
 1-Orc-t-Ra-81-360-twisted
 1-Orc-t-Ne-80-118-amazonia
+0-Orc-t-Ud-63-1900-amazonia
+0-Orc-t-Hum-82-185-echo
+1-Orc-t-Ne-73-384-refuge
+1-Orc-t-Ud-82-430-echo
+0-Orc-t-Hum-71-35-refuge

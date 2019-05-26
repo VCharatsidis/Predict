@@ -37,10 +37,12 @@ class MLP(nn.Module):
         super(MLP, self).__init__()
 
         self.layers = nn.Sequential(
+
             nn.Linear(n_inputs, 2),
-            nn.ReLU(),
-            nn.Linear(2, 2),
-            nn.Sigmoid(),
+            nn.BatchNorm1d(2),
+            nn.Tanh(),
+            nn.Softmax(dim=1)
+
         )
 
 
