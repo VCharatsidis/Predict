@@ -458,3 +458,13 @@
 1-Orc-t-Ne-73-384-refuge
 1-Orc-t-Ud-82-430-echo
 0-Orc-t-Hum-71-35-refuge
+1-Ne-t-Ud-62-39-echo
+1-Orc-t-Hum-58-2800-concealed
+0-Orc-t-Ne-86-108-terenas
+1-Orc-t-Ra-80-376-refuge
+1-Hum-r-Orc-70-40-terenas
+0-Orc-t-Ne-90-1911-terenas
+1-Orc-r-Ud-72-197-concealed
+1-Ne-r-Hum-62-85-concealed
+0-Hum-r-Hum-83-36-refuge
+0-Ud-t-Ne-76-1500-refuge

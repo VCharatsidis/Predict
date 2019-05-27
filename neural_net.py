@@ -38,10 +38,10 @@ class MLP(nn.Module):
 
         self.layers = nn.Sequential(
 
-            nn.Linear(n_inputs, 2),
-            nn.BatchNorm1d(2),
+            nn.Linear(n_inputs, 5),
+            nn.BatchNorm1d(5),
             nn.Tanh(),
-            nn.Linear(2, 1),
+            nn.Linear(5, 1),
             nn.Sigmoid()
 
         )

@@ -110,7 +110,7 @@ def calc_scores(preds, participations, excluded_list=[], cap=95):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-n_predictions = 14
+n_predictions = 17
 participations = n_predictions * [0]
 
 counter = 0
@@ -122,7 +122,7 @@ print("cap "+str(cap))
 
 participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
-                12: "winrates logistic", 13: "formula winrates logistic"}
+                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural5n"}
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
@@ -156,7 +156,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 1 or participant == 3 or participant == 11:
+        if participant == 1 or participant == 3 or participant == 11 :
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) +" se " + str(participations[participant]))
 

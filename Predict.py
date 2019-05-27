@@ -262,12 +262,12 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [0, 1, 0, 85, 1200, 4]
-my_prediction = 64
-Vagelis = 0
+xin = [4, 1, 1, 76, 1500, 4]
+my_prediction = 38
+Vagelis = 37
 result = 0
 
-write = False
+write = True
 
 rf_winrates_res, combo_importances = rf_winrates.predict(xin)
 rf_trasformed, _ = rf_transformed.predict(xin)
@@ -371,10 +371,10 @@ std = np.std(X_train, axis=0)
 onehot_neural = onehot_encoded
 onehot_neural = onehot_neural - mean
 onehot_neural = onehot_neural / std
+x = Variable(torch.FloatTensor([onehot_neural]))
 
 model = torch.load('grubbyStar.model')
 model.eval()
-x = Variable(torch.FloatTensor([onehot_neural]))
 pred = model.forward(x)
 print("neural prediction")
 print(pred)
@@ -383,6 +383,24 @@ neural_pred = predi.detach().numpy()
 print(neural_pred)
 
 
+model2 = torch.load('grubbyStar2.model')
+model2.eval()
+pred2 = model2.forward(x)
+print("neural prediction")
+print(pred2)
+predi2 = pred2
+neural_pred2 = predi2.detach().numpy()
+print(neural_pred2)
+
+
+model5n = torch.load('grubbyStar5n.model')
+model5n.eval()
+pred5n = model5n.forward(x)
+print("neural prediction")
+print(pred5n)
+predi5n = pred5n
+neural_pred5n = predi5n.detach().numpy()
+print(neural_pred5n)
 
 
 estimators2 = 300
@@ -500,9 +518,12 @@ log =(s +"-" + str(pred1)
       +"%-" + str(rf_trasformed)
       +"%-" + str(Vagelis)
       +"%-" + str(my_prediction)+"%"
-      #+"-"+ str(neural_pred) +"%-"
+      +"-0%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
-      + str(int(round(preprocessed_logreg_formula*100))) +"%-"
+      + str(int(round(preprocessed_logreg_formula*100))) +"%"
+      +"-"+ str(str(int(round(neural_pred[0][0]*100)))) +"%"
+      +"-"+ str(str(int(round(neural_pred2[0][0]*100)))) +"%-"
+      +"-"+ str(str(int(round(neural_pred5n[0][0]*100)))) +"%-"
       +"\n")
 
 print(log)
@@ -514,7 +535,9 @@ print("combo importances")
 print(combo_importances)
 
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
-print("neural pred: "+ str(neural_pred))
+print("neural pred: "+ str(int(round(neural_pred[0][0]*100))) + "%")
+print("neural pred2: "+ str(int(round(neural_pred2[0][0]*100))) + "%")
+print("neural pred5n: "+ str(int(round(neural_pred5n[0][0]*100))) + "%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")

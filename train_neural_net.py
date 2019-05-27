@@ -19,9 +19,9 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 10000
-BATCH_SIZE_DEFAULT = 8
-EVAL_FREQ_DEFAULT = 5
+MAX_STEPS_DEFAULT = 50000
+BATCH_SIZE_DEFAULT = 2
+EVAL_FREQ_DEFAULT = 1
 
 
 FLAGS = None
@@ -70,10 +70,14 @@ def get_input(enable_formula = False):
     for l in contents:
         X = l.split('-')
 
+
         X[0] = int(X[0])
         X[4] = int(X[4])
         X[5] = int(X[5])
         X[6] = X[6].rstrip("\n")
+
+        if X[5] <58:
+            continue
 
         X = np.array(X)
         data.append(X)
@@ -163,7 +167,7 @@ def train():
     losses = []
     max_acc = 0
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
+        BATCH_SIZE_DEFAULT = 2
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -214,9 +218,13 @@ def train():
 
             if acc > max_acc:
                 max_acc = acc
-                torch.save(model, 'grubbyStar.model')
-            print("total accuracy " + str(acc) + " total loss " + str(calc_loss.item()))
 
+                #torch.save(model, 'grubbyStar5n.model')
+                #break;
+            print("iteration: "+ str(iteration) +"total accuracy " + str(acc) + " total loss " + str(calc_loss.item()))
+
+    print("maxx acc")
+    print(max_acc)
     plt.plot(accuracies)
     plt.ylabel('accuracies')
     plt.show()
