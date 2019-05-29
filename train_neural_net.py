@@ -18,9 +18,9 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 50000
-BATCH_SIZE_DEFAULT = 2
+LEARNING_RATE_DEFAULT = 2e-5
+MAX_STEPS_DEFAULT = 250000
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -46,7 +46,7 @@ def accuracy(predictions, targets):
     """
 
     predictions = predictions.detach().numpy()
-    predictions =  predictions.flatten()
+    predictions = predictions.flatten()
     preds = np.round(predictions)
     # print(preds)
     # print(targets)
@@ -55,7 +55,6 @@ def accuracy(predictions, targets):
     sum = np.sum(result)
 
     accuracy = sum / float(targets.shape[0])
-    print(accuracy)
 
     return accuracy
 
@@ -74,9 +73,13 @@ def get_input(enable_formula = False):
         X[0] = int(X[0])
         X[4] = int(X[4])
         X[5] = int(X[5])
+
+        if X[5] > 200:
+            X[5] = 200
+
         X[6] = X[6].rstrip("\n")
 
-        if X[5] <58:
+        if X[5] < 58:
             continue
 
         X = np.array(X)
@@ -136,20 +139,29 @@ def train():
     print(onehot_input)
 
     # Set the random seeds for reproducibility
-    np.random.seed(42)
+    #np.random.seed(42)
 
-    validation_games = 50
+    validation_games = 60
 
-    X_train = onehot_input[0: -validation_games, :]
-    y_train = y[0: -validation_games]
+    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
+
+    X_train = onehot_input[train_ids, :]
+    y_train = y[train_ids]
+
+    # X_train = onehot_input[0: -validation_games, :]
+    # y_train = y[0: -validation_games]
 
     print("X train")
 
     print(X_train.shape)
     print(y_train.shape)
 
-    X_test = onehot_input[-validation_games:, :]
-    y_test = y[-validation_games:]
+    X_test = onehot_input[val_ids, :]
+    y_test = y[val_ids]
+
+    # X_test = onehot_input[-validation_games:, :]
+    # y_test = y[-validation_games:]
 
     print("X test")
 
@@ -157,6 +169,7 @@ def train():
     print(y_test.shape)
 
     print(onehot_input.shape)
+    print(onehot_input.shape[1])
 
     model = MLP(onehot_input.shape[1])
     print(model)
@@ -167,10 +180,11 @@ def train():
     losses = []
     max_acc = 0
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 2
+        BATCH_SIZE_DEFAULT = 8
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
+
         X_train_batch = X_train[ids, :]
         y_train_batch = y_train[ids]
 
@@ -181,10 +195,6 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-
-        # print(output)
-        # print(iteration)
-        # print(y_train_batch)
 
         loss = nn.functional.binary_cross_entropy(output, y_train_batch)
 
@@ -218,10 +228,12 @@ def train():
 
             if acc > max_acc:
                 max_acc = acc
-
-                #torch.save(model, 'grubbyStar5n.model')
+                #torch.save(model, 'grubbyStar4L-2-2-2-1.model')
+                print("iteration: " + str(iteration) + " total accuracy " + str(acc) + " total loss " + str(
+                    calc_loss.item()))
                 #break;
-            print("iteration: "+ str(iteration) +"total accuracy " + str(acc) + " total loss " + str(calc_loss.item()))
+
+
 
     print("maxx acc")
     print(max_acc)

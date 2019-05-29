@@ -18,13 +18,13 @@ opponent_race_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 opponent_race_winrates = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 
 map_games = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
-             'turtle': 0, 'twisted': 0}
+             'turtle': 0, 'twisted': 0, 'ancient': 0}
 
 map_wins = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
-             'turtle': 0, 'twisted': 0}
+             'turtle': 0, 'twisted': 0, 'ancient': 0}
 
 maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
-                'turtle': 0, 'twisted': 0}
+                'turtle': 0, 'twisted': 0, 'ancient': 0}
 
 globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.87, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.78}
 def get_input():
@@ -147,7 +147,7 @@ def predict(xin):
     races = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
 
     maps = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas',
-            7: 'turtle', 8: 'twisted'}
+            7: 'turtle', 8: 'twisted', 9:'ancient'}
 
     input = get_input()
 

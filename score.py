@@ -2,6 +2,7 @@ from operator import add
 import numpy as np
 
 BALANCED = 305
+NEW_NNs = 345
 
 def excluded(i, excluded):
     for e in excluded:

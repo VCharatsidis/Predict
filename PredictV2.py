@@ -143,6 +143,8 @@ def parse_x(xin):
             data += "turtle"
         elif xin[5] == 8:
             data += "twisted"
+        elif xin[5] == 9:
+            data += "ancient"
 
     return data
 
@@ -229,7 +231,7 @@ def logistic_reg(xin):
     for i in letter:
         onehot_encoded.append(i)
 
-    letter = [0 for _ in range(9)]
+    letter = [0 for _ in range(10)]
     letter[xin[5]] = 1
     for i in letter:
         onehot_encoded.append(i)

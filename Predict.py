@@ -70,6 +70,8 @@ def parse_one_hot(xin):
             data += " turtle "
         elif xin[20] == 1:
             data += " twisted"
+        elif xin[21] == 1:
+            data += " ancient"
 
         if xin[5] == 0:
             data += " tryhard "
@@ -154,6 +156,8 @@ def parse_x(xin, result):
             data += "turtle"
         elif xin[5] == 8:
             data += "twisted"
+        elif xin[5] == 9:
+            data += "ancient"
 
     return data
 
@@ -252,31 +256,37 @@ classifier.fit(input, y)
 oob_error1 = 1 - classifier.oob_score_
 errors.append(oob_error1)
 importances1 = classifier.feature_importances_
+
+
+
+
+
 # amazonia = 0       swamped = 5
 # concealed = 1      terenas = 6
 # echo = 2           turtle = 7
 # northren = 3       twisted = 8
-# refuge = 4
+# refuge = 4         ancient = 9
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 1, 76, 1500, 4]
-my_prediction = 38
-Vagelis = 37
-result = 0
+xin = [0, 1, 4, 67, 470, 1]
+my_prediction = 64
+Vagelis = 66
+result = 1
 
 write = True
+NEW_PATCH = 500
+
+
+
 
 rf_winrates_res, combo_importances = rf_winrates.predict(xin)
 rf_trasformed, _ = rf_transformed.predict(xin)
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
 preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
-
-
-
 
 
 # Hum = 0
@@ -318,7 +328,7 @@ letter[xin[2]] = 1
 for i in letter:
     onehot_encoded.append(i)
 
-letter = [0 for _ in range(9)]
+letter = [0 for _ in range(10)]
 letter[xin[5]] = 1
 for i in letter:
     onehot_encoded.append(i)
@@ -402,6 +412,25 @@ predi5n = pred5n
 neural_pred5n = predi5n.detach().numpy()
 print(neural_pred5n)
 
+
+model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
+model4Lall2.eval()
+pred3L = model4Lall2.forward(x)
+print("neural prediction")
+print(pred3L)
+predi3L = pred3L
+neural_pred4Lall2 = predi3L.detach().numpy()
+print(neural_pred4Lall2)
+
+
+# model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
+# model4Lall2.eval()
+# pred3L = model4Lall2.forward(x)
+# print("neural prediction")
+# print(pred3L)
+# predi3L = pred3L
+# neural_pred4Lall2 = predi3L.detach().numpy()
+# print(neural_pred4Lall2)
 
 estimators2 = 300
 classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
@@ -507,23 +536,24 @@ if games < 40:
     preprocessed_logreg_formula = 0
     logistic_mutchups = 0
 
-log =(s +"-" + str(pred1)
-      +"%-" + str(0)
-      +"%-" + str(pred3)
-      +"%-" + str(0)
-      +"%-" + str(rf_winrates_res)
-      +"%-" + str(logistic_mutchups)
-      +"%-" + str(logistic_pred)
-      +"%-" + str(int(round(strong_logistic * 100)))
+log =(s + "-" + str(pred1)
+      + "%-" + str(0)
+      + "%-" + str(pred3)
+      + "%-" + str(0)
+      + "%-" + str(rf_winrates_res)
+      + "%-" + str(logistic_mutchups)
+      + "%-" + str(logistic_pred)
+      + "%-" + str(int(round(strong_logistic * 100)))
       +"%-" + str(rf_trasformed)
       +"%-" + str(Vagelis)
-      +"%-" + str(my_prediction)+"%"
+      +"%-" + str(my_prediction) +"%"
       +"-0%-"
       + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
       + str(int(round(preprocessed_logreg_formula*100))) +"%"
-      +"-"+ str(str(int(round(neural_pred[0][0]*100)))) +"%"
-      +"-"+ str(str(int(round(neural_pred2[0][0]*100)))) +"%-"
-      +"-"+ str(str(int(round(neural_pred5n[0][0]*100)))) +"%-"
+      +"-" + str(str(int(round(neural_pred[0][0]*100)))) +"%"
+      +"-" + str(str(int(round(neural_pred2[0][0]*100)))) +"%"
+      +"-" + str(str(int(round(neural_pred5n[0][0]*100)))) +"%"
+      +"-" + str(str(int(round(neural_pred4Lall2[0][0] * 100))))+"%"
       +"\n")
 
 print(log)
@@ -538,6 +568,7 @@ print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("neural pred: "+ str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: "+ str(int(round(neural_pred2[0][0]*100))) + "%")
 print("neural pred5n: "+ str(int(round(neural_pred5n[0][0]*100))) + "%")
+print("neural pred4L-2-2-2-1: " + str(int(round(neural_pred4Lall2[0][0] * 100))) + "%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")
