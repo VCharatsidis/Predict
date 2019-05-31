@@ -22,6 +22,8 @@
 0-Ud-t-Orc-100-200-echo
 0-Ud-t-Ne-100-200-refuge
 0-Ud-t-Ud-100-200-terenas
+1-Orc-t-Ud-100-12-terenas
+1-Hum-t-Hum-100-12-refuge
 1-Ra-r-Ra-58-40-refuge
 1-Ra-t-Ud-58-40-refuge
 1-Ra-t-Hum-58-40-refuge
@@ -507,3 +509,6 @@
 1-Ud-t-Hum-66-720-terenas
 0-Ne-t-Ud-68-285-refuge
 1-Hum-t-Ud-67-470-concealed
+0-Orc-t-Ud-86-69-concealed
+1-Ra-t-Ra-67-57-ancient
+1-Ud-t-Ud-86-4000-ancient

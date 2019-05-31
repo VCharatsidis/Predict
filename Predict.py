@@ -13,6 +13,7 @@ import rf_transformed
 import preprocessed_logreg
 import torch
 from torch.autograd import Variable
+from train_neural_net import input_to_onehot
 
 def parse_one_hot(xin):
 
@@ -96,7 +97,6 @@ def parse_one_hot(xin):
 
 def parse_x(xin, result):
     data = str(result)+"-"
-
 
     if xin[0] == 0:
         data += "Hum-"
@@ -271,13 +271,14 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [0, 1, 4, 67, 470, 1]
-my_prediction = 64
-Vagelis = 66
+xin = [4, 1, 4, 95, 4000, 1]
+my_prediction = 26
+Vagelis = 34
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
+
 
 
 
@@ -373,54 +374,74 @@ onehot_input = onehotencoder.fit_transform(input2).toarray()
 logistic_input = copy.deepcopy(onehot_input)
 
 
-X_train = onehot_input
+####################################################   Neural nets   #####################################
+_, _, X_train = input_to_onehot()
+#X_train = onehot_input
+# strong logistic: 49%
+# neural pred: 45%
+# neural pred2: 34%
+# neural pred5n: 36%
+# neural pred4L-2-2-2-1: 47%
 
-mean = np.mean(X_train, axis=0)
-std = np.std(X_train, axis=0)
+print("X shapes")
+#print(X_train_a.shape)
+print(X_train.shape)
 
-onehot_neural = onehot_encoded
-onehot_neural = onehot_neural - mean
-onehot_neural = onehot_neural / std
+onehot_neural = copy.deepcopy(onehot_encoded)
+onehot_neural = onehot_neural.astype(float)
+onehot_neural[-1] = min(onehot_neural[-1], 200.)
+
+mean = np.mean(X_train[:, -1], axis=0)
+std = np.std(X_train[:, -1], axis=0)
+onehot_neural[-1] = onehot_neural[-1] - mean
+onehot_neural[-1] = onehot_neural[-1] / std
+
+mean2 = np.mean(X_train[:, -2], axis=0)
+std2 = np.std(X_train[:, -2], axis=0)
+onehot_neural[-2] = onehot_neural[-2] - mean2
+onehot_neural[-2] = onehot_neural[-2] / std2
+
+print(onehot_neural)
+
+print(onehot_input[134])
+print(X_train[134])
+print("mean stats  oppornte")
+print(mean2)
 x = Variable(torch.FloatTensor([onehot_neural]))
 
 model = torch.load('grubbyStar.model')
 model.eval()
 pred = model.forward(x)
-print("neural prediction")
-print(pred)
-predi = pred
-neural_pred = predi.detach().numpy()
-print(neural_pred)
+neural_pred = pred.detach().numpy()
 
 
 model2 = torch.load('grubbyStar2.model')
 model2.eval()
 pred2 = model2.forward(x)
-print("neural prediction")
-print(pred2)
-predi2 = pred2
-neural_pred2 = predi2.detach().numpy()
-print(neural_pred2)
+neural_pred2 = pred2.detach().numpy()
 
 
 model5n = torch.load('grubbyStar5n.model')
 model5n.eval()
 pred5n = model5n.forward(x)
-print("neural prediction")
-print(pred5n)
-predi5n = pred5n
-neural_pred5n = predi5n.detach().numpy()
-print(neural_pred5n)
+neural_pred5n = pred5n.detach().numpy()
 
 
 model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
 model4Lall2.eval()
-pred3L = model4Lall2.forward(x)
+pred4Lall2 = model4Lall2.forward(x)
+neural_pred4Lall2 = pred4Lall2.detach().numpy()
+
+
+
+modelTest = torch.load('grubbyStarTest.model')
+modelTest.eval()
+predTest = modelTest.forward(x)
 print("neural prediction")
-print(pred3L)
-predi3L = pred3L
-neural_pred4Lall2 = predi3L.detach().numpy()
-print(neural_pred4Lall2)
+print(predTest)
+prediTest = predTest
+neural_predTest = prediTest.detach().numpy()
+print(neural_predTest)
 
 
 # model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
@@ -431,6 +452,9 @@ print(neural_pred4Lall2)
 # predi3L = pred3L
 # neural_pred4Lall2 = predi3L.detach().numpy()
 # print(neural_pred4Lall2)
+
+############################################################## End neural nets ###############################
+
 
 estimators2 = 300
 classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
@@ -565,10 +589,11 @@ print("combo importances")
 print(combo_importances)
 
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
-print("neural pred: "+ str(int(round(neural_pred[0][0]*100))) + "%")
-print("neural pred2: "+ str(int(round(neural_pred2[0][0]*100))) + "%")
-print("neural pred5n: "+ str(int(round(neural_pred5n[0][0]*100))) + "%")
+print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
+print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
+print("neural pred5n: " + str(int(round(neural_pred5n[0][0]*100))) + "%")
 print("neural pred4L-2-2-2-1: " + str(int(round(neural_pred4Lall2[0][0] * 100))) + "%")
+print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")

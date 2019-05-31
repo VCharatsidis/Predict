@@ -15,12 +15,14 @@ import torch.nn as nn
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+import copy
+import test_nn
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 250000
-BATCH_SIZE_DEFAULT = 8
+MAX_STEPS_DEFAULT = 200000
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -69,36 +71,70 @@ def get_input(enable_formula = False):
     for l in contents:
         X = l.split('-')
 
-
-        X[0] = int(X[0])
-        X[4] = int(X[4])
-        X[5] = int(X[5])
+        X[0] = float(X[0])
+        X[4] = float(X[4])
+        X[5] = float(X[5])
 
         if X[5] > 200:
             X[5] = 200
 
         X[6] = X[6].rstrip("\n")
 
-        if X[5] < 58:
+        if X[4] < 58:
             continue
 
         X = np.array(X)
         data.append(X)
 
-    print(counter)
     return data
 
 
 def center(X):
+
     newX = X - np.mean(X, axis=0)
     return newX
 
 
 def standardize(X):
-    newX = center(X)/np.std(X, axis=0)
+
+    newX = center(X) / np.std(X, axis=0)
 
     return newX
 
+
+def input_to_onehot():
+    labelencoder = LabelEncoder()
+    input = get_input()
+    input = np.array(input)
+
+    y = input[:, 0]
+    y = [float(x) for x in y]
+    y = np.array(y)
+
+    input = input[:, 1:]
+
+    input[:, 0] = labelencoder.fit_transform(input[:, 0])
+    input[:, 0] = [float(x) for x in input[:, 0]]
+
+    input[:, 1] = labelencoder.fit_transform(input[:, 1])
+    input[:, 1] = [float(x) for x in input[:, 1]]
+
+    input[:, 2] = labelencoder.fit_transform(input[:, 2])
+    input[:, 2] = [float(x) for x in input[:, 2]]
+
+    input[:, 5] = labelencoder.fit_transform(input[:, 5])
+    input[:, 5] = [float(x) for x in input[:, 5]]
+
+    onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
+    onehot_input = onehotencoder.fit_transform(input).toarray()
+
+    not_standardized_input = copy.deepcopy(onehot_input)
+
+    print("standardize")
+    onehot_input[:, -1] = standardize(onehot_input[:, -1])
+    onehot_input[:, -2] = standardize(onehot_input[:, -2])
+
+    return onehot_input, y, not_standardized_input
 
 def train():
     """
@@ -106,42 +142,14 @@ def train():
     TODO:
     Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
     """
-    labelencoder = LabelEncoder()
-    input = get_input()
-    input = np.array(input)
-
-
-    y = input[:, 0]
-    y = [int(x) for x in y]
-    y = np.array(y)
-
-    input = input[:, 1:]
-
-    input[:, 0] = labelencoder.fit_transform(input[:, 0])
-    input[:, 0] = [int(x) for x in input[:, 0]]
-
-    input[:, 1] = labelencoder.fit_transform(input[:, 1])
-    input[:, 1] = [int(x) for x in input[:, 1]]
-
-    input[:, 2] = labelencoder.fit_transform(input[:, 2])
-    input[:, 2] = [int(x) for x in input[:, 2]]
-
-    input[:, 5] = labelencoder.fit_transform(input[:, 5])
-    input[:, 5] = [int(x) for x in input[:, 5]]
-
-    onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
-    onehot_input = onehotencoder.fit_transform(input).toarray()
-
-    print("standardize")
-    onehot_input[:, -1] = standardize(onehot_input[:, -1])
-    onehot_input[:, -2] = standardize(onehot_input[:, -2])
-    #onehot_input = standardize(onehot_input)
-    print(onehot_input)
-
     # Set the random seeds for reproducibility
-    #np.random.seed(42)
+    np.random.seed(42)
 
-    validation_games = 60
+    model_to_train = 'grubbyStarTest.model'
+
+    validation_games = 0
+
+    onehot_input, y, _ = input_to_onehot()
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -174,13 +182,13 @@ def train():
     model = MLP(onehot_input.shape[1])
     print(model)
 
-    optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9)
+    optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
 
     accuracies = []
     losses = []
     max_acc = 0
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
+        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -205,10 +213,11 @@ def train():
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
 
-            BATCH_SIZE_DEFAULT = len(X_test)
+
+            BATCH_SIZE_DEFAULT = len(X_train)
             ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_test[ids, :]
-            targets = y_test[ids]
+            x = X_train[ids, :]
+            targets = y_train[ids]
 
             x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
@@ -228,13 +237,13 @@ def train():
 
             if acc > max_acc:
                 max_acc = acc
-                #torch.save(model, 'grubbyStar4L-2-2-2-1.model')
+                torch.save(model, model_to_train)
                 print("iteration: " + str(iteration) + " total accuracy " + str(acc) + " total loss " + str(
                     calc_loss.item()))
                 #break;
 
-
-
+    test_nn.test_all(model_to_train)
+    print(model_to_train)
     print("maxx acc")
     print(max_acc)
     plt.plot(accuracies)

@@ -123,7 +123,7 @@ print("cap "+str(cap))
 
 participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
-                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural5n"}
+                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural5n", 17:"neural4L-2-2-2-1"}
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
