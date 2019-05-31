@@ -29,16 +29,14 @@ def get_input(enable_formula = False):
 
     return data
 
-def center(X):
 
+def center(X):
     newX = X - np.mean(X, axis=0)
     return newX
 
 
 def standardize(X):
-
     newX = center(X) / np.std(X, axis=0)
-
     return newX
 
 

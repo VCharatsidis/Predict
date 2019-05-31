@@ -1,8 +1,7 @@
 from operator import add
 import numpy as np
 
-BALANCED = 305
-NEW_NNs = 345
+
 
 def excluded(i, excluded):
     for e in excluded:
@@ -10,7 +9,7 @@ def excluded(i, excluded):
             return True
 
 
-def calc_scores(preds, participations, excluded_list=[], cap=95):
+def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
     z = preds.split("-")
     #print(z)
     predictions = []
@@ -30,28 +29,37 @@ def calc_scores(preds, participations, excluded_list=[], cap=95):
     s = n_predictions * [0]
 
     for i in range(0, n_predictions-1):
+        if pred_number < NEW_NNs:
+            if i > 13:
+                predictions[i] = 0
 
         if excluded(i, excluded_list):
             continue
         if predictions[i] > cap:
             predictions[i] = cap
 
-        if predictions[i] == 0:
-            continue
-
         if int(z[5]) <= 40:
             predictions[7] = 0
+
+
+
+        if predictions[i] == 0:
+            continue
 
         opponent = i+1
         for j in range(opponent, n_predictions):
             if excluded(j, excluded_list):
                 continue
-            # if j < 5:
-            #     continue
-            # if j > 7:
-            #     continue
+
             if predictions[j] > cap:
                 predictions[j] = cap
+
+            if pred_number < NEW_NNs:
+                if j > 13:
+                    predictions[j] = 0
+
+            if int(z[5]) <= 40:
+                predictions[7] = 0
 
             if predictions[j] == 0:
                 continue
@@ -116,15 +124,18 @@ participations = n_predictions * [0]
 
 counter = 0
 cap = 95
-last_predictions = BALANCED
+
 
 
 print("cap "+str(cap))
 
 participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
-                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural5n", 17:"neural4L-2-2-2-1"}
+                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
+                17: "neural4L4W"}
 
+BALANCED = 305
+NEW_NNs = 350
 
 def calc_scores_vs_opponent(opponent, cap=95):
     scores_vs_opponent = n_predictions * [0]
@@ -145,8 +156,8 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         counter = 0
         for i in contents:
-            if counter > last_predictions:
-                s = calc_scores(i, participations, excluded, cap)
+            if counter > BALANCED:
+                s = calc_scores(i, participations, counter, excluded, cap)
                 s = np.array(s)
                 total_scores = s + total_scores
 
@@ -157,7 +168,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 1 or participant == 3 or participant == 11 :
+        if participant == 1 or participant == 3 or participant == 11:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) +" se " + str(participations[participant]))
 
@@ -177,8 +188,8 @@ counter = 0
 participations = n_predictions * [0]
 exc = [0, 1, 2, 3, 4]
 for i in contents:
-    if counter > last_predictions:
-        s = calc_scores(i, participations, exc)
+    if counter > BALANCED:
+        s = calc_scores(i, participations, counter, exc)
         s = np.array(s)
         total_scores = s + total_scores
 

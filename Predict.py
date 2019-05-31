@@ -13,7 +13,8 @@ import rf_transformed
 import preprocessed_logreg
 import torch
 from torch.autograd import Variable
-from train_neural_net import input_to_onehot
+from input_to_onehot import input_to_onehot
+import test_nn
 
 def parse_one_hot(xin):
 
@@ -375,39 +376,14 @@ logistic_input = copy.deepcopy(onehot_input)
 
 
 ####################################################   Neural nets   #####################################
-_, _, X_train = input_to_onehot()
-#X_train = onehot_input
-# strong logistic: 49%
-# neural pred: 45%
-# neural pred2: 34%
-# neural pred5n: 36%
-# neural pred4L-2-2-2-1: 47%
 
-print("X shapes")
-#print(X_train_a.shape)
-print(X_train.shape)
+
 
 onehot_neural = copy.deepcopy(onehot_encoded)
-onehot_neural = onehot_neural.astype(float)
-onehot_neural[-1] = min(onehot_neural[-1], 200.)
+mean1,  std1, mean2, std2 = test_nn.get_means_and_stds()
+x = test_nn.standardize_instance(onehot_neural, mean1,  std1, mean2, std2)
 
-mean = np.mean(X_train[:, -1], axis=0)
-std = np.std(X_train[:, -1], axis=0)
-onehot_neural[-1] = onehot_neural[-1] - mean
-onehot_neural[-1] = onehot_neural[-1] / std
-
-mean2 = np.mean(X_train[:, -2], axis=0)
-std2 = np.std(X_train[:, -2], axis=0)
-onehot_neural[-2] = onehot_neural[-2] - mean2
-onehot_neural[-2] = onehot_neural[-2] / std2
-
-print(onehot_neural)
-
-print(onehot_input[134])
-print(X_train[134])
-print("mean stats  oppornte")
-print(mean2)
-x = Variable(torch.FloatTensor([onehot_neural]))
+print(x)
 
 model = torch.load('grubbyStar.model')
 model.eval()
@@ -421,27 +397,30 @@ pred2 = model2.forward(x)
 neural_pred2 = pred2.detach().numpy()
 
 
-model5n = torch.load('grubbyStar5n.model')
-model5n.eval()
-pred5n = model5n.forward(x)
-neural_pred5n = pred5n.detach().numpy()
+model3L3W = torch.load('grubbyStar3L-3W.model')
+model3L3W.eval()
+pred3L3W = model3L3W.forward(x)
+neural_pred3L3W = pred3L3W.detach().numpy()
 
 
-model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
-model4Lall2.eval()
-pred4Lall2 = model4Lall2.forward(x)
-neural_pred4Lall2 = pred4Lall2.detach().numpy()
+model4L3W = torch.load('grubbyStar4L-3W.model')
+model4L3W.eval()
+pred4L3W = model4L3W.forward(x)
+neural_pred4L3W = pred4L3W.detach().numpy()
 
+
+model4L4W = torch.load('grubbyStar4L4W.model')
+model4L4W.eval()
+pred4L4W = model4L4W.forward(x)
+neural_pred4L4W = pred4L4W.detach().numpy()
 
 
 modelTest = torch.load('grubbyStarTest.model')
 modelTest.eval()
 predTest = modelTest.forward(x)
-print("neural prediction")
-print(predTest)
-prediTest = predTest
-neural_predTest = prediTest.detach().numpy()
+neural_predTest = predTest.detach().numpy()
 print(neural_predTest)
+
 
 
 # model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
@@ -576,8 +555,9 @@ log =(s + "-" + str(pred1)
       + str(int(round(preprocessed_logreg_formula*100))) +"%"
       +"-" + str(str(int(round(neural_pred[0][0]*100)))) +"%"
       +"-" + str(str(int(round(neural_pred2[0][0]*100)))) +"%"
-      +"-" + str(str(int(round(neural_pred5n[0][0]*100)))) +"%"
-      +"-" + str(str(int(round(neural_pred4Lall2[0][0] * 100))))+"%"
+      +"-" + str(str(int(round(neural_pred3L3W[0][0] * 100))))+"%"
+      +"-" + str(str(int(round(neural_pred4L3W[0][0] * 100))))+"%"
+      +"-" + str(str(int(round(neural_pred4L4W[0][0] * 100))))+"%"
       +"\n")
 
 print(log)
@@ -591,8 +571,9 @@ print(combo_importances)
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
-print("neural pred5n: " + str(int(round(neural_pred5n[0][0]*100))) + "%")
-print("neural pred4L-2-2-2-1: " + str(int(round(neural_pred4Lall2[0][0] * 100))) + "%")
+print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")
+print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
+print("neural pred4L4W: " + str(str(int(round(neural_pred4L4W[0][0] * 100))))+"%")
 print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")

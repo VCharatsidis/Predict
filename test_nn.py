@@ -38,7 +38,7 @@ def get_means_and_stds():
     return mean1, std1, mean2, std2
 
 
-def standardize(onehot_neural, mean1, std1, mean2, std2):
+def standardize_instance(onehot_neural, mean1, std1, mean2, std2):
     onehot_neural = onehot_neural.astype(float)
     onehot_neural[-1] = min(onehot_neural[-1], 200.)
 
@@ -86,6 +86,7 @@ def test_all(model):
     orc3 = [2, 1, 4, 98, 1200, 1]
     orc4 = [2, 1, 4, 98, 13, 1]
     orc5 = [2, 1, 1, 90, 1900, 6]
+    orc6 = [2, 1, 1, 90, 1900, 9]
 
     hum = [0, 1, 0, 88, 3500, 9]
     hum1 = [0, 1, 0, 85, 3500, 4]
@@ -107,6 +108,7 @@ def test_all(model):
     orcs.append(orc3)
     orcs.append(orc4)
     orcs.append(orc5)
+    orcs.append(orc6)
 
     humans = []
     humans.append(hum)
@@ -130,7 +132,7 @@ def test_all(model):
 def print_results(undeads, mean1, std1, mean2, std2, model):
     for x in undeads:
         one_x = one_hot(x)
-        standardize_x = standardize(one_x, mean1, std1, mean2, std2)
+        standardize_x = standardize_instance(one_x, mean1, std1, mean2, std2)
 
         pred = test(model, standardize_x)
         parse_x(x, pred)
