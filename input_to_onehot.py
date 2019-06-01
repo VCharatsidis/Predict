@@ -21,7 +21,7 @@ def get_input(enable_formula = False):
 
         X[6] = X[6].rstrip("\n")
 
-        if X[4] < 58:
+        if X[4] < 57:
             continue
 
         X = np.array(X)

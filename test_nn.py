@@ -66,11 +66,13 @@ def test(modelTest, x):
     predTest = modelTest.forward(x)
     neural_predTest = predTest.detach().numpy()
 
-    return str(str(int(round(neural_predTest[0][0]*100))))
+    return str(int(round(neural_predTest[0][0]*100)))
 
 
 def test_all(model):
+    print(" ")
     print(model)
+    print(" ")
     modelTest = torch.load(model)
     modelTest.eval()
 
@@ -93,6 +95,8 @@ def test_all(model):
     hum3 = [0, 0, 4, 72, 165, 0]
 
     ne = [1, 1, 4, 100, 6, 6]
+    ne1 = [1, 1, 0, 83, 150, 0]
+    ne3 = [2, 1, 1, 86, 108, 6]
 
     undeads = []
     undeads.append(ud)
@@ -117,6 +121,8 @@ def test_all(model):
 
     nes = []
     nes.append(ne)
+    nes.append(ne1)
+    nes.append(ne3)
 
     mean1, std1, mean2, std2 = get_means_and_stds()
 

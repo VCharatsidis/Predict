@@ -119,7 +119,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-n_predictions = 17
+n_predictions = 18
 participations = n_predictions * [0]
 
 counter = 0

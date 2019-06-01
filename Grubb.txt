@@ -512,3 +512,14 @@
 0-Orc-t-Ud-86-69-concealed
 1-Ra-t-Ra-67-57-ancient
 1-Ud-t-Ud-86-4000-ancient
+1-Orc-t-Ra-81-152-turtle
+1-Ne-t-Ne-73-1100-concealed
+0-Orc-t-Ud-87-4000-terenas
+1-Hum-r-Ne-62-1100-amazonia
+1-Hum-r-Orc-59-1484-refuge
+1-Orc-t-Ne-83-71-refuge
+0-Orc-t-Ne-73-1120-ancient
+1-Orc-t-Ne-62-1120-terenas
+1-Orc-t-Orc-78-1200-terenas
+0-Orc-t-Ud-63-1900-amazonia
+1-Orc-t-Hum-79-240-northren

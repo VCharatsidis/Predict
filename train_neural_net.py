@@ -22,7 +22,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 140000
+MAX_STEPS_DEFAULT = 44000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -111,6 +111,8 @@ def train():
     accuracies = []
     losses = []
     max_acc = 0
+    min_loss = 100
+
     for iteration in range(MAX_STEPS_DEFAULT):
         BATCH_SIZE_DEFAULT = 32
         model.train()
@@ -148,7 +150,6 @@ def train():
 
             pred = model.forward(x)
 
-
             acc = accuracy(pred, targets)
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
@@ -158,8 +159,8 @@ def train():
             accuracies.append(acc)
             losses.append(calc_loss.item())
 
-            if acc > max_acc:
-                max_acc = acc
+            if min_loss > calc_loss.item():
+                min_loss = calc_loss.item()
                 torch.save(model, model_to_train)
                 print("iteration: " + str(iteration) + " total accuracy " + str(acc) + " total loss " + str(
                     calc_loss.item()))

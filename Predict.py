@@ -272,9 +272,9 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 4, 95, 4000, 1]
-my_prediction = 26
-Vagelis = 34
+xin = [2, 1, 4, 66, 550, 6]
+my_prediction = 72
+Vagelis = 0
 result = 1
 
 write = False
