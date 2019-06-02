@@ -22,7 +22,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 44000
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -51,6 +51,7 @@ def accuracy(predictions, targets):
     predictions = predictions.detach().numpy()
     predictions = predictions.flatten()
     preds = np.round(predictions)
+    targets = np.round(targets)
     result = preds == targets
 
     sum = np.sum(result)
@@ -67,11 +68,11 @@ def train():
     Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
     """
     # Set the random seeds for reproducibility
-    np.random.seed(42)
+    # np.random.seed(42)
 
-    model_to_train = 'grubbyStar4L4W.model'
+    model_to_train = 'grubbyStarTest.model'
 
-    validation_games = 0
+    validation_games = 100
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -133,16 +134,16 @@ def train():
         loss = nn.functional.binary_cross_entropy(output, y_train_batch)
 
         model.zero_grad()
-        loss.backward()
+        loss.backward(retain_graph=True)
         optimizer.step()
 
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
 
-            BATCH_SIZE_DEFAULT = len(X_train)
+            BATCH_SIZE_DEFAULT = len(X_test)
             ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_train[ids, :]
-            targets = y_train[ids]
+            x = X_test[ids, :]
+            targets = y_test[ids]
 
             x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
@@ -162,9 +163,10 @@ def train():
             if min_loss > calc_loss.item():
                 min_loss = calc_loss.item()
                 torch.save(model, model_to_train)
+
                 print("iteration: " + str(iteration) + " total accuracy " + str(acc) + " total loss " + str(
                     calc_loss.item()))
-                #break;
+
 
     test_nn.test_all(model_to_train)
     print(model_to_train)

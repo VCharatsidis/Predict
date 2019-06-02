@@ -523,3 +523,15 @@
 1-Orc-t-Orc-78-1200-terenas
 0-Orc-t-Ud-63-1900-amazonia
 1-Orc-t-Hum-79-240-northren
+1-Ud-t-Ud-72-223-ancient
+1-Ne-t-Orc-65-115-echo
+0-Ne-t-Orc-72-640-refuge
+1-Ne-t-Ra-80-378-amazonia
+0-Ud-t-Ud-81-410-refuge
+1-Ud-r-Hum-66-1300-turtle
+0-Ud-r-Orc-57-295-terenas
+1-Ud-r-Ud-58-980-amazonia
+1-Orc-r-Ne-73-128-refuge
+0-Hum-t-Hum-79-24-northren
+1-Hum-t-Orc-72-500-northren
+1-Hum-t-Ra-61-56-refuge

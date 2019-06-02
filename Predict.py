@@ -272,12 +272,12 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [2, 1, 4, 66, 550, 6]
-my_prediction = 72
-Vagelis = 0
+xin = [0, 1, 3, 61, 56, 4]
+my_prediction = 83
+Vagelis = 82
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
@@ -385,30 +385,31 @@ x = test_nn.standardize_instance(onehot_neural, mean1,  std1, mean2, std2)
 
 print(x)
 
+# input->2, 2->2, 2->1
 model = torch.load('grubbyStar.model')
 model.eval()
 pred = model.forward(x)
 neural_pred = pred.detach().numpy()
 
-
+# input->3, 3->3, 3->1
 model2 = torch.load('grubbyStar2.model')
 model2.eval()
 pred2 = model2.forward(x)
 neural_pred2 = pred2.detach().numpy()
 
-
+# input->3, 3->3, 3->3, 3->1
 model3L3W = torch.load('grubbyStar3L-3W.model')
 model3L3W.eval()
 pred3L3W = model3L3W.forward(x)
 neural_pred3L3W = pred3L3W.detach().numpy()
 
-
+# input->3, 3->3, 3->3, 3->3, 3->1
 model4L3W = torch.load('grubbyStar4L-3W.model')
 model4L3W.eval()
 pred4L3W = model4L3W.forward(x)
 neural_pred4L3W = pred4L3W.detach().numpy()
 
-
+# input->4, 4->4, 4->1
 model4L4W = torch.load('grubbyStar4L4W.model')
 model4L4W.eval()
 pred4L4W = model4L4W.forward(x)
@@ -573,8 +574,9 @@ print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
 print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")
 print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
-print("neural pred4L4W: " + str(str(int(round(neural_pred4L4W[0][0] * 100))))+"%")
+print("neural pred4L4W: " + str(int(round(neural_pred4L4W[0][0] * 100)))+"%")
 print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
+print("average neural: " + str((int(round(neural_pred[0][0]*100)) + int(round(neural_pred2[0][0]*100)) + int(round(neural_pred3L3W[0][0] * 100)) +int(round(neural_pred4L3W[0][0] * 100)) + int(round(neural_pred4L4W[0][0] * 100)))/5) +"%")
 print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
 print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
 print("random forests formula winrates: " + str(rf_trasformed)+"%")

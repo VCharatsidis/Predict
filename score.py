@@ -119,7 +119,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-n_predictions = 18
+n_predictions = 19
 participations = n_predictions * [0]
 
 counter = 0
@@ -132,7 +132,7 @@ print("cap "+str(cap))
 participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
-                17: "neural4L4W"}
+                17: "neural4L-3W", 18: "neural4L4W"}
 
 BALANCED = 305
 NEW_NNs = 350
