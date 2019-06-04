@@ -272,9 +272,9 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [0, 1, 3, 61, 56, 4]
-my_prediction = 83
-Vagelis = 82
+xin = [4, 1, 1, 62, 1150, 8]
+my_prediction = 75
+Vagelis = 0
 result = 1
 
 write = True
@@ -468,7 +468,7 @@ y_pred3 = classifier2.predict_proba([xin])
 # plt.show()
 
 
-clf = LogisticRegression(solver='lbfgs', max_iter=400, class_weight='balanced').fit(logistic_input, y)
+clf = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_input, y)
 y_pred_logistic = clf.predict_proba([xin])
 
 # show = [a[-1] for a in logistic_input if a[-1] <= 15]
@@ -484,14 +484,14 @@ strong_logistic = 0
 if games <= 15:
     logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
     y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
-    clf15 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input15, y_15)
+    clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
     y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
     strong_logistic = y_pred_logistic15[0][1]
 
 elif games < 40:
     logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
     y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 60]
-    clf35 = LogisticRegression(solver='lbfgs', max_iter=1000, class_weight='balanced').fit(logistic_input35, y_35)
+    clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
     print(len(y_35))
     y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
     strong_logistic = y_pred_logistic35[0][1]
@@ -499,7 +499,7 @@ elif games < 40:
 else:
     logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
     y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
-    clfRest = LogisticRegression(solver='lbfgs', max_iter=500, class_weight='balanced').fit(logistic_inputRest, y_Rest)
+    clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
     print(len(y_Rest))
 
     y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])

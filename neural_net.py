@@ -36,7 +36,7 @@ class MLP(nn.Module):
 
         super(MLP, self).__init__()
 
-        width = 6
+        width = 4
         self.layers = nn.Sequential(
 
             #nn.Dropout(p=0.5),

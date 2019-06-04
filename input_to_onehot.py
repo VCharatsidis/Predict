@@ -8,16 +8,15 @@ def get_predictions(data):
 
     contents = f.readlines()
 
-
     for line in contents:
         X = line.split('-')
 
-        if int(X[4]) < 57:
+        if int(X[4]) < 55:
             continue
 
         processed_X = []
-        max_prediction = 0.
-        min_prediction = 100.
+        max_prediction = 5.
+        min_prediction = 95.
         for x in X:
             if '%' in x:
                 x = x.replace('%', '')
@@ -76,6 +75,14 @@ def get_input():
         X = l.split('-')
 
         X[0] = float(X[0])
+        max_prediction = 95.
+        min_prediction = 5.
+
+        if X[0] == 1.:
+            X[0] = float(max_prediction / 100.)
+        else:
+            X[0] = float(min_prediction / 100.)
+
         X[4] = float(X[4])
         X[5] = float(X[5])
 
@@ -84,7 +91,7 @@ def get_input():
 
         X[6] = X[6].rstrip("\n")
 
-        if X[4] < 57:
+        if X[4] < 55:
             continue
 
         X = np.array(X)

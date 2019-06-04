@@ -22,7 +22,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 400000
+MAX_STEPS_DEFAULT = 800000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -70,9 +70,9 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    model_to_train = 'grubbyStarTest.model'
+    model_to_train = 'grubbyStar3L-3W.model'
 
-    validation_games = 100
+    validation_games = 80
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -114,6 +114,8 @@ def train():
     max_acc = 0
     min_loss = 100
 
+    loss_func = torch.nn.SmoothL1Loss()
+
     for iteration in range(MAX_STEPS_DEFAULT):
         BATCH_SIZE_DEFAULT = 32
         model.train()
@@ -131,7 +133,7 @@ def train():
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-        loss = nn.functional.binary_cross_entropy(output, y_train_batch)
+        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -155,16 +157,35 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = nn.functional.binary_cross_entropy(pred, targets)
+            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
 
-            if min_loss > calc_loss.item():
-                min_loss = calc_loss.item()
+            ###################
+
+            BATCH_SIZE_DEFAULT = len(X_train)
+            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            x = X_train[ids, :]
+            targets = y_train[ids]
+
+            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+
+            x = Variable(torch.FloatTensor(x))
+
+            pred = model.forward(x)
+
+            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = Variable(torch.FloatTensor(targets))
+
+            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+
+            p = 0.8
+            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
 
-                print("iteration: " + str(iteration) + " total accuracy " + str(acc) + " total loss " + str(
+                print("iteration: " + str(iteration) + " val accuracy " + str(acc)+ " train loss " + str(train_loss.item())+ " val loss " + str(
                     calc_loss.item()))
 
 
