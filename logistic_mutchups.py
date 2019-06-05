@@ -60,7 +60,6 @@ def logistic_reg(xin):
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 3])
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
-    print("Logistic regression train")
     clf = LogisticRegression(solver='lbfgs', max_iter=300, class_weight='balanced').fit(onehot_input, y)
 
     Grubby_race = race_dict[xin[0]]
@@ -94,12 +93,7 @@ def logistic_reg(xin):
 
     onehot_encoded.flatten()
 
-    print("manual one hot " + str(onehot_encoded))
-    print(len(onehot_encoded))
-
-    print("Logistic regression predict")
     y_pred_logistic = clf.predict_proba([onehot_encoded])
-    print(y_pred_logistic)
 
     return y_pred_logistic
 
@@ -107,8 +101,8 @@ def logistic_reg(xin):
 #0-Hum-t-Ne-60-660-northren
 
 xin = [0, 1, 0, 86, 3800, 3]
-logistic_reg(xin)
-
+res = logistic_reg(xin)
+print(res)
 
 
 

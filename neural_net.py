@@ -36,7 +36,7 @@ class MLP(nn.Module):
 
         super(MLP, self).__init__()
 
-        width = 4
+        width = 3
         self.layers = nn.Sequential(
 
             #nn.Dropout(p=0.5),
@@ -44,14 +44,17 @@ class MLP(nn.Module):
             nn.BatchNorm1d(width),
             nn.Tanh(),
 
-            #nn.Dropout(p=0.5),
-            nn.Linear(width, width),
-            nn.BatchNorm1d(width),
-            nn.Tanh(),
-            # #
             # nn.Linear(width, width),
             # nn.BatchNorm1d(width),
             # nn.Tanh(),
+            # # #
+            # nn.Linear(width, width),
+            # nn.BatchNorm1d(width),
+            # nn.Tanh(),
+            # #
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
 
             #nn.Dropout(p=0.5),
             nn.Linear(width, 1),

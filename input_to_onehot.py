@@ -17,6 +17,7 @@ def get_predictions(data):
         processed_X = []
         max_prediction = 5.
         min_prediction = 95.
+
         for x in X:
             if '%' in x:
                 x = x.replace('%', '')
@@ -29,10 +30,10 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_prediction = min(max_prediction+1, 100.)
-        min_prediction = max(min_prediction-1, 0.)
+        max_prediction = min(max_prediction+1, 95.)
+        min_prediction = max(min_prediction-1, 3.)
 
-        if X[0] == 1:
+        if float(X[0]) > 0.5:
             X[0] = float(max_prediction / 100.)
         else:
             X[0] = float(min_prediction / 100.)
@@ -40,8 +41,8 @@ def get_predictions(data):
         X[4] = float(X[4])
         X[5] = float(X[5])
 
-        if X[5] > 200:
-            X[5] = 200
+        if X[5] > 300:
+            X[5] = 300
 
         X[6] = X[6].rstrip("\n")
 
@@ -67,40 +68,42 @@ def get_input():
     contents = f.readlines()
 
     data = []
-    counter = 0
-    for l in contents:
-        if counter > 163:
-           break
-
-        X = l.split('-')
-
-        X[0] = float(X[0])
-        max_prediction = 95.
-        min_prediction = 5.
-
-        if X[0] == 1.:
-            X[0] = float(max_prediction / 100.)
-        else:
-            X[0] = float(min_prediction / 100.)
-
-        X[4] = float(X[4])
-        X[5] = float(X[5])
-
-        if X[5] > 200:
-            X[5] = 200
-
-        X[6] = X[6].rstrip("\n")
-
-        if X[4] < 55:
-            continue
-
-        X = np.array(X)
-        data.append(X)
-        counter += 1
+    # counter = 0
+    # for l in contents:
+    #     if counter > 162:
+    #        break
+    #
+    #     X = l.split('-')
+    #
+    #     X[0] = float(X[0])
+    #     max_prediction = 95.
+    #     min_prediction = 8.
+    #
+    #     if X[0] == 1.:
+    #         X[0] = float(max_prediction / 100.)
+    #     else:
+    #         X[0] = float(min_prediction / 100.)
+    #
+    #
+    #     X[4] = float(X[4])
+    #     X[5] = float(X[5])
+    #
+    #     if X[5] > 300:
+    #         X[5] = 300
+    #
+    #     X[6] = X[6].rstrip("\n")
+    #
+    #     if X[4] < 55:
+    #         continue
+    #
+    #     X = np.array(X)
+    #     data.append(X)
+    #     counter += 1
 
     get_predictions(data)
 
     print("data: " + str(len(data)))
+
     return data
 
 
@@ -147,3 +150,23 @@ def input_to_onehot():
     onehot_input[:, -2] = standardize(onehot_input[:, -2])
 
     return onehot_input, y, not_standardized_input
+
+
+def check_input():
+    predictions = open("predictions.txt", "r")
+    results = open("Grubb.txt", "r")
+
+    contents_pred = predictions.readlines()
+    contents_res = results.readlines()
+
+    for i in range(len(contents_pred)):
+        print(i)
+        print(contents_pred[i])
+        print(contents_res[i])
+        if contents_pred[i][0] != contents_res[i][0]:
+            print("ERROR")
+            print(i)
+            break
+
+
+check_input()

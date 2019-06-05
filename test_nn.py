@@ -76,27 +76,31 @@ def test_all(model):
     modelTest = torch.load(model)
     modelTest.eval()
 
-    ud = [4, 1, 4, 98, 100, 1]
+    ud = [4, 1, 4, 90, 10, 3]
     ud5 = [4, 1, 4, 95, 20, 1]
-    ud4 = [4, 1, 4, 98, 150, 6]
+    ud4 = [4, 1, 4, 98, 100, 1]
     ud1 = [4, 1, 4, 95, 100, 3]
-    ud2 = [4, 1, 4, 95, 3000, 3]
-    ud3 = [4, 1, 4, 90, 10, 3]
+    ud2 = [4, 1, 4, 98, 150, 6]
+    ud3 = [4, 1, 4, 95, 3000, 3]
 
-    orc = [2, 1, 2, 80, 180, 2]
+    orc = [2, 1, 4, 98, 13, 1]
     orc2 = [2, 1, 2, 60, 150, 2]
     orc3 = [2, 1, 4, 98, 1200, 1]
-    orc4 = [2, 1, 4, 98, 13, 1]
+    orc4 = [2, 1, 2, 80, 180, 2]
     orc5 = [2, 1, 1, 90, 1900, 6]
     orc6 = [2, 1, 1, 90, 1900, 9]
 
     hum = [0, 1, 0, 88, 3500, 9]
     hum1 = [0, 1, 0, 85, 3500, 4]
     hum3 = [0, 0, 4, 72, 165, 0]
+    hum4 = [0, 1, 1, 57, 120, 1]
 
     ne = [1, 1, 4, 100, 6, 6]
     ne1 = [1, 1, 0, 83, 150, 0]
     ne3 = [2, 1, 1, 86, 108, 6]
+    ne4 = [1, 1, 0, 85, 93, 2]
+    ne5 = [1, 1, 0, 85, 93, 3]
+
 
     undeads = []
     undeads.append(ud)
@@ -118,11 +122,14 @@ def test_all(model):
     humans.append(hum)
     humans.append(hum1)
     humans.append(hum3)
+    humans.append(hum4)
 
     nes = []
     nes.append(ne)
     nes.append(ne1)
     nes.append(ne3)
+    nes.append(ne4)
+    nes.append(ne5)
 
     mean1, std1, mean2, std2 = get_means_and_stds()
 
@@ -166,7 +173,7 @@ def parse_x(xin, prediction):
 
 
 def test_all_models():
-    models = ['grubbyStar.model', 'grubbyStar2.model', 'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model']
+    models = ['grubbyStar.model', 'grubbyStar2.model', 'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model', 'grubbyStar4L4W.model']
     for model in models:
         test_all(model)
 

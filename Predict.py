@@ -272,8 +272,8 @@ importances1 = classifier.feature_importances_
 
 #0-Hum-t-Hum-88-41-echo
 
-xin = [4, 1, 1, 62, 1150, 8]
-my_prediction = 75
+xin = [1, 1, 0, 67, 850, 0]
+my_prediction = 80
 Vagelis = 0
 result = 1
 
@@ -282,13 +282,8 @@ NEW_PATCH = 500
 
 
 
-
-
-rf_winrates_res, combo_importances = rf_winrates.predict(xin)
-rf_trasformed, _ = rf_transformed.predict(xin)
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
-preprocessed_logreg_no_formula = preprocessed_logreg.logistic_reg(xin, False)[0][1]
-preprocessed_logreg_formula = preprocessed_logreg.logistic_reg(xin, True)[0][1]
+
 
 
 # Hum = 0
@@ -540,25 +535,33 @@ if games < 40:
     preprocessed_logreg_formula = 0
     logistic_mutchups = 0
 
+avg_neural = (int(round(neural_pred[0][0] * 100)) +
+              int(round(neural_pred2[0][0] * 100)) +
+              int(round(neural_pred3L3W[0][0] * 100)) +
+              int(round(neural_pred4L3W[0][0] * 100)) +
+              int(round(neural_pred4L4W[0][0] * 100)) +
+              int(round(neural_predTest[0][0] * 100)))/6
+
 log =(s + "-" + str(pred1)
       + "%-" + str(0)
       + "%-" + str(pred3)
       + "%-" + str(0)
-      + "%-" + str(rf_winrates_res)
-      + "%-" + str(logistic_mutchups)
+      + "%-"
+      + "0%-" + str(logistic_mutchups)
       + "%-" + str(logistic_pred)
-      + "%-" + str(int(round(strong_logistic * 100)))
-      +"%-" + str(rf_trasformed)
-      +"%-" + str(Vagelis)
+      + "%-" + str(int(round(strong_logistic * 100)))+"%-"
+      + "0%-"
+      + str(Vagelis)
       +"%-" + str(my_prediction) +"%"
       +"-0%-"
-      + str(int(round(preprocessed_logreg_no_formula * 100))) + "%-"
-      + str(int(round(preprocessed_logreg_formula*100))) +"%"
-      +"-" + str(str(int(round(neural_pred[0][0]*100)))) +"%"
-      +"-" + str(str(int(round(neural_pred2[0][0]*100)))) +"%"
-      +"-" + str(str(int(round(neural_pred3L3W[0][0] * 100))))+"%"
-      +"-" + str(str(int(round(neural_pred4L3W[0][0] * 100))))+"%"
-      +"-" + str(str(int(round(neural_pred4L4W[0][0] * 100))))+"%"
+      + "0%-"
+      + "0%"
+      +"-" + str((int(round(neural_pred[0][0]*100)))) +"%"
+      +"-" + str((int(round(neural_pred2[0][0]*100)))) +"%"
+      +"-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
+      +"-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
+      +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
+      +"-" + str(round(avg_neural))
       +"\n")
 
 print(log)
@@ -566,8 +569,6 @@ print(log)
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("avg opponent winrate: " + str(avg_opponents_winrate))
 print("observed Grubby winrates: " + str(observed_grubby_winrates))
-print("combo importances")
-print(combo_importances)
 
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
@@ -576,14 +577,11 @@ print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")
 print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
 print("neural pred4L4W: " + str(int(round(neural_pred4L4W[0][0] * 100)))+"%")
 print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
-print("average neural: " + str((int(round(neural_pred[0][0]*100)) + int(round(neural_pred2[0][0]*100)) + int(round(neural_pred3L3W[0][0] * 100)) +int(round(neural_pred4L3W[0][0] * 100)) + int(round(neural_pred4L4W[0][0] * 100)))/5) +"%")
-print("preprocessed log_reg formula: " + str(int(round(preprocessed_logreg_formula * 100))) + "%")
-print("preprocessed log_reg : " + str(int(round(preprocessed_logreg_no_formula * 100))) + "%")
-print("random forests formula winrates: " + str(rf_trasformed)+"%")
-print("random forests winrates: " + str(rf_winrates_res) + "%")
+print("average neural: " + str(round(avg_neural)) +"%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
+print("numeric rf: " + str(pred1) + "%")
 
 
 
