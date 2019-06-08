@@ -9,7 +9,7 @@ def one_hot(xin):
 
     number_races = 5
     tryhard_or_not = 2
-    maps = 10
+    maps = 11
 
     one_h(onehot_encoded, number_races, xin[0])
     one_h(onehot_encoded, tryhard_or_not, xin[1])
@@ -155,7 +155,7 @@ def parse_x(xin, prediction):
     races = {0: 'Hum-', 1: 'Ne-', 2: 'Orc-', 3: 'Ra-', 4: 'Ud-'}
 
     maps = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas',
-            7: 'turtle', 8: 'twisted', 9: 'ancient'}
+            7: 'turtle', 8: 'twisted', 9: 'ancient', 10: 'nomad'}
 
     tryhard = {0: 'r-', 1: 't-'}
 
@@ -173,7 +173,8 @@ def parse_x(xin, prediction):
 
 
 def test_all_models():
-    models = ['grubbyStar.model', 'grubbyStar2.model', 'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model', 'grubbyStar4L4W.model']
+    models = ['grubbyStar.model', 'grubbyStar2.model',
+              'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model', 'grubbyStar4L4W.model', 'grubbyStarTest.model']
     for model in models:
         test_all(model)
 

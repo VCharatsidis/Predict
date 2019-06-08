@@ -1,19 +1,15 @@
 f = open("Grubb.txt", "r")
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 import copy
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
+
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import matplotlib.pyplot as plt
-import PredictV2
+
 import logistic_mutchups
-import rf_winrates
-import rf_transformed
-import preprocessed_logreg
+
 import torch
-from torch.autograd import Variable
-from input_to_onehot import input_to_onehot
+
 import test_nn
 
 def parse_one_hot(xin):
@@ -269,15 +265,15 @@ importances1 = classifier.feature_importances_
 # refuge = 4         ancient = 9
 
 # --------------------------------------------- Input -----------------------------------------------------------
+#0-Orc-r-Orc-62-2460-northren
+#68-Orc-0-Ra-68-280-6
 
-#0-Hum-t-Hum-88-41-echo
-
-xin = [1, 1, 0, 67, 850, 0]
-my_prediction = 80
+xin = [2, 0, 3, 68, 280, 6]
+my_prediction = 60
 Vagelis = 0
-result = 1
+result = 0
 
-write = True
+write = False
 NEW_PATCH = 500
 
 
@@ -325,7 +321,7 @@ letter[xin[2]] = 1
 for i in letter:
     onehot_encoded.append(i)
 
-letter = [0 for _ in range(10)]
+letter = [0 for _ in range(11)]
 letter[xin[5]] = 1
 for i in letter:
     onehot_encoded.append(i)
@@ -552,16 +548,16 @@ log =(s + "-" + str(pred1)
       + "%-" + str(int(round(strong_logistic * 100)))+"%-"
       + "0%-"
       + str(Vagelis)
-      +"%-" + str(my_prediction) +"%"
+      +"%-" + str(my_prediction) + "%"
       +"-0%-"
       + "0%-"
       + "0%"
-      +"-" + str((int(round(neural_pred[0][0]*100)))) +"%"
-      +"-" + str((int(round(neural_pred2[0][0]*100)))) +"%"
+      +"-" + str((int(round(neural_pred[0][0]*100)))) + "%"
+      +"-" + str((int(round(neural_pred2[0][0]*100)))) + "%"
       +"-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
-      +"-" + str(round(avg_neural))
+      +"-" + str(round(avg_neural))+"%"
       +"\n")
 
 print(log)

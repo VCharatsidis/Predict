@@ -8,21 +8,17 @@ from __future__ import print_function
 
 import argparse
 import numpy as np
-import os
 import torch
 from neural_net import MLP
-import torch.nn as nn
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import copy
 import test_nn
 from input_to_onehot import input_to_onehot
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 300000
+MAX_STEPS_DEFAULT = 500000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -70,7 +66,7 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    model_to_train = 'grubbyStar2.model'
+    model_to_train = 'grubbyStarTest.model'
 
     validation_games = 70
 
@@ -182,7 +178,7 @@ def train():
 
             train_loss = my_loss(pred, targets)
 
-            p = 0.75
+            p = 0.8
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
@@ -191,7 +187,7 @@ def train():
                     calc_loss.item()))
 
 
-    test_nn.test_all(model_to_train)
+    #test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
     print(max_acc)

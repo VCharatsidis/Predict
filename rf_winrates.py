@@ -116,7 +116,7 @@ def predict(xin):
     races = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
 
     maps = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas',
-            7: 'turtle', 8: 'twisted', 9:'ancient'}
+            7: 'turtle', 8: 'twisted', 9:'ancient', 10:'nomad'}
 
     input = get_input()
 
@@ -143,6 +143,6 @@ def predict(xin):
 
     return prediction, importances
 
-xin = [2, 1, 2, 80, 1200, 0]
-prediction,_ = predict(xin)
-print(str(prediction) + "%")
+# xin = [2, 1, 2, 80, 1200, 0]
+# prediction,_ = predict(xin)
+# print(str(prediction) + "%")

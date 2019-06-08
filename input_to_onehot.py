@@ -4,22 +4,24 @@ import copy
 
 
 def get_predictions(data):
-    f = open("predictions.txt", "r")
+    f = open("Targets.txt", "r")
 
     contents = f.readlines()
-
+    counter = 0
     for line in contents:
         X = line.split('-')
 
         if int(X[4]) < 55:
+            counter += 1
             continue
 
         processed_X = []
-        max_prediction = 5.
-        min_prediction = 95.
+        max_prediction = 3.
+        min_prediction = 97.
 
         for x in X:
             if '%' in x:
+                x = x.rstrip("\n")
                 x = x.replace('%', '')
                 pred = float(x)
 
@@ -30,8 +32,15 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_prediction = min(max_prediction+1, 95.)
-        min_prediction = max(min_prediction-1, 3.)
+        max_saturation = 10
+        min_saturation = 4
+
+        if counter > 575:
+            max_saturation = 0
+            min_saturation = 0
+
+        max_prediction = min(max_prediction - max_saturation, 97.)
+        min_prediction = max(min_prediction + min_saturation, 3.)
 
         if float(X[0]) > 0.5:
             X[0] = float(max_prediction / 100.)
@@ -54,55 +63,19 @@ def get_predictions(data):
         processed_X.append(X[5])
         processed_X.append(X[6])
 
-        X = np.array(X)
-
         processed_X = np.array(processed_X)
         data.append(processed_X)
+        counter += 1
 
     return data
 
 
 def get_input():
-    f = open("Grubb.txt", "r")
-
-    contents = f.readlines()
-
     data = []
-    # counter = 0
-    # for l in contents:
-    #     if counter > 162:
-    #        break
-    #
-    #     X = l.split('-')
-    #
-    #     X[0] = float(X[0])
-    #     max_prediction = 95.
-    #     min_prediction = 8.
-    #
-    #     if X[0] == 1.:
-    #         X[0] = float(max_prediction / 100.)
-    #     else:
-    #         X[0] = float(min_prediction / 100.)
-    #
-    #
-    #     X[4] = float(X[4])
-    #     X[5] = float(X[5])
-    #
-    #     if X[5] > 300:
-    #         X[5] = 300
-    #
-    #     X[6] = X[6].rstrip("\n")
-    #
-    #     if X[4] < 55:
-    #         continue
-    #
-    #     X = np.array(X)
-    #     data.append(X)
-    #     counter += 1
-
     get_predictions(data)
 
     print("data: " + str(len(data)))
+
 
     return data
 
@@ -153,7 +126,7 @@ def input_to_onehot():
 
 
 def check_input():
-    predictions = open("predictions.txt", "r")
+    predictions = open("Targets.txt", "r")
     results = open("Grubb.txt", "r")
 
     contents_pred = predictions.readlines()

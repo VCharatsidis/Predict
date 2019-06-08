@@ -133,10 +133,10 @@ participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average"}
 
-BALANCED = 305
-NEW_NNs = 350
-STRONG_LONG_NO_BALANCED = 388
-FIXED_INPUT = 400
+BALANCED = 468
+NEW_NNs = 513
+STRONG_LONG_NO_BALANCED = 530
+FIXED_INPUT = 563
 
 def calc_scores_vs_opponent(opponent, cap=95):
     scores_vs_opponent = n_predictions * [0]
@@ -157,7 +157,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         counter = 0
         for i in contents:
-            if counter > NEW_NNs:
+            if counter > FIXED_INPUT:
                 s = calc_scores(i, participations, counter, excluded, cap)
                 s = np.array(s)
                 total_scores = s + total_scores
@@ -175,7 +175,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
     return scores_vs_opponent
 
-opp = 10
+opp = 9
 scores_vs_opp = calc_scores_vs_opponent(opp, 92)
 # for p in range(n_predictions):
 #     if p == 1 or p == 3 or p == 11:
@@ -188,9 +188,9 @@ total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
 exc = [1, 3, 4, 8, 12, 13, 0, 2,6 ,7, 5]
-exc = [8, 4, 12,13]
+exc = [8, 4, 12,13,1, 3]
 for i in contents:
-    if counter > NEW_NNs:
+    if counter > FIXED_INPUT:
         s = calc_scores(i, participations, counter, exc)
         s = np.array(s)
         total_scores = s + total_scores

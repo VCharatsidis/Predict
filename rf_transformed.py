@@ -26,7 +26,7 @@ map_wins = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0
 maps_winrates = {'amazonia': 0, 'concealed': 0, 'echo': 0, 'northren': 0, 'refuge': 0, 'swamped': 0, 'terenas': 0,
                 'turtle': 0, 'twisted': 0, 'ancient': 0}
 
-globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.87, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.78}
+globa_grubby_winrates = {'Hum': 0.78, 'Ne': 0.86, 'Orc': 0.88, 'Ra': 0.8, 'Ud': 0.78}
 def get_input():
     counter = 0
     print(len(contents))
@@ -176,6 +176,6 @@ def predict(xin):
     return prediction, importances
 
 
-xin = [0, 1, 0, 80, 1200, 4]
-prediction, _ = predict(xin)
-print(str(prediction) + "%")
+# xin = [0, 1, 0, 80, 1200, 4]
+# prediction, _ = predict(xin)
+# print(str(prediction) + "%")

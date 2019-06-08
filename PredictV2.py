@@ -231,7 +231,7 @@ def logistic_reg(xin):
     for i in letter:
         onehot_encoded.append(i)
 
-    letter = [0 for _ in range(10)]
+    letter = [0 for _ in range(11)]
     letter[xin[5]] = 1
     for i in letter:
         onehot_encoded.append(i)
