@@ -174,7 +174,10 @@ def parse_x(xin, prediction):
 
 def test_all_models():
     models = ['grubbyStar.model', 'grubbyStar2.model',
-              'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model', 'grubbyStar4L4W.model', 'grubbyStarTest.model']
+              'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model',
+              'grubbyStar4L4W.model', 'grubbyStarTest.model',
+              'grubbyStarCrossEntropy.model']
+
     for model in models:
         test_all(model)
 
