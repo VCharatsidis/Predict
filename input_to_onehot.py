@@ -32,12 +32,8 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 10
-        min_saturation = 4
-
-        if counter > 575:
-            max_saturation = 0
-            min_saturation = 0
+        max_saturation = 8
+        min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 97.)
         min_prediction = max(min_prediction + min_saturation, 3.)
@@ -75,7 +71,6 @@ def get_input():
     get_predictions(data)
 
     print("data: " + str(len(data)))
-
 
     return data
 

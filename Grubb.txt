@@ -581,6 +581,14 @@
 0-Orc-t-Hum-92-178-refuge
 0-Ud-r-Hum-93-14-turtle
 1-Orc-t-Ud-81-430-nomad
-0-Orc-r-Orc-62-2460-northren
 1-Orc-r-Orc-62-2460-northren
 0-Orc-r-Ra-68-280-terenas
+1-Orc-t-Hum-62-1420-echo
+1-Orc-t-Ud-62-2420-twisted
+1-Orc-t-Ud-58-1010-amazonia
+1-Orc-t-Hum-91-1-amazonia
+0-Orc-t-Ud-98-410-echo
+1-Orc-t-Ne-63-1200-terenas
+1-Orc-t-Hum-58-110-northren
+1-Orc-t-Hum-62-140-northren
+1-Orc-t-Ne-58-71-refuge

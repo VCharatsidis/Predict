@@ -18,7 +18,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 500000
+MAX_STEPS_DEFAULT = 700000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -66,9 +66,15 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    model_to_train = 'grubbyStarTest.model'
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        print("cuda")
+    else:
+        device = torch.device('cpu')
 
-    validation_games = 70
+    model_to_train = 'grubbyStar4L-3W.model'
+
+    validation_games = 80
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -128,8 +134,7 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-
-        loss = my_loss(output, y_train_batch)
+        loss = loss_func(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -153,7 +158,7 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = my_loss(pred, targets)
+            calc_loss = loss_func(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -176,7 +181,7 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = my_loss(pred, targets)
+            train_loss = loss_func(pred, targets)
 
             p = 0.8
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -187,7 +192,7 @@ def train():
                     calc_loss.item()))
 
 
-    #test_nn.test_all(model_to_train)
+    test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
     print(max_acc)
@@ -205,6 +210,11 @@ def train():
 
 def my_loss(output, target):
     loss = torch.mean((3+output) * ((output - target) ** 2))
+    return loss
+
+
+def center_my_loss(output, target):
+    loss = torch.mean(((target - 0.5)/5) ** 4 + ((output - target) ** 2))
     return loss
 
 

@@ -265,15 +265,14 @@ importances1 = classifier.feature_importances_
 # refuge = 4         ancient = 9
 
 # --------------------------------------------- Input -----------------------------------------------------------
-#0-Orc-r-Orc-62-2460-northren
-#68-Orc-0-Ra-68-280-6
 
-xin = [2, 0, 3, 68, 280, 6]
-my_prediction = 60
+
+xin = [2, 1, 1, 58, 71, 4]
+my_prediction = 82
 Vagelis = 0
-result = 0
+result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
