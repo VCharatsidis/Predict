@@ -589,3 +589,7 @@
 1-Orc-t-Hum-91-1-amazonia-84%
 0-Orc-t-Ud-98-410-echo-10%
 1-Orc-t-Ne-63-1200-terenas-89%
+1-Orc-t-Hum-58-110-northren-97%
+1-Orc-t-Hum-62-140-northren-97%
+1-Orc-t-Ne-58-71-refuge-96%
+1-Orc-t-Ud-68-293-twisted-88%

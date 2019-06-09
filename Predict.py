@@ -3,158 +3,23 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import copy
 from sklearn.linear_model import LogisticRegression
-
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-
 import logistic_mutchups
-
 import torch
-
 import test_nn
-
-def parse_one_hot(xin):
-
-    data = ""
-    if xin[0] ==1:
-        data += "Hum "
-    elif xin[1]==1:
-        data += " Ne "
-    elif xin[2]==1:
-        data += " Orc "
-    elif xin[3]==1:
-        data += " Ra "
-    elif xin[4]==1:
-        data += " Ud"
-
-    data += " vs "
-
-    if xin[7]==1:
-        data += " Hum "
-    elif xin[8]==1:
-        data += " Ne "
-    elif xin[9]==1:
-        data += " Orc "
-    elif xin[10]==1:
-        data += " Ra "
-    elif xin[11]==1:
-        data += " Ud"
-
-    # amazonia = 0
-    # concealed = 1
-    # echo = 2
-    # northren = 3
-    # refuge = 4
-    # swamped = 5
-    # terenas = 6
-    # turtle = 7
-    # twisted = 8
-
-    if len(xin) > 11:
-        if xin[12] == 1:
-            data += " amazonia "
-        elif xin[13] == 1:
-            data += " concealed "
-        elif xin[14] == 1:
-            data += " echo "
-        elif xin[15] == 1:
-            data += " northren "
-        elif xin[16] == 1:
-            data += " refuge"
-        elif xin[17] == 1:
-            data += " swamped "
-        elif xin[18] == 1:
-            data += " terenas "
-        elif xin[19] == 1:
-            data += " turtle "
-        elif xin[20] == 1:
-            data += " twisted"
-        elif xin[21] == 1:
-            data += " ancient"
-
-        if xin[5] == 0:
-            data += " tryhard "
-        else:
-            data += " request"
-
-        data += " "+str(xin[21])+"%"
-
-        data += " se "+str(xin[22])+" games"
-
-    else:
-        if xin[10] == 1:
-            data += " tryhard "
-        else:
-            data += " request"
-
-        data += " " + str(xin[11]) + "%"
-
-        data += " se " + str(xin[12]) + " games"
-
-    return data
+import config
 
 def parse_x(xin, result):
     data = str(result)+"-"
 
-    if xin[0] == 0:
-        data += "Hum-"
-    elif xin[0] == 1:
-        data += "Ne-"
-    elif xin[0] == 2:
-        data += "Orc-"
-    elif xin[0] == 3:
-        data += "Ra-"
-    elif xin[0] == 4:
-        data += "Ud-"
-
-    if xin[1] == 1:
-        data += "t-"
-    else:
-        data += "r-"
-
-    if xin[2] == 0:
-        data += "Hum-"
-    elif xin[2] == 1:
-        data += "Ne-"
-    elif xin[2] == 2:
-        data += "Orc-"
-    elif xin[2] == 3:
-        data += "Ra-"
-    elif xin[2] == 4:
-        data += "Ud-"
-
+    data += config.races[xin[0]]
+    data += config.tryhard[xin[1]]
+    data += config.races[xin[2]]
     data += str(xin[3])
     data += "-"+str(xin[4])+"-"
 
-    # amazonia = 0
-    # concealed = 1
-    # echo = 2
-    # northren = 3
-    # refuge = 4
-    # swamped = 5
-    # terenas = 6
-    # turtle = 7
-    # twisted = 8
     if(len(xin)>5):
-        if xin[5] == 0:
-            data += "amazonia"
-        elif xin[5] == 1:
-            data += "concealed"
-        elif xin[5] == 2:
-            data += "echo"
-        elif xin[5] == 3:
-            data += "northren"
-        elif xin[5] == 4:
-            data += "refuge"
-        elif xin[5] == 5:
-            data += "swamped"
-        elif xin[5] == 6:
-            data += "terenas"
-        elif xin[5] == 7:
-            data += "turtle"
-        elif xin[5] == 8:
-            data += "twisted"
-        elif xin[5] == 9:
-            data += "ancient"
+        data += config.maps[xin[5]]
 
     return data
 
@@ -175,7 +40,7 @@ for l in contents:
     X = l.split('-')
 
     X[4] = int(X[4])
-    if X[4] < 58:
+    if X[4] < 57:
         continue
 
     X[5] = int(X[5])
@@ -248,17 +113,21 @@ input2 = copy.deepcopy(input)
 errors = []
 estimators = 500
 
-classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
-classifier.fit(input, y)
-oob_error1 = 1 - classifier.oob_score_
+numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
+numeric_rf.fit(input, y)
+oob_error1 = 1 - numeric_rf.oob_score_
 errors.append(oob_error1)
-importances1 = classifier.feature_importances_
+importances1 = numeric_rf.feature_importances_
+
+print("oob error: " + str(oob_error1))
+
+np.set_printoptions(precision=2)
+importances1 = ['%.2f'%(float(a)) for a in importances1]
+print("importances: " + str(importances1))
 
 
 
-
-
-# amazonia = 0       swamped = 5
+# amazonia = 0       swamped = 5      nomad = 10
 # concealed = 1      terenas = 6
 # echo = 2           turtle = 7
 # northren = 3       twisted = 8
@@ -267,12 +136,12 @@ importances1 = classifier.feature_importances_
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 1, 58, 71, 4]
-my_prediction = 82
+xin = [2, 1, 2, 70, 293, 8]
+my_prediction = 70
 Vagelis = 0
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
 
 
@@ -337,7 +206,7 @@ onehot_encoded.flatten()
 # print(parse_one_hot(xin))
 
 # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-y_pred1 = classifier.predict_proba([xin])
+y_pred1 = numeric_rf.predict_proba([xin])
 
 
 # One Hot ############################################################
@@ -423,31 +292,22 @@ print(neural_predTest)
 # neural_pred4Lall2 = predi3L.detach().numpy()
 # print(neural_pred4Lall2)
 
-############################################################## End neural nets ###############################
+############################################################## one hot rf ###############################
 
 
-estimators2 = 300
-classifier2 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
-classifier2.fit(onehot_input, y)
-oob_error3 = 1 - classifier2.oob_score_
+estimators2 = 500
+one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
+one_hot_rf.fit(onehot_input, y)
+oob_error3 = 1 - one_hot_rf.oob_score_
 errors.append(oob_error3)
 
 xin = onehot_encoded
-y_pred3 = classifier2.predict_proba([xin])
+y_pred3 = one_hot_rf.predict_proba([xin])
 
+importances2 = one_hot_rf.feature_importances_
+importances2 = ['%.2f'%(float(a)) for a in importances2]
+print("one hot importances: " + str(importances2))
 
-# xin2 = [xin[0], xin[1], xin[2], xin[3], xin[4], xin[5], xin[6], xin[7], xin[8], xin[9], xin[10], xin[11], xin[21], xin[22]]
-#
-# input2 = input2[:, :-1]
-# onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2])
-# onehot_input = onehotencoder.fit_transform(input2).toarray()
-#
-#
-# classifier3 = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
-# classifier3.fit(onehot_input, y)
-# oob_error4 = 1 - classifier3.oob_score_
-# errors.append(oob_error4)
-# y_pred4 = classifier3.predict_proba([xin2])
 
 ################################## Logistic  -------------------------------------------------
 
@@ -495,30 +355,13 @@ else:
     y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
     strong_logistic = y_pred_logisticRest[0][1]
 
-
-#print(y_pred_logisticRest)
-
-
-classifier = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
-classifier.fit(input, y)
-
-
 ###############################  K nearest neightours   ##############################################
-
-
-print(parse_one_hot(xin))
-
-np.set_printoptions(precision=2)
-importances = classifier.feature_importances_
-importances2 = classifier2.feature_importances_
-importances2 = ['%.2f'%(float(a)) for a in importances2]
 
 
 s = parse_x(to_print, result)
 
 pred1 = int(round(y_pred1[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
-
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 
@@ -526,8 +369,6 @@ logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 40:
-    preprocessed_logreg_no_formula = 0
-    preprocessed_logreg_formula = 0
     logistic_mutchups = 0
 
 avg_neural = (int(round(neural_pred[0][0] * 100)) +
@@ -565,6 +406,8 @@ print(log)
 print("avg opponent winrate: " + str(avg_opponents_winrate))
 print("observed Grubby winrates: " + str(observed_grubby_winrates))
 
+print("numeric rf: " + str(pred1) + "%")
+print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
@@ -573,16 +416,11 @@ print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
 print("neural pred4L4W: " + str(int(round(neural_pred4L4W[0][0] * 100)))+"%")
 print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
 print("average neural: " + str(round(avg_neural)) +"%")
-print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
-print("numeric rf: " + str(pred1) + "%")
 
 
 
-
-#errors = np.array(errors)
-#print(str(errors)+"--"+str(estimators))
 
 
 #################################       H2O       #############################################

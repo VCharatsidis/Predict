@@ -100,9 +100,9 @@ def logistic_reg(xin):
 
 #0-Hum-t-Ne-60-660-northren
 
-xin = [0, 1, 0, 86, 3800, 3]
-res = logistic_reg(xin)
-print(res)
+# xin = [0, 1, 0, 86, 3800, 3]
+# res = logistic_reg(xin)
+# print(res)
 
 
 

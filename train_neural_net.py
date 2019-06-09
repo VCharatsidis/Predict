@@ -18,7 +18,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 700000
+MAX_STEPS_DEFAULT = 800000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -72,7 +72,7 @@ def train():
     else:
         device = torch.device('cpu')
 
-    model_to_train = 'grubbyStar4L-3W.model'
+    model_to_train = 'grubbyStar.model'
 
     validation_games = 80
 
