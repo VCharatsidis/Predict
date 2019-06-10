@@ -12,9 +12,9 @@ import config
 def parse_x(xin, result):
     data = str(result)+"-"
 
-    data += config.races[xin[0]]
+    data += config.races[xin[0]]+"-"
     data += config.tryhard[xin[1]]
-    data += config.races[xin[2]]
+    data += config.races[xin[2]]+"-"
     data += str(xin[3])
     data += "-"+str(xin[4])+"-"
 
@@ -40,7 +40,7 @@ for l in contents:
     X = l.split('-')
 
     X[4] = int(X[4])
-    if X[4] < 57:
+    if X[4] < 55:
         continue
 
     X[5] = int(X[5])
@@ -119,11 +119,11 @@ oob_error1 = 1 - numeric_rf.oob_score_
 errors.append(oob_error1)
 importances1 = numeric_rf.feature_importances_
 
-print("oob error: " + str(oob_error1))
+
 
 np.set_printoptions(precision=2)
 importances1 = ['%.2f'%(float(a)) for a in importances1]
-print("importances: " + str(importances1))
+
 
 
 
@@ -136,8 +136,8 @@ print("importances: " + str(importances1))
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 2, 70, 293, 8]
-my_prediction = 70
+xin = [2, 1, 4, 98, 470, 10]
+my_prediction = 74
 Vagelis = 0
 result = 1
 
@@ -306,7 +306,7 @@ y_pred3 = one_hot_rf.predict_proba([xin])
 
 importances2 = one_hot_rf.feature_importances_
 importances2 = ['%.2f'%(float(a)) for a in importances2]
-print("one hot importances: " + str(importances2))
+
 
 
 ################################## Logistic  -------------------------------------------------
@@ -419,7 +419,11 @@ print("average neural: " + str(round(avg_neural)) +"%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 
-
+print()
+print("oob error numeric rf: " + str(oob_error1))
+print("importances numeric rf: " + str(importances1))
+# print("one hot importances: " + str(importances2))
+print("oob error one hot rf: " + str(oob_error3))
 
 
 

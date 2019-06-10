@@ -593,3 +593,9 @@
 1-Orc-t-Hum-62-140-northren-97%
 1-Orc-t-Ne-58-71-refuge-96%
 1-Orc-t-Ud-68-293-twisted-88%
+1-Orc-r-Ud-79-21-amazonia-85%
+1-Orc-t-Hum-80-40-concealed-88%
+0-Orc-t-Ne-85-197-echo-24%
+1-Orc-t-Hum-73-1220-refuge-94%
+1-Orc-r-Hum-67-870-turtle-91%
+1-Orc-r-Hum-66-268-echo-88%

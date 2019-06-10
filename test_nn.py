@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from torch.autograd import Variable
 from input_to_onehot import input_to_onehot
-
+import config
 
 def one_hot(xin):
     onehot_encoded = []
@@ -85,7 +85,7 @@ def test_all(model):
 
     orc = [2, 1, 4, 98, 13, 1]
     orc2 = [2, 1, 2, 60, 150, 2]
-    orc3 = [2, 1, 4, 98, 1200, 1]
+    orc3 = [2, 1, 4, 98, 1200, 10]
     orc4 = [2, 1, 2, 80, 180, 2]
     orc5 = [2, 1, 1, 90, 1900, 6]
     orc6 = [2, 1, 1, 90, 1900, 9]
@@ -152,20 +152,14 @@ def print_results(undeads, mean1, std1, mean2, std2, model):
 
 
 def parse_x(xin, prediction):
-    races = {0: 'Hum-', 1: 'Ne-', 2: 'Orc-', 3: 'Ra-', 4: 'Ud-'}
-
-    maps = {0: 'amazonia', 1: 'concealed', 2: 'echo', 3: 'northren', 4: 'refuge', 5: 'swamped', 6: 'terenas',
-            7: 'turtle', 8: 'twisted', 9: 'ancient', 10: 'nomad'}
-
-    tryhard = {0: 'r-', 1: 't-'}
 
     data = ""
-    data += races[xin[0]]
-    data += tryhard[xin[1]]
-    data += races[xin[2]]
+    data += config.races[xin[0]]+"-"
+    data += config.tryhard[xin[1]]
+    data += config.races[xin[2]]+"-"
     data += str(xin[3])
     data += "-"+str(xin[4])+"-"
-    data += maps[xin[5]]+"-"
+    data += config.maps[xin[5]]+"-"
     data += prediction+"%"
 
     print(data)
@@ -182,4 +176,4 @@ def test_all_models():
         test_all(model)
 
 
-#test_all_models()
+test_all_models()

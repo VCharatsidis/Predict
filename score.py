@@ -1,6 +1,6 @@
 from operator import add
 import numpy as np
-
+from matplotlib import pyplot as plt
 
 
 def excluded(i, excluded):
@@ -9,10 +9,13 @@ def excluded(i, excluded):
             return True
 
 
+points = []
+points.append(0)
 def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
     z = preds.split("-")
     #print(z)
     predictions = []
+
 
     for s in z:
         if '%' in s:
@@ -70,44 +73,57 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 
             participations[i] += 1
             participations[j] += 1
+            val = 0
             if result == 1:
                 if predictions[i] > predictions[j]:
                     if predictions[i] > 50:
                         value = 1
+                        val = value
                         s[i] += value
                         s[j] -= value
                     else:
                         value = (100 - predictions[i]) / predictions[i]
+                        val = value
                         s[i] += value
                         s[j] -= value
                 else:
                     if predictions[j] > 50:
                         value = 1
+                        val = - value
                         s[i] -= value
                         s[j] += value
                     else:
                         value = (100 - predictions[j]) / predictions[j]
+                        val = - value
                         s[i] -= value
                         s[j] += value
             else:
                 if predictions[i] > predictions[j]:
                     if predictions[i] > 50:
                         value = predictions[i] / (100 - predictions[i])
+                        val = - value
                         s[i] -= value
                         s[j] += value
                     else:
                         value = 1
+                        val = - value
                         s[i] -= value
                         s[j] += value
                 else:
                     if predictions[j] > 50:
                         value = predictions[j] / (100 - predictions[j])
+                        val = value
                         s[i] += value
                         s[j] -= value
                     else:
                         value = 1
+                        val = value
                         s[i] += value
                         s[j] -= value
+
+
+            if i == 0 and j==9:
+                points.append(points[-1] + val)
 
     if sum(s) > 0.00001:
         print("error no zero sum")
@@ -137,8 +153,8 @@ BALANCED = 468
 NEW_NNs = 513
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
-LIMIT = 550
-opp = 0
+LIMIT = 580
+opp = 9
 
 def calc_scores_vs_opponent(opponent, cap=95):
     scores_vs_opponent = n_predictions * [0]
@@ -191,6 +207,8 @@ counter = 0
 participations = n_predictions * [0]
 exc = [1, 3, 4, 8, 12, 13, 0, 2,6 ,7, 5]
 exc = [8, 4, 12,13,1, 3]
+points = []
+points.append(0)
 for i in contents:
     if counter > LIMIT:
         s = calc_scores(i, participations, counter, exc)
@@ -199,6 +217,10 @@ for i in contents:
 
     counter += 1
 
+print(points)
+plt.plot(points)
+plt.ylabel('losses')
+plt.show()
 print("participations")
 print(participations)
 print("total means")

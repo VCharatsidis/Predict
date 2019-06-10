@@ -18,7 +18,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 800000
+MAX_STEPS_DEFAULT = 1000000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -72,7 +72,7 @@ def train():
     else:
         device = torch.device('cpu')
 
-    model_to_train = 'grubbyStar.model'
+    model_to_train = 'grubbyStar3L-3W.model'
 
     validation_games = 80
 
@@ -214,7 +214,7 @@ def my_loss(output, target):
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(((target - 0.5)/5) ** 4 + ((output - target) ** 2))
+    loss = torch.mean(((target - 0.5)/(0.5+10*torch.abs(target-output))) ** 4 + ((output - target) ** 2))
     return loss
 
 

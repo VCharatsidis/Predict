@@ -4,7 +4,6 @@ orc_dict = {'Hum': 10, 'Ne': 11, 'Orc': 12, 'Ra': 13, 'Ud': 14}
 ra_dict = {'Hum': 15, 'Ne': 16, 'Orc': 17, 'Ra': 18, 'Ud': 19}
 ud_dict = {'Hum': 20, 'Ne': 21, 'Orc': 22, 'Ra': 23, 'Ud': 24}
 
-race_dict = {0: 'Hum', 1: 'Ne', 2: 'Orc', 3: 'Ra', 4: 'Ud'}
 
 muchups_dicts = {'Hum': hum_dict, 'Ne': ne_dict, 'Orc': orc_dict, 'Ra': ra_dict, 'Ud': ud_dict}
 
@@ -12,6 +11,7 @@ muchups_dicts = {'Hum': hum_dict, 'Ne': ne_dict, 'Orc': orc_dict, 'Ra': ra_dict,
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+import config
 
 ################################## Logistic  -------------------------------------------------
 
@@ -62,8 +62,8 @@ def logistic_reg(xin):
 
     clf = LogisticRegression(solver='lbfgs', max_iter=300, class_weight='balanced').fit(onehot_input, y)
 
-    Grubby_race = race_dict[xin[0]]
-    opponent_race = race_dict[xin[2]]
+    Grubby_race = config.races[xin[0]]
+    opponent_race = config.races[xin[2]]
 
     xin = [muchups_dicts[Grubby_race][opponent_race], xin[1], xin[3], xin[5]]
 
@@ -89,7 +89,6 @@ def logistic_reg(xin):
     onehot_encoded.flatten()
 
     onehot_encoded = np.append(onehot_encoded, xin[2])
-    #onehot_encoded = np.append(onehot_encoded, xin[3])
 
     onehot_encoded.flatten()
 
