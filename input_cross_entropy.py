@@ -49,7 +49,7 @@ def standardize(X):
     return newX
 
 
-def input_to_onehot():
+def cross_entropy_input_to_onehot():
     labelencoder = LabelEncoder()
     input = get_input()
 

@@ -122,7 +122,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
                         s[j] -= value
 
 
-            if i == 0 and j==9:
+            if i == graph_a and j==graph_b:
                 points.append(points[-1] + val)
 
     if sum(s) > 0.00001:
@@ -135,7 +135,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 f = open("predictions.txt", "r")
 contents = f.readlines()
 
-n_predictions = 20
+n_predictions = 21
 participations = n_predictions * [0]
 
 counter = 0
@@ -144,17 +144,20 @@ cap = 95
 
 print("cap "+str(cap))
 
-participants = {0: "numerical rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
+participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
-                17: "neural4L-3W", 18: "neural4L4W", 19: "neural average"}
+                17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
 
 BALANCED = 468
 NEW_NNs = 513
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
-LIMIT = 580
-opp = 9
+LIMIT = -1
+opp = 5
+graph_a = 7
+graph_b = 9
+
 
 def calc_scores_vs_opponent(opponent, cap=95):
     scores_vs_opponent = n_predictions * [0]
@@ -205,8 +208,8 @@ total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
-exc = [1, 3, 4, 8, 12, 13, 0, 2,6 ,7, 5]
-exc = [8, 4, 12,13,1, 3]
+
+exc = [1, 8, 4, 12,13, 3]
 points = []
 points.append(0)
 for i in contents:
@@ -219,7 +222,9 @@ for i in contents:
 
 print(points)
 plt.plot(points)
-plt.ylabel('losses')
+plt.title(participants[graph_a]+" vs " + participants[graph_b])
+plt.ylabel('winnings '+ participants[graph_a])
+plt.xlabel('bets')
 plt.show()
 print("participations")
 print(participations)

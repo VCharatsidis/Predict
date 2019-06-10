@@ -511,7 +511,7 @@
 1-Hum-t-Ud-67-470-concealed-89%
 0-Orc-t-Ud-86-69-concealed-35%
 1-Ra-t-Ra-67-57-ancient-93%
-1-Ud-t-Ud-86-4000-ancient-91%
+1-Ud-t-Ud-86-4000-ancient-71%
 1-Orc-t-Ra-81-152-turtle-94%
 1-Ne-t-Ne-73-1100-concealed-92%
 0-Orc-t-Ud-87-4000-terenas-20%

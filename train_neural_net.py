@@ -18,7 +18,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 1000000
+MAX_STEPS_DEFAULT = 900000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -72,9 +72,9 @@ def train():
     else:
         device = torch.device('cpu')
 
-    model_to_train = 'grubbyStar3L-3W.model'
+    model_to_train = 'grubbyStar4L-3W.model'
 
-    validation_games = 80
+    validation_games = 0
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -140,58 +140,58 @@ def train():
         loss.backward(retain_graph=True)
         optimizer.step()
 
-        if iteration % EVAL_FREQ_DEFAULT == 0:
-            model.eval()
+        # if iteration % EVAL_FREQ_DEFAULT == 0:
+        #     model.eval()
+        #
+        #     BATCH_SIZE_DEFAULT = len(X_test)
+        #     ids = np.array(range(BATCH_SIZE_DEFAULT))
+        #     x = X_test[ids, :]
+        #     targets = y_test[ids]
+        #
+        #     x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+        #
+        #     x = Variable(torch.FloatTensor(x))
+        #
+        #     pred = model.forward(x)
+        #
+        #     acc = accuracy(pred, targets)
+        #     targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+        #     targets = Variable(torch.FloatTensor(targets))
+        #
+        #     calc_loss = loss_func(pred, targets)
+        #
+        #     accuracies.append(acc)
+        #     losses.append(calc_loss.item())
+        #
+        #     ###################
+        #
+        #     BATCH_SIZE_DEFAULT = len(X_train)
+        #     ids = np.array(range(BATCH_SIZE_DEFAULT))
+        #     x = X_train[ids, :]
+        #     targets = y_train[ids]
+        #
+        #     x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+        #
+        #     x = Variable(torch.FloatTensor(x))
+        #
+        #     pred = model.forward(x)
+        #
+        #     targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+        #     train_acc = accuracy(pred, targets)
+        #
+        #     targets = Variable(torch.FloatTensor(targets))
+        #
+        #     train_loss = loss_func(pred, targets)
+        #
+        #     p = 0.8
+        #     if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+        #         min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
+        #         torch.save(model, model_to_train)
+        #
+        #         print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+        #             calc_loss.item()))
 
-            BATCH_SIZE_DEFAULT = len(X_test)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_test[ids, :]
-            targets = y_test[ids]
-
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
-            x = Variable(torch.FloatTensor(x))
-
-            pred = model.forward(x)
-
-            acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-            targets = Variable(torch.FloatTensor(targets))
-
-            calc_loss = loss_func(pred, targets)
-
-            accuracies.append(acc)
-            losses.append(calc_loss.item())
-
-            ###################
-
-            BATCH_SIZE_DEFAULT = len(X_train)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_train[ids, :]
-            targets = y_train[ids]
-
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
-            x = Variable(torch.FloatTensor(x))
-
-            pred = model.forward(x)
-
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-            train_acc = accuracy(pred, targets)
-
-            targets = Variable(torch.FloatTensor(targets))
-
-            train_loss = loss_func(pred, targets)
-
-            p = 0.8
-            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
-                torch.save(model, model_to_train)
-
-                print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                    calc_loss.item()))
-
-
+    torch.save(model, model_to_train)
     test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
@@ -214,7 +214,7 @@ def my_loss(output, target):
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(((target - 0.5)/(0.5+10*torch.abs(target-output))) ** 4 + ((output - target) ** 2))
+    loss = torch.mean(((target - 0.5)/(0.8+10*torch.abs(target-output))) ** 4 + ((output - target) ** 2))
     return loss
 
 

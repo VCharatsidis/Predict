@@ -282,6 +282,13 @@ neural_predTest = predTest.detach().numpy()
 print(neural_predTest)
 
 
+modelCross = torch.load('grubbyStarCrossEntropy.model')
+modelCross.eval()
+predCross = modelCross.forward(x)
+neural_predCross = predCross.detach().numpy()
+print(neural_predCross)
+
+
 
 # model4Lall2 = torch.load('grubbyStar4L-2-2-2-1.model')
 # model4Lall2.eval()
@@ -398,6 +405,7 @@ log =(s + "-" + str(pred1)
       +"-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
       +"-" + str(round(avg_neural))+"%"
+      +"-" + str((int(round(neural_predCross[0][0]*100))) + "%")
       +"\n")
 
 print(log)
@@ -409,6 +417,7 @@ print("observed Grubby winrates: " + str(observed_grubby_winrates))
 print("numeric rf: " + str(pred1) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
+print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
 print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")
