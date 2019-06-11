@@ -9,6 +9,7 @@ import torch
 import test_nn
 import config
 
+
 def parse_x(xin, result):
     data = str(result)+"-"
 
@@ -61,6 +62,7 @@ for l in contents:
     avg_opponents_winrate += int(X[4])
     counter += 1
 
+
 for key in observed_grubby_wins.keys():
     observed_grubby_winrates[key] = observed_grubby_wins[key] / observer_grubby_games[key]
 
@@ -91,8 +93,6 @@ input = input[:, 1:]
 # input[:,3] = x3[:,0]
 # input[:,4] = x4[:,0]
 
-input_h2o = copy.deepcopy(input)
-
 
 input[:, 0] = labelencoder.fit_transform(input[:, 0])
 input[:, 0] = [int(x) for x in input[:, 0]]
@@ -111,7 +111,7 @@ input2 = copy.deepcopy(input)
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
-estimators = 500
+estimators = 1000
 
 numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
 numeric_rf.fit(input, y)
@@ -136,12 +136,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 4, 98, 470, 10]
-my_prediction = 74
+xin = [0, 1, 4, 60, 140, 4]
+my_prediction = 76
 Vagelis = 0
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
@@ -211,23 +211,6 @@ y_pred1 = numeric_rf.predict_proba([xin])
 
 # One Hot ############################################################
 
-# amazonia = 0
-# concealed = 1
-# echo = 2
-# northren = 3
-# refuge = 4
-# swamped = 5
-# terenas = 6
-# turtle = 7
-# twisted = 8
-
-#xin = [1., 0., 0., 0., 0.,      0., 1., 0., 0., 0.,   0., 0., 0., 1., 0., 0., 0., 0., 0.,       1,      89, 430]
-
-# Hum = 0
-# Ne = 1
-# Orc = 2
-# Ra = 3
-# Ud = 4
 
 onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
 onehot_input = onehotencoder.fit_transform(input2).toarray()
@@ -302,7 +285,7 @@ print(neural_predCross)
 ############################################################## one hot rf ###############################
 
 
-estimators2 = 500
+estimators2 = 1000
 one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
 one_hot_rf.fit(onehot_input, y)
 oob_error3 = 1 - one_hot_rf.oob_score_
@@ -405,7 +388,7 @@ log =(s + "-" + str(pred1)
       +"-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
       +"-" + str(round(avg_neural))+"%"
-      +"-" + str((int(round(neural_predCross[0][0]*100))) + "%")
+      +"-" + str((int(round(neural_predCross[0][0]*100)))) + "%"
       +"\n")
 
 print(log)
@@ -438,33 +421,38 @@ print("oob error one hot rf: " + str(oob_error3))
 
 #################################       H2O       #############################################
 
-
 # import h2o
-# from h2o.estimators.random_forest import H2ORandomForestEstimator
+# import os
+# from h2o import H2OFrame
+#
 #
 # h2o.init()
+# h2o.remove_all()
+# from h2o.estimators.random_forest import H2ORandomForestEstimator
+# covtype_df = h2o.import_file(os.path.realpath("GrubbC.csv"))
 #
-# # get training and prediction data sets
-# air = input_h2o
-# # only use columns 1 through 11
+# train, valid, test = covtype_df.split_frame([0.8, 0.1], seed=1234)
+# covtype_X = covtype_df.col_names[1:]     #last column is Cover_Type, our desired response variable
+# covtype_y = covtype_df.col_names[0]
 #
+# print(test)
+# rf_v1 = H2ORandomForestEstimator(
+#     model_id="rf_covType_v1",
+#     categorical_encoding='auto',
+#     ntrees=500,
+#     stopping_rounds=2,
+#     score_each_iteration=True,
+#     seed=1000000)
 #
-# #subset the training data into train and validation sets
-# r = input_h2o[0].runif()
-# air_train = input_h2o[r < 0.8]
-# air_valid = input_h2o[r >= 0.8]
+# rf_v1.train(covtype_X, covtype_y, training_frame=train)
+# rf_v1.score_history()
 #
-# # specify your features and response column
-# myX = ["GrubbyRace", "Effort", "OpponentRace", "Stats", "NumberGames", "Map"]
-# myY = "Won"
+# new = H2OFrame(z)
+# h2o_res = rf_v1.predict(test_data=new)
 #
-# # build and train your model
-# rf_bal = H2ORandomForestEstimator(seed=12, ntrees=150, balance_classes=True)
-# rf_bal.train(x=input_h2o, y=y, training_frame=air_train, validation_frame=air_valid)
-#
-#
-# # show predicted yes/no output with probability for yes and no
-# rf_bal.predict(input_h2o[1:6])
+# print("h2o " + str(h2o_res))
+# h2o.shutdown(prompt=False)
+
 
 ################################## Score between classifiers ################################
 

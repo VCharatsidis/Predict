@@ -15,11 +15,13 @@ import matplotlib.pyplot as plt
 import test_nn
 from input_cross_entropy import cross_entropy_input_to_onehot
 
+# CROSS ENTROPY NN
+
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 500000
-BATCH_SIZE_DEFAULT = 16
+LEARNING_RATE_DEFAULT = 1e-4
+MAX_STEPS_DEFAULT = 150000
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 

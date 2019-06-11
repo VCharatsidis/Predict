@@ -18,7 +18,7 @@ from input_to_onehot import input_to_onehot
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 900000
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -214,7 +214,7 @@ def my_loss(output, target):
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(((target - 0.5)/(0.8+10*torch.abs(target-output))) ** 4 + ((output - target) ** 2))
+    loss = ((output - target) ** 2) + torch.mean((target - 0.5)/(0.7+10*torch.abs(target-output))) ** 4
     return loss
 
 

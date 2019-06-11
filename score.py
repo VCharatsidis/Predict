@@ -153,9 +153,9 @@ BALANCED = 468
 NEW_NNs = 513
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
-LIMIT = -1
-opp = 5
-graph_a = 7
+LIMIT = 500
+opp = 9
+graph_a = 0
 graph_b = 9
 
 

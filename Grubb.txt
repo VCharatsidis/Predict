@@ -599,3 +599,17 @@
 1-Orc-t-Hum-73-1220-refuge
 1-Orc-r-Hum-67-870-turtle
 1-Orc-r-Hum-66-268-echo
+0-Ud-t-Ud-80-225-echo
+1-Ud-t-Orc-72-53-terenas
+0-Ud-t-Ne-55-800-refuge
+1-Ud-t-Ne-63-1200-twisted
+1-Ud-t-Hum-66-1200-echo
+0-Ud-t-Ud-75-36-nomad
+1-Ud-t-Orc-69-320-turtle
+1-Ud-t-Ud-84-880-refuge
+1-Ud-t-Orc-60-86-amazonia
+1-Ud-t-Hum-63-1600-refuge
+0-Hum-t-Orc-72-400-echo
+1-Hum-t-Orc-65-23-echo
+1-Hum-t-Ne-69-450-northren
+1-Hum-t-Ud-60-140-refuge
