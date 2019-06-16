@@ -1,3 +1,5 @@
+import config
+
 hum_dict = {'Hum': 0, 'Ne': 1, 'Orc': 2, 'Ra': 3, 'Ud': 4}
 ne_dict = {'Hum': 5, 'Ne': 6, 'Orc': 7, 'Ra': 8, 'Ud': 9}
 orc_dict = {'Hum': 10, 'Ne': 11, 'Orc': 12, 'Ra': 13, 'Ud': 14}
@@ -56,7 +58,6 @@ def logistic_reg(xin):
     input[:, 3] = labelencoder.fit_transform(input[:, 3])
     input[:, 3] = [int(x) for x in input[:, 3]]
 
-
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 3])
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
@@ -66,7 +67,6 @@ def logistic_reg(xin):
     opponent_race = config.races[xin[2]]
 
     xin = [muchups_dicts[Grubby_race][opponent_race], xin[1], xin[3], xin[5]]
-
 
     onehot_encoded = []
 
@@ -80,7 +80,7 @@ def logistic_reg(xin):
     for i in letter:
         onehot_encoded.append(i)
 
-    letter = [0 for _ in range(11)]
+    letter = [0 for _ in range(config.map_number)]
     letter[xin[3]] = 1
     for i in letter:
         onehot_encoded.append(i)
@@ -99,7 +99,7 @@ def logistic_reg(xin):
 
 #0-Hum-t-Ne-60-660-northren
 
-# xin = [0, 1, 0, 86, 3800, 3]
+# xin = [4, 1, 4, 86, 3800, 7]
 # res = logistic_reg(xin)
 # print(res)
 

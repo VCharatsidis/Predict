@@ -32,7 +32,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
     s = n_predictions * [0]
 
     for i in range(0, n_predictions-1):
-        if pred_number < NEW_NNs:
+        if pred_number < FIXED_INPUT:
             if i > 13:
                 predictions[i] = 0
 
@@ -57,7 +57,7 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
             if predictions[j] > cap:
                 predictions[j] = cap
 
-            if pred_number < NEW_NNs:
+            if pred_number < FIXED_INPUT:
                 if j > 13:
                     predictions[j] = 0
 
@@ -150,13 +150,12 @@ participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: 
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
 
 BALANCED = 468
-NEW_NNs = 513
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
 LIMIT = 500
-opp = 9
-graph_a = 0
-graph_b = 9
+opp = 17
+graph_a = 9
+graph_b = 10
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

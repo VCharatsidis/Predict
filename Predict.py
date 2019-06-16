@@ -75,23 +75,6 @@ labelencoder = LabelEncoder()
 
 y = input[:, 0]
 input = input[:, 1:]
-# scaller = StandardScaler()
-#
-# print("shape")
-# print(input[:,3].shape)
-#
-# x3= input[:,3].reshape(-1,1)
-# x3= scaller.fit_transform(x3)
-#
-# x4= input[:,4].reshape(-1,1)
-# x4= scaller.fit_transform(x4)
-#
-# x3.reshape((len(input),))
-# x4.reshape((len(input),))
-#
-# print(x3.shape)
-# input[:,3] = x3[:,0]
-# input[:,4] = x4[:,0]
 
 
 input[:, 0] = labelencoder.fit_transform(input[:, 0])
@@ -136,8 +119,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [0, 1, 4, 60, 140, 4]
-my_prediction = 76
+xin = [2, 1, 0, 67, 46, 2]
+my_prediction = 78
 Vagelis = 0
 result = 1
 
@@ -145,9 +128,7 @@ write = True
 NEW_PATCH = 500
 
 
-
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
-
 
 
 # Hum = 0
@@ -157,14 +138,7 @@ logistic_mutchups = logistic_mutchups.logistic_reg(xin)
 # Ud = 4
 
 
-# xin3 = xin[3]
-# xin3 = scaller.transform([[xin3]])
-#
-# xin4 = xin[4]
-# xin4 = scaller.transform([[xin4]])
-#
-# xin[3] = xin3[0][0]
-# xin[4] = xin4[0][0]
+
 print(xin)
 
 to_print = copy.deepcopy(xin)
@@ -189,10 +163,12 @@ letter[xin[2]] = 1
 for i in letter:
     onehot_encoded.append(i)
 
-letter = [0 for _ in range(11)]
+
+letter = [0 for _ in range(config.map_number)]
 letter[xin[5]] = 1
 for i in letter:
     onehot_encoded.append(i)
+
 
 onehot_encoded = np.array(onehot_encoded)
 onehot_encoded.flatten()
@@ -207,9 +183,14 @@ onehot_encoded.flatten()
 
 # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 y_pred1 = numeric_rf.predict_proba([xin])
-
+if y_pred1[0][1] < 0.5:
+    result = 0
 
 # One Hot ############################################################
+
+# from sklearn.compose import ColumnTransformer
+# # The last arg ([0]) is the list of columns you want to transform in this step
+# ct = ColumnTransformer([("race grub", OneHotEncoder()),("tryhard", OneHotEncoder()), ("race opp", OneHotEncoder()), "map"])
 
 
 onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
