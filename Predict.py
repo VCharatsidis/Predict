@@ -94,9 +94,11 @@ input2 = copy.deepcopy(input)
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
-estimators = 1000
+estimators = 2000
 
-numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True)
+mean_sample_leaf_numeric = 13
+
+numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, min_samples_leaf=mean_sample_leaf_numeric)
 numeric_rf.fit(input, y)
 oob_error1 = 1 - numeric_rf.oob_score_
 errors.append(oob_error1)
@@ -119,13 +121,14 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 0, 67, 46, 2]
-my_prediction = 78
+xin = [2, 1, 4, 82, 450, 6]
+my_prediction = 62
 Vagelis = 0
 result = 1
 
 write = True
 NEW_PATCH = 500
+
 
 
 logistic_mutchups = logistic_mutchups.logistic_reg(xin)
@@ -265,9 +268,10 @@ print(neural_predCross)
 
 ############################################################## one hot rf ###############################
 
-
-estimators2 = 1000
-one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True)
+mean_sample_leaf_onehot = 8
+estimators2 = 2000
+one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True,
+                                    min_samples_leaf=mean_sample_leaf_onehot)
 one_hot_rf.fit(onehot_input, y)
 oob_error3 = 1 - one_hot_rf.oob_score_
 errors.append(oob_error3)

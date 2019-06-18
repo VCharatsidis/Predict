@@ -152,10 +152,11 @@ participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
+STOP_RF_FROM_OVERFITTING = 641
 LIMIT = 500
-opp = 17
-graph_a = 9
-graph_b = 10
+opp = 9
+graph_a = 0
+graph_b = 2
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

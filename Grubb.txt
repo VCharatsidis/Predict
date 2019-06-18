@@ -637,3 +637,16 @@
 0-Orc-t-Ud-82-460-northren
 0-Orc-t-Ne-63-1200-concealed
 1-Orc-t-Hum-67-46-echo
+0-Hum-r-Ne-78-153-terenas
+1-Orc-t-Hum-83-40-echo
+1-Orc-t-Ud-74-1320-amazonia
+1-Orc-t-Ud-74-1320-refuge
+1-Orc-t-Ud-74-1320-echo
+1-Orc-t-Ud-74-1320-northren
+0-Orc-t-Ud-74-1320-concealed
+1-Orc-t-Ud-89-83-refuge
+1-Orc-t-Ud-89-83-northren
+1-Orc-t-Ud-89-83-concealed
+1-Orc-t-Ud-82-400-amazonia
+0-Orc-t-Ud-82-450-refuge
+1-Orc-t-Ud-82-450-terenas

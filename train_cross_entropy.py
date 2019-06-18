@@ -19,9 +19,9 @@ from input_cross_entropy import cross_entropy_input_to_onehot
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 600000
-BATCH_SIZE_DEFAULT = 32
+LEARNING_RATE_DEFAULT = 2e-4
+MAX_STEPS_DEFAULT = 200000
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -113,7 +113,7 @@ def train():
     min_loss = 100
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 32
+        BATCH_SIZE_DEFAULT = 8
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -178,7 +178,7 @@ def train():
 
             train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-            p = 1
+            p = 0.8
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)

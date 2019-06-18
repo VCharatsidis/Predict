@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Targets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Targets.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/automagic.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grubbyStar2.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar2.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grubbyStar3L-3W.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar3L-3W.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grubbyStar4L4W.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar4L4W.model" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grubbyStarCrossEntropy.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStarCrossEntropy.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grubbyStarTest.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStarTest.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logistic_mutchups.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_net.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_nn.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_nn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_cross_entropy.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_cross_entropy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_neural_net.py" afterDir="false" />
     </list>
@@ -32,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
+            <state relative-caret-position="561">
+              <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
               <folding>
                 <element signature="e#123#161#0" expanded="true" />
               </folding>
@@ -42,22 +34,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/train_neural_net.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="72" column="36" lean-forward="true" selection-start-line="72" selection-start-column="36" selection-end-line="72" selection-end-column="36" />
-              <folding>
-                <element signature="e#144#182#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="157" column="12" lean-forward="true" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
+            <state relative-caret-position="170">
+              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -65,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="122" column="18" lean-forward="true" selection-start-line="122" selection-start-column="18" selection-end-line="122" selection-end-column="18" />
+            <state relative-caret-position="223">
+              <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
               </folding>
@@ -80,11 +60,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_cross_entropy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="933">
-              <caret line="115" column="31" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
+            <state relative-caret-position="272">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="e#144#182#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/targets.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -167,20 +156,20 @@
         <option value="$PROJECT_DIR$/GrubbC.csv" />
         <option value="$PROJECT_DIR$/commaTransform.py" />
         <option value="$PROJECT_DIR$/Targets.txt" />
-        <option value="$PROJECT_DIR$/train_neural_net.py" />
         <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/logistic_mutchups.py" />
-        <option value="$PROJECT_DIR$/Predict.py" />
-        <option value="$PROJECT_DIR$/train_cross_entropy.py" />
-        <option value="$PROJECT_DIR$/neural_net.py" />
         <option value="$PROJECT_DIR$/test_nn.py" />
+        <option value="$PROJECT_DIR$/train_neural_net.py" />
+        <option value="$PROJECT_DIR$/neural_net.py" />
+        <option value="$PROJECT_DIR$/train_cross_entropy.py" />
         <option value="$PROJECT_DIR$/score.py" />
+        <option value="$PROJECT_DIR$/Predict.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="277" />
-    <option name="y" value="75" />
+    <option name="x" value="157" />
+    <option name="y" value="24" />
     <option name="width" value="1589" />
     <option name="height" value="937" />
   </component>
@@ -221,7 +210,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.score">
+  <component name="RunManager" selected="Python.Predict">
     <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -351,8 +340,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.score" />
-        <item itemvalue="Python.train_cross_entropy" />
         <item itemvalue="Python.targets" />
+        <item itemvalue="Python.train_cross_entropy" />
         <item itemvalue="Python.logistic_mutchups" />
         <item itemvalue="Python.train_neural_net" />
       </list>
@@ -381,8 +370,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="277" y="75" width="1589" height="937" extended-state="0" />
-    <editor active="true" />
+    <frame x="157" y="24" width="1589" height="937" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3713163" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -390,7 +378,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917705" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.4201995" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39729398" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39650872" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.25062343" />
@@ -679,13 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/targets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/serialization.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6987">
@@ -695,16 +676,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GrubbC.csv">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_neural_net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="72" column="36" lean-forward="true" selection-start-line="72" selection-start-column="36" selection-end-line="72" selection-end-column="36" />
-          <folding>
-            <element signature="e#144#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -730,36 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Predict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="122" column="18" lean-forward="true" selection-start-line="122" selection-start-column="18" selection-end-line="122" selection-end-column="18" />
-          <folding>
-            <element signature="e#27#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
-          <folding>
-            <element signature="e#123#161#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_cross_entropy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="933">
-          <caret line="115" column="31" selection-start-line="115" selection-start-column="31" selection-end-line="115" selection-end-column="31" />
-          <folding>
-            <element signature="e#144#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_nn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -770,12 +711,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/train_neural_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#144#182#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+          <folding>
+            <element signature="e#123#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_cross_entropy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#144#182#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/targets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="157" column="12" lean-forward="true" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
+        <state relative-caret-position="170">
+          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Predict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
           </folding>
         </state>
       </provider>

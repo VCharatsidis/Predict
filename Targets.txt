@@ -637,3 +637,5 @@
 0-Orc-t-Ud-82-460-northren-26%
 0-Orc-t-Ne-63-1200-concealed-63%
 1-Orc-t-Hum-67-46-echo-91%
+0-Hum-r-Ne-78-153-terenas-30%
+1-Orc-t-Hum-83-40-echo-86%

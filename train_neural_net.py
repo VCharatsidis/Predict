@@ -72,7 +72,7 @@ def train():
     else:
         device = torch.device('cpu')
 
-    model_to_train = 'grubbyStar2.model'  # EXCEPT CROSS ENTROPY!
+    model_to_train = 'grubbyStarTest.model'  # EXCEPT CROSS ENTROPY!
 
     validation_games = 80
 
