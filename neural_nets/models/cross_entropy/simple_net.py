@@ -6,10 +6,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import torch.nn as nn
-import torch
 
 
-class MLP(nn.Module):
+class SimpleMLP(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -34,33 +33,17 @@ class MLP(nn.Module):
         Implement initialization of the network.
         """
 
-        super(MLP, self).__init__()
+        super(SimpleMLP, self).__init__()
 
         width = 2
-        width_2 = 10
+        width_2 = 2
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
             nn.BatchNorm1d(width),
             nn.Tanh(),
 
-            nn.Linear(width, width_2),
-            nn.BatchNorm1d(width_2),
-            nn.Tanh(),
-
-            # nn.Linear(width_2, width_2//2),
-            # nn.BatchNorm1d(width_2//2),
-            # nn.Tanh(),
-
-            # nn.Linear(width_2//2, width_2//2),
-            # nn.BatchNorm1d(width_2//2),
-            # nn.Tanh(),
-
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
-
-            nn.Linear(width_2, 1),
+            nn.Linear(width, 1),
             nn.Sigmoid()
 
         )

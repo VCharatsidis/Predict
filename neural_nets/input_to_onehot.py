@@ -1,10 +1,14 @@
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import copy
+import os
 
 
 def get_predictions(data):
-    f = open("Targets.txt", "r")
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = '..\\logs\\'
+    targets = os.path.join(script_directory, filepath + 'Targets.txt')
+    f = open(targets, "r")
 
     contents = f.readlines()
     counter = 0
@@ -32,7 +36,7 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 5
+        max_saturation = 8
         min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 97.)

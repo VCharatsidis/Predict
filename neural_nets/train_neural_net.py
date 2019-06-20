@@ -12,13 +12,14 @@ import torch
 from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
-import test_nn
-from input_to_onehot import input_to_onehot
+from neural_nets import test_nn
+from neural_nets.input_to_onehot import input_to_onehot
+import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 800000
+MAX_STEPS_DEFAULT = 1500000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -72,7 +73,9 @@ def train():
     else:
         device = torch.device('cpu')
 
-    model_to_train = 'grubbyStar.model'  # EXCEPT CROSS ENTROPY!
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = 'models/grubbyStarTest.model'
+    model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 80
 

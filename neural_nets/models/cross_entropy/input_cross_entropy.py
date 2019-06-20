@@ -1,10 +1,15 @@
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import copy
+import os
 
 
 def get_predictions(data):
-    f = open("Grubb.txt", "r")
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = 'C:\\Users\\chara\\PycharmProjects\\PredictBet\\logs\\Grubb.txt'
+    grubb = os.path.join(script_directory, filepath)
+
+    f = open(grubb, "r")
 
     contents = f.readlines()
     counter = 0
@@ -83,23 +88,3 @@ def cross_entropy_input_to_onehot():
     onehot_input[:, -2] = standardize(onehot_input[:, -2])
 
     return onehot_input, y, not_standardized_input
-
-
-def check_input():
-    predictions = open("Targets.txt", "r")
-    results = open("Grubb.txt", "r")
-
-    contents_pred = predictions.readlines()
-    contents_res = results.readlines()
-
-    for i in range(len(contents_pred)):
-        print(i)
-        print(contents_pred[i])
-        print(contents_res[i])
-        if contents_pred[i][0] != contents_res[i][0]:
-            print("ERROR")
-            print(i)
-            break
-
-
-check_input()

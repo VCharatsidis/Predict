@@ -1,4 +1,3 @@
-import config
 
 hum_dict = {'Hum': 0, 'Ne': 1, 'Orc': 2, 'Ra': 3, 'Ud': 4}
 ne_dict = {'Hum': 5, 'Ne': 6, 'Orc': 7, 'Ra': 8, 'Ud': 9}
@@ -19,7 +18,7 @@ import config
 
 
 def logistic_reg(xin):
-    f = open("Grubb.txt", "r")
+    f = open("logs/Grubb.txt", "r")
 
     contents = f.readlines()
 

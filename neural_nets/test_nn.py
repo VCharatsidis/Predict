@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 from torch.autograd import Variable
-from input_to_onehot import input_to_onehot
+from neural_nets.input_to_onehot import input_to_onehot
 import config
 
 def one_hot(xin):

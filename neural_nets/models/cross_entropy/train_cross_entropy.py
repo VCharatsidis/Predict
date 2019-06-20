@@ -9,18 +9,19 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from neural_net import MLP
+from simple_net import SimpleMLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
-import test_nn
-from input_cross_entropy import cross_entropy_input_to_onehot
+from neural_nets import test_nn
+from neural_nets.models.cross_entropy.input_cross_entropy import cross_entropy_input_to_onehot
+import os
 
 # CROSS ENTROPY NN
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-4
-MAX_STEPS_DEFAULT = 200000
+LEARNING_RATE_DEFAULT = 1e-4
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -68,7 +69,9 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    model_to_train = 'grubbyStarCrossEntropy.model'
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = 'grubbyStarCrossEntropy.model'
+    model_to_train = os.path.join(script_directory, filepath)
 
     validation_games = 80
 
@@ -102,7 +105,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = MLP(onehot_input.shape[1])
+    model = SimpleMLP(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)

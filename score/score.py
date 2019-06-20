@@ -1,6 +1,7 @@
 from operator import add
 import numpy as np
 from matplotlib import pyplot as plt
+import os
 
 
 def excluded(i, excluded):
@@ -43,7 +44,6 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 
         if int(z[5]) <= 40:
             predictions[7] = 0
-
 
 
         if predictions[i] == 0:
@@ -132,7 +132,10 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
     return s
 
 
-f = open("predictions.txt", "r")
+script_directory = os.path.split(os.path.abspath(__file__))[0]
+filepath = '../logs/predictions.txt'
+model_to_train = os.path.join(script_directory, filepath)
+f = open(filepath, "r")
 contents = f.readlines()
 
 n_predictions = 21
