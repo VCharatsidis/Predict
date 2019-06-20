@@ -6,11 +6,13 @@
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Targets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Targets.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/automagic.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grubbyStarCrossEntropy.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStarCrossEntropy.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grubbyStar.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grubbyStar2.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar2.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grubbyStar4L4W.model" beforeDir="false" afterPath="$PROJECT_DIR$/grubbyStar4L4W.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logistic_mutchups.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_net.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/predictions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_cross_entropy.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_cross_entropy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_neural_net.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+            <state relative-caret-position="196">
+              <caret line="51" column="41" lean-forward="true" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
               <folding>
                 <element signature="e#123#161#0" expanded="true" />
               </folding>
@@ -34,10 +36,40 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/train_neural_net.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="200" column="14" lean-forward="true" selection-start-line="200" selection-start-column="14" selection-end-line="200" selection-end-column="14" />
+              <folding>
+                <element signature="e#144#182#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/functional.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="1023" selection-start-line="1023" selection-end-line="1023" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/modules/module.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="476" selection-start-line="476" selection-end-line="476" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+            <state relative-caret-position="199">
+              <caret line="158" column="11" lean-forward="true" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -45,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+            <state relative-caret-position="248">
+              <caret line="124" column="11" selection-start-line="124" selection-start-column="11" selection-end-line="124" selection-end-column="11" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
               </folding>
@@ -91,38 +123,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/input_to_onehot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="101" column="30" lean-forward="true" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="30" />
+            <state relative-caret-position="119">
+              <caret line="63" column="57" selection-start-line="63" selection-start-column="57" selection-end-line="63" selection-end-column="57" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GrubbC.csv">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -157,19 +163,19 @@
         <option value="$PROJECT_DIR$/commaTransform.py" />
         <option value="$PROJECT_DIR$/Targets.txt" />
         <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/logistic_mutchups.py" />
         <option value="$PROJECT_DIR$/test_nn.py" />
+        <option value="$PROJECT_DIR$/train_cross_entropy.py" />
+        <option value="$PROJECT_DIR$/logistic_mutchups.py" />
         <option value="$PROJECT_DIR$/train_neural_net.py" />
         <option value="$PROJECT_DIR$/neural_net.py" />
-        <option value="$PROJECT_DIR$/train_cross_entropy.py" />
-        <option value="$PROJECT_DIR$/score.py" />
         <option value="$PROJECT_DIR$/Predict.py" />
+        <option value="$PROJECT_DIR$/score.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="157" />
-    <option name="y" value="24" />
+    <option name="x" value="871" />
+    <option name="y" value="79" />
     <option name="width" value="1589" />
     <option name="height" value="937" />
   </component>
@@ -210,7 +216,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Predict">
+  <component name="RunManager" selected="Python.score">
     <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -340,10 +346,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.score" />
+        <item itemvalue="Python.train_neural_net" />
         <item itemvalue="Python.targets" />
         <item itemvalue="Python.train_cross_entropy" />
         <item itemvalue="Python.logistic_mutchups" />
-        <item itemvalue="Python.train_neural_net" />
       </list>
     </recent_temporary>
   </component>
@@ -370,19 +376,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="157" y="24" width="1589" height="937" extended-state="0" />
+    <frame x="871" y="79" width="1589" height="937" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3713163" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917705" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.4201995" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.45885286" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39650872" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.25062343" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32917705" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50064516" side_tool="true" weight="0.3409091" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32917705" />
@@ -575,20 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="476" selection-start-line="476" selection-end-line="476" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="1602" selection-start-line="1602" selection-end-line="1602" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rf_winrates.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
@@ -694,39 +686,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="101" column="30" lean-forward="true" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_nn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="178" column="1" selection-start-line="178" selection-start-column="1" selection-end-line="178" selection-end-column="1" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_neural_net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#144#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
-          <folding>
-            <element signature="e#123#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -748,22 +713,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/score.py">
+    <entry file="file://$PROJECT_DIR$/logistic_mutchups.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+        <state relative-caret-position="119">
+          <caret line="63" column="57" selection-start-line="63" selection-start-column="57" selection-end-line="63" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="1023" selection-start-line="1023" selection-end-line="1023" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="476" selection-start-line="476" selection-end-line="476" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="51" column="41" lean-forward="true" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#123#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_neural_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="200" column="14" lean-forward="true" selection-start-line="200" selection-start-column="14" selection-end-line="200" selection-end-column="14" />
+          <folding>
+            <element signature="e#144#182#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+        <state relative-caret-position="248">
+          <caret line="124" column="11" selection-start-line="124" selection-start-column="11" selection-end-line="124" selection-end-column="11" />
           <folding>
             <element signature="e#27#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/score.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="158" column="11" lean-forward="true" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -111,7 +111,6 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 
 
-
 # amazonia = 0       swamped = 5      nomad = 10
 # concealed = 1      terenas = 6
 # echo = 2           turtle = 7
@@ -121,8 +120,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 4, 82, 450, 6]
-my_prediction = 62
+xin = [2, 1, 0, 66, 1460, 6]
+my_prediction = 78
 Vagelis = 0
 result = 1
 
@@ -268,7 +267,7 @@ print(neural_predCross)
 
 ############################################################## one hot rf ###############################
 
-mean_sample_leaf_onehot = 8
+mean_sample_leaf_onehot = 10
 estimators2 = 2000
 one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True,
                                     min_samples_leaf=mean_sample_leaf_onehot)

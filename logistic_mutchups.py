@@ -61,7 +61,7 @@ def logistic_reg(xin):
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 3])
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
-    clf = LogisticRegression(solver='lbfgs', max_iter=300, class_weight='balanced').fit(onehot_input, y)
+    clf = LogisticRegression(solver='lbfgs', max_iter=300).fit(onehot_input, y)
 
     Grubby_race = config.races[xin[0]]
     opponent_race = config.races[xin[2]]

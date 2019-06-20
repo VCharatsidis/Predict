@@ -630,7 +630,7 @@
 1-Hum-t-Hum-72-600-turtle-84%
 0-Orc-t-Hum-77-39-echo-72%
 1-Orc-t-Ne-68-500-concealed-88%
-0-Orc-t-Ud-87-4100-refuge-15%
+0-Orc-t-Ud-87-4100-refuge-35%
 1-Orc-t-Orc-77-1240-terenas-82%
 1-Orc-t-Orc-77-1240-twisted-95%
 1-Orc-t-Orc-77-1240-echo-87%
@@ -639,3 +639,18 @@
 1-Orc-t-Hum-67-46-echo-91%
 0-Hum-r-Ne-78-153-terenas-30%
 1-Orc-t-Hum-83-40-echo-86%
+1-Orc-t-Ud-74-1320-amazonia-78%
+1-Orc-t-Ud-74-1320-refuge-77%
+1-Orc-t-Ud-74-1320-echo-74%
+1-Orc-t-Ud-74-1320-northren-79%
+0-Orc-t-Ud-74-1320-concealed-44%
+1-Orc-t-Ud-89-83-refuge-71%
+1-Orc-t-Ud-89-83-northren-68%
+1-Orc-t-Ud-89-83-concealed-85%
+1-Orc-t-Ud-82-400-amazonia-66%
+0-Orc-t-Ud-82-450-refuge-44%
+1-Orc-t-Ud-82-450-terenas-64%
+0-Orc-t-Ud-83-136-northren-26%
+0-Orc-t-Ud-98-1400-refuge-13%
+0-Orc-t-Ud-98-1400-echo-14%
+0-Orc-t-Ud-98-1400-terenas-14%
