@@ -10,7 +10,7 @@ muchups_dicts = {'Hum': hum_dict, 'Ne': ne_dict, 'Orc': orc_dict, 'Ra': ra_dict,
 
 
 import numpy as np
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import config
 
@@ -61,6 +61,7 @@ def logistic_reg(xin):
     onehot_input = onehotencoder.fit_transform(input).toarray()
 
     clf = LogisticRegression(solver='lbfgs', max_iter=300).fit(onehot_input, y)
+    clfCV = LogisticRegressionCV(solver='lbfgs', max_iter=300, cv=5).fit(onehot_input, y)
 
     Grubby_race = config.races[xin[0]]
     opponent_race = config.races[xin[2]]
@@ -92,8 +93,9 @@ def logistic_reg(xin):
     onehot_encoded.flatten()
 
     y_pred_logistic = clf.predict_proba([onehot_encoded])
+    y_pred_cv = clfCV.predict_proba([onehot_encoded])
 
-    return y_pred_logistic
+    return y_pred_logistic, y_pred_cv
 
 
 #0-Hum-t-Ne-60-660-northren

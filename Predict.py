@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import copy
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from logistic_reggresions import logistic_mutchups
 from load_models import load_models
@@ -122,17 +122,17 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [4, 0, 4, 100, 13, 0]
-my_prediction = 35
+xin = [2, 1, 0, 84, 129, 7]
+my_prediction = 60
 Vagelis = 0
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
 
-logistic_mutchups = logistic_mutchups.logistic_reg(xin)
+logistic_mutchups, logistic_mu_CV = logistic_mutchups.logistic_reg(xin)
 
 
 # Hum = 0
@@ -266,7 +266,7 @@ elif games < 40:
 else:
     logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
     y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
-    clfRest = LogisticRegression(solver='lbfgs', max_iter=500).fit(logistic_inputRest, y_Rest)
+    clfRest = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_inputRest, y_Rest)
     print(len(y_Rest))
 
     y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
@@ -281,12 +281,13 @@ pred1 = int(round(y_pred1[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
-
+logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 40:
     logistic_mutchups = 0
+    logistic_mu_CV = 0
 
 avg_neural = (int(round(neural_pred[0][0] * 100)) +
               int(round(neural_pred2[0][0] * 100)) +
@@ -299,8 +300,8 @@ log =(s + "-" + str(pred1)
       + "%-" + str(0)
       + "%-" + str(pred3)
       + "%-" + str(0)
-      + "%-"
-      + "0%-" + str(logistic_mutchups)
+      + "%-" + str(logistic_mu_CV)
+      + "%-" + str(logistic_mutchups)
       + "%-" + str(logistic_pred)
       + "%-" + str(int(round(strong_logistic * 100)))+"%-"
       + "0%-"
@@ -326,6 +327,7 @@ print("observed Grubby winrates: " + str(observed_grubby_winrates))
 
 print("numeric rf: " + str(pred1) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
+print("matchups logistic CV: " + str(logistic_mu_CV)+"%")
 print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")

@@ -17,11 +17,11 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
     #print(z)
     predictions = []
 
-
     for s in z:
         if '%' in s:
             s = s.replace('%', '')
             s = s.replace('\n', '')
+
             predictions.append(int(s))
 
     for i in range(len(predictions), n_predictions):
@@ -147,7 +147,7 @@ cap = 95
 
 print("cap "+str(cap))
 
-participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: "observed winrates rf", 5: "logistic matchup",
+participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: "logistic mu CV", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
@@ -156,6 +156,7 @@ BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
 STOP_RF_FROM_OVERFITTING = 641
+LOGISTIC_MU_CV = 675
 
 
 LIMIT = 642
@@ -172,7 +173,6 @@ def calc_scores_vs_opponent(opponent, cap=95):
         if participant == opponent:
             continue
 
-
         total_scores = n_predictions * [0]
         total_scores = np.array(total_scores)
         participations = n_predictions * [0]
@@ -187,6 +187,10 @@ def calc_scores_vs_opponent(opponent, cap=95):
             if counter > LIMIT:
                 s = calc_scores(i, participations, counter, excluded, cap)
                 s = np.array(s)
+
+                if counter<675:
+                    s[4] = 0
+
                 total_scores = s + total_scores
 
             counter += 1
@@ -196,7 +200,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 1 or participant == 3 or participant==4 or participant == 8 or participant == 11 or participant == 12 or participant ==13:
+        if participant == 1 or participant == 3  or participant == 8 or participant == 11 or participant == 12 or participant ==13:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) +" se " + str(participations[participant]))
 
@@ -222,6 +226,8 @@ for i in contents:
     if counter > LIMIT:
         s = calc_scores(i, participations, counter, exc)
         s = np.array(s)
+        if counter < 675:
+            s[4] = 0
         total_scores = s + total_scores
 
     counter += 1
