@@ -98,7 +98,7 @@ input2 = copy.deepcopy(input)
 errors = []
 estimators = 2000
 
-mean_sample_leaf_numeric = 13
+mean_sample_leaf_numeric = 14
 
 numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, min_samples_leaf=mean_sample_leaf_numeric)
 numeric_rf.fit(input, y)
@@ -122,8 +122,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 2, 78, 870, 0]
-my_prediction = 78
+xin = [4, 0, 4, 100, 13, 0]
+my_prediction = 35
 Vagelis = 0
 result = 1
 
@@ -384,10 +384,10 @@ print("oob error one hot rf: " + str(oob_error3))
 ################################## Score between classifiers ################################
 
 if write:
-    file = open("Grubb.txt", "a")
+    file = open("logs/Grubb.txt", "a")
     file.write(s+"\n")
     file.close()
     #
-    file = open("automagic.txt", "a")
+    file = open("logs/automagic.txt", "a")
     file.write(log)
     file.close()

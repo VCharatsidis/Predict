@@ -10,8 +10,8 @@ def load_models(onehot_encoded):
     filepath = 'models\\'
     script_directory = os.path.split(os.path.abspath(__file__))[0]
 
-    grubby_star = os.path.join(script_directory, filepath + 'grubbyStar.model')
-    grubby_star2 = os.path.join(script_directory, filepath + 'grubbyStar2.model')
+    grubby_star = os.path.join(script_directory, filepath + 'grubbyStar/grubbyStar.model')
+    grubby_star2 = os.path.join(script_directory, filepath + 'grubbyStar2/grubbyStar2.model')
     grubby_star_3L3W = os.path.join(script_directory, filepath + 'grubbyStar3L-3W.model')
     grubby_star_4L3W = os.path.join(script_directory, filepath + 'grubbyStar4L-3W.model')
     grubby_star_4L4W = os.path.join(script_directory, filepath + 'grubbyStar4L4W.model')

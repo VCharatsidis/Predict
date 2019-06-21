@@ -12,8 +12,10 @@ import torch
 from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
+import GStarNet
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
+import GStar2Net
 import os
 
 # Default constants
@@ -74,7 +76,7 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'models/grubbyStar4L-3W.model'
+    filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 80
@@ -109,7 +111,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = MLP(onehot_input.shape[1])
+    model = GStar2Net(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)

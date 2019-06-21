@@ -3,6 +3,7 @@ import numpy as np
 from torch.autograd import Variable
 from neural_nets.input_to_onehot import input_to_onehot
 import config
+import os
 
 def one_hot(xin):
     onehot_encoded = []
@@ -167,13 +168,16 @@ def parse_x(xin, prediction):
 
 
 def test_all_models():
-    models = ['grubbyStar.model', 'grubbyStar2.model',
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = 'models/'
+    models = ['grubbyStar/grubbyStar.model', 'grubbyStar2/grubbyStar2.model',
               'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model',
               'grubbyStar4L4W.model', 'grubbyStarTest.model',
-              'grubbyStarCrossEntropy.model']
+              'cross_entropy/grubbyStarCrossEntropy.model']
 
     for model in models:
-        test_all(model)
+        filepath = 'models/' + model
+        test_all(filepath)
 
 
 #test_all_models()
