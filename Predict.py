@@ -96,11 +96,26 @@ input2 = copy.deepcopy(input)
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
+
 estimators = 2000
+min_samples_split = 17
+min_samples_leaf = 17
+max_features = 6
+max_depth = 25
+bootstrap = True
 
-mean_sample_leaf_numeric = 14
+# {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
+# {'n_estimators': 2000, 'min_samples_split': 24, 'min_samples_leaf': 22, 'max_features': 5, 'max_depth': 14, 'bootstrap': False}
+# {'n_estimators': 1336, 'min_samples_split': 24, 'min_samples_leaf': 21, 'max_features': 5, 'max_depth': 8, 'bootstrap': False}
 
-numeric_rf = RandomForestClassifier(n_estimators=estimators, random_state=0, oob_score=True, min_samples_leaf=mean_sample_leaf_numeric)
+numeric_rf = RandomForestClassifier(n_estimators=estimators,
+                                    random_state=0,
+                                    oob_score=True,
+                                    min_samples_leaf=min_samples_leaf,
+                                    min_samples_split=min_samples_split,
+                                    max_features=max_features,
+                                    max_depth=max_depth,
+                                    bootstrap=bootstrap)
 numeric_rf.fit(input, y)
 oob_error1 = 1 - numeric_rf.oob_score_
 errors.append(oob_error1)
@@ -122,14 +137,13 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 0, 84, 129, 7]
+xin = [2, 1, 2, 78, 870, 0]
 my_prediction = 60
 Vagelis = 0
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
-
 
 
 logistic_mutchups, logistic_mu_CV = logistic_mutchups.logistic_reg(xin)
@@ -210,10 +224,23 @@ neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, ne
 
 ############################################################## one hot rf ###############################
 
-mean_sample_leaf_onehot = 10
-estimators2 = 2000
-one_hot_rf = RandomForestClassifier(n_estimators=estimators2, random_state=0, oob_score=True,
-                                    min_samples_leaf=mean_sample_leaf_onehot)
+estimators = 2000
+min_samples_split = 13
+min_samples_leaf = 18
+max_features = 22
+max_depth = 22
+bootstrap = True
+
+# {'n_estimators': 2000, 'min_samples_split': 13, 'min_samples_leaf': 18, 'max_features': 22, 'max_depth': 22, 'bootstrap': True}
+one_hot_rf = RandomForestClassifier(n_estimators=estimators,
+                                    random_state=0,
+                                    oob_score=True,
+                                    min_samples_leaf=min_samples_leaf,
+                                    min_samples_split=min_samples_split,
+                                    max_features=max_features,
+                                    max_depth=max_depth,
+                                    bootstrap=bootstrap)
+
 one_hot_rf.fit(onehot_input, y)
 oob_error3 = 1 - one_hot_rf.oob_score_
 errors.append(oob_error3)

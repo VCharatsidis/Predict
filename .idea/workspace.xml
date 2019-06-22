@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cross_validation/cross_validation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cross_validation/get_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PredictBet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PredictBet.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logistic_reggresions/strong_logistic.py" beforeDir="false" afterPath="$PROJECT_DIR$/logistic_reggresions/strong_logistic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/Targets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/Targets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/automagic.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/predictions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/targets.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/targets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/score/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score/score.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="129" column="12" lean-forward="true" selection-start-line="129" selection-start-column="12" selection-end-line="129" selection-end-column="12" />
+            <state relative-caret-position="418">
+              <caret line="118" column="24" lean-forward="true" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -31,37 +34,52 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/linear_model/logistic.py">
+        <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="946" selection-start-line="946" selection-end-line="946" />
+            <state relative-caret-position="136">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/serialization.py">
+        <entry file="file://$PROJECT_DIR$/cross_validation/cross_validation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1779">
-              <caret line="424" selection-start-line="424" selection-end-line="424" />
+            <state relative-caret-position="318">
+              <caret line="49" column="11" lean-forward="true" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="11" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/model_selection/_split.py">
+        <entry file="file://$PROJECT_DIR$/cross_validation/get_input.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="1977" selection-start-line="1977" selection-end-line="1977" />
+            <state relative-caret-position="272">
+              <caret line="19" column="21" lean-forward="true" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/Grubb.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-10556">
+              <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/score/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="162" column="20" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
+            <state relative-caret-position="264">
+              <caret line="166" selection-start-line="166" selection-end-line="166" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -72,8 +90,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="97" column="37" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
+            <state relative-caret-position="811">
+              <caret line="63" column="68" selection-start-line="63" selection-start-column="68" selection-end-line="63" selection-end-column="68" />
               <folding>
                 <element signature="e#408#426#0" expanded="true" />
               </folding>
@@ -105,17 +123,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logistic_reggresions/strong_logistic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="38" column="29" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logistic_reggresions/preprocessed_logreg.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3723">
-              <caret line="222" column="27" lean-forward="true" selection-start-line="222" selection-start-column="27" selection-end-line="222" selection-end-column="27" />
+            <state relative-caret-position="85">
+              <caret line="23" column="68" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -171,17 +180,19 @@
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar2/train_grubbyStar2.py" />
         <option value="$PROJECT_DIR$/neural_nets/test_nn.py" />
         <option value="$PROJECT_DIR$/neural_nets/load_models.py" />
+        <option value="$PROJECT_DIR$/neural_nets/targets.py" />
+        <option value="$PROJECT_DIR$/score/score.py" />
         <option value="$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py" />
         <option value="$PROJECT_DIR$/logistic_reggresions/strong_logistic.py" />
-        <option value="$PROJECT_DIR$/neural_nets/targets.py" />
+        <option value="$PROJECT_DIR$/cross_validation/get_input.py" />
+        <option value="$PROJECT_DIR$/cross_validation/cross_validation.py" />
         <option value="$PROJECT_DIR$/Predict.py" />
-        <option value="$PROJECT_DIR$/score/score.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="6" />
-    <option name="y" value="-13" />
+    <option name="x" value="594" />
+    <option name="y" value="19" />
     <option name="width" value="1834" />
     <option name="height" value="1017" />
   </component>
@@ -201,7 +212,17 @@
             <path>
               <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
               <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
+              <item name="cross_validation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
               <item name="logistic_reggresions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
@@ -211,7 +232,13 @@
             <path>
               <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
               <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
-              <item name="score" type="462c0819:PsiDirectoryNode" />
+              <item name="neural_nets" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
+              <item name="random_forests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -222,7 +249,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../boN" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -246,7 +273,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.score">
+  <component name="RunManager" selected="Python.Predict">
     <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -260,6 +287,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Predict.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cross_validation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PredictBet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cross_validation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cross_validation/cross_validation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -331,27 +379,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train_cross_entropy" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="PredictBet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_nets/models/cross_entropy" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="train_neural_net (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -375,11 +402,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.cross_validation" />
         <item itemvalue="Python.score" />
         <item itemvalue="Python.targets" />
         <item itemvalue="Python.test_nn" />
         <item itemvalue="Python.train_neural_net (1)" />
-        <item itemvalue="Python.train_cross_entropy" />
       </list>
     </recent_temporary>
   </component>
@@ -406,7 +433,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="6" y="-13" width="1834" height="1017" extended-state="0" />
+    <frame x="594" y="19" width="1834" height="1017" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18397291" />
@@ -431,20 +458,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/modules/batchnorm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="65" selection-start-line="65" selection-end-line="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/torch/nn/modules/dropout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logs/tester.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -477,13 +490,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="83" selection-start-line="83" selection-end-line="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/Grubb.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -612,13 +618,6 @@
           <folding>
             <element signature="e#25#43#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
@@ -767,27 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="97" column="37" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
-          <folding>
-            <element signature="e#408#426#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logistic_reggresions/preprocessed_logreg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3723">
-          <caret line="222" column="27" lean-forward="true" selection-start-line="222" selection-start-column="27" selection-end-line="222" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logistic_reggresions/strong_logistic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="38" column="29" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="29" />
+          <caret line="222" column="27" selection-start-line="222" selection-start-column="27" selection-end-line="222" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -808,22 +790,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Predict.py">
+    <entry file="file://$PROJECT_DIR$/score/score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="129" column="12" lean-forward="true" selection-start-line="129" selection-start-column="12" selection-end-line="129" selection-end-column="12" />
+        <state relative-caret-position="264">
+          <caret line="166" selection-start-line="166" selection-end-line="166" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logistic_reggresions/strong_logistic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="23" column="68" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logistic_reggresions/logistic_mutchups.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="811">
+          <caret line="63" column="68" selection-start-line="63" selection-start-column="68" selection-end-line="63" selection-end-column="68" />
+          <folding>
+            <element signature="e#408#426#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/Grubb.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10556">
+          <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cross_validation/cross_validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="49" column="11" lean-forward="true" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cross_validation/get_input.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="21" lean-forward="true" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/score/score.py">
+    <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="162" column="20" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
+        <state relative-caret-position="418">
+          <caret line="118" column="24" lean-forward="true" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
