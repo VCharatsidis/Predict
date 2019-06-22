@@ -1,15 +1,15 @@
 import numpy as np
 
-f = open("predictions.txt", "r")
-k = open("Grubb.txt")
+f = open("../logs/predictions.txt", "r")
+k = open("../logs/Grubb.txt")
 grubb = k.readlines()
 
 input = []
 counter = 0
 x_train = []
 
-file = open("Targets.txt", "a")
-targets_file = open("Targets.txt", "r")
+file = open("../logs/Targets.txt", "a")
+targets_file = open("../logs/Targets.txt", "r")
 targets = targets_file.readlines()
 
 data = []

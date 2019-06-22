@@ -12,9 +12,8 @@ def excluded(i, excluded):
 
 points = []
 points.append(0)
-def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
+def calc_scores(counter, preds, participations, pred_number, excluded_list=[], cap=95):
     z = preds.split("-")
-    #print(z)
     predictions = []
 
     for s in z:
@@ -32,25 +31,31 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 
     s = n_predictions * [0]
 
+    if counter < 676:
+        predictions[3] = 0
+        predictions[4] = 0
+
     for i in range(0, n_predictions-1):
+
+        if predictions[i] == 0:
+            continue
+
+        if excluded(i, excluded_list):
+            continue
+
         if pred_number < FIXED_INPUT:
             if i > 13:
                 predictions[i] = 0
 
-        if excluded(i, excluded_list):
-            continue
         if predictions[i] > cap:
             predictions[i] = cap
 
         if int(z[5]) <= 40:
             predictions[7] = 0
 
-
-        if predictions[i] == 0:
-            continue
-
         opponent = i+1
         for j in range(opponent, n_predictions):
+
             if excluded(j, excluded_list):
                 continue
 
@@ -69,7 +74,6 @@ def calc_scores(preds, participations, pred_number, excluded_list=[], cap=95):
 
             if predictions[i] == predictions[j]:
                 continue
-
 
             participations[i] += 1
             participations[j] += 1
@@ -147,7 +151,7 @@ cap = 95
 
 print("cap "+str(cap))
 
-participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 4: "logistic mu CV", 5: "logistic matchup",
+participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 3:"strong logistic CV", 4: "logistic mu CV", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
@@ -156,13 +160,13 @@ BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
 STOP_RF_FROM_OVERFITTING = 641
-LOGISTIC_MU_CV = 675
+LOGISTIC_MU_CV = 676
 
 
-LIMIT = 642
+LIMIT = 500
 
 opp = 9
-graph_a =0
+graph_a = 0
 graph_b = 7
 
 
@@ -177,7 +181,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
         total_scores = np.array(total_scores)
         participations = n_predictions * [0]
 
-        excluded = list(range(0, n_predictions+1))
+        excluded = list(range(0, n_predictions))
 
         excluded.remove(participant)
         excluded.remove(opponent)
@@ -185,11 +189,8 @@ def calc_scores_vs_opponent(opponent, cap=95):
         counter = 0
         for i in contents:
             if counter > LIMIT:
-                s = calc_scores(i, participations, counter, excluded, cap)
+                s = calc_scores(counter, i, participations, counter, excluded, cap)
                 s = np.array(s)
-
-                if counter<675:
-                    s[4] = 0
 
                 total_scores = s + total_scores
 
@@ -200,7 +201,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 1 or participant == 3  or participant == 8 or participant == 11 or participant == 12 or participant ==13:
+        if participant == 1 or participant == 8 or participant == 11 or participant == 12 or participant == 13:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) +" se " + str(participations[participant]))
 
@@ -219,15 +220,14 @@ total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
 
-exc = [1, 8, 4, 12,13, 3]
+exc = [1, 8, 12,13]
 points = []
 points.append(0)
 for i in contents:
     if counter > LIMIT:
-        s = calc_scores(i, participations, counter, exc)
+        s = calc_scores(counter, i, participations, counter, exc)
         s = np.array(s)
-        if counter < 675:
-            s[4] = 0
+
         total_scores = s + total_scores
 
     counter += 1

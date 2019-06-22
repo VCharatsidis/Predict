@@ -3,7 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 import copy
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from logistic_reggresions import logistic_mutchups
+from logistic_reggresions import logistic_mutchups, strong_logistic
 from load_models import load_models
 
 import config
@@ -246,31 +246,7 @@ y_pred_logistic = clf.predict_proba([xin])
 # plt.show()
 
 games = xin[-1]
-strong_logistic = 0
-
-if games <= 15:
-    logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
-    y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
-    clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
-    y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
-    strong_logistic = y_pred_logistic15[0][1]
-
-elif games < 40:
-    logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
-    y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 60]
-    clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
-    print(len(y_35))
-    y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
-    strong_logistic = y_pred_logistic35[0][1]
-
-else:
-    logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
-    y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
-    clfRest = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_inputRest, y_Rest)
-    print(len(y_Rest))
-
-    y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
-    strong_logistic = y_pred_logisticRest[0][1]
+strong_logistic, strong_logistic_CV = strong_logistic.strong_logistic(games, logistic_input, xin, original_input)
 
 ###############################  K nearest neightours   ##############################################
 
@@ -282,6 +258,8 @@ pred3 = int(round(y_pred3[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
 logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
 logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
+strong_logistic = int(round(strong_logistic*100))
+strong_logistic_CV = int(round(strong_logistic_CV*100))
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
@@ -299,11 +277,11 @@ avg_neural = (int(round(neural_pred[0][0] * 100)) +
 log =(s + "-" + str(pred1)
       + "%-" + str(0)
       + "%-" + str(pred3)
-      + "%-" + str(0)
+      + "%-" + str(strong_logistic_CV)
       + "%-" + str(logistic_mu_CV)
       + "%-" + str(logistic_mutchups)
       + "%-" + str(logistic_pred)
-      + "%-" + str(int(round(strong_logistic * 100)))+"%-"
+      + "%-" + str(strong_logistic)+"%-"
       + "0%-"
       + str(Vagelis)
       +"%-" + str(my_prediction) + "%"
@@ -328,7 +306,11 @@ print("observed Grubby winrates: " + str(observed_grubby_winrates))
 print("numeric rf: " + str(pred1) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("matchups logistic CV: " + str(logistic_mu_CV)+"%")
-print("strong logistic: " + str(int(round(strong_logistic * 100))) + "%")
+print("strong logistic: " + str(strong_logistic) + "%")
+print("strong logistic CV: " + str(strong_logistic_CV) + "%")
+print("normal logistic: " + str(logistic_pred)+"%")
+print("one hot rf: " + str(pred3) + "%")
+print("")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
@@ -337,13 +319,12 @@ print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
 print("neural pred4L4W: " + str(int(round(neural_pred4L4W[0][0] * 100)))+"%")
 print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
 print("average neural: " + str(round(avg_neural)) +"%")
-print("normal logistic: " + str(logistic_pred)+"%")
-print("one hot rf: " + str(pred3) + "%")
+
 
 print()
 print("oob error numeric rf: " + str(oob_error1))
 print("importances numeric rf: " + str(importances1))
-# print("one hot importances: " + str(importances2))
+print("one hot importances: " + str(importances2))
 print("oob error one hot rf: " + str(oob_error3))
 
 

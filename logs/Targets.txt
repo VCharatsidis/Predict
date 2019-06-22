@@ -671,3 +671,6 @@
 0-Orc-t-Ne-76-437-echo-58%
 0-Orc-t-Orc-78-870-amazonia-71%
 1-Orc-t-Hum-66-1460-terenas-90%
+1-Ud-t-Hum-85-115-terenas-59%
+1-Ud-r-Orc-59-1560-concealed-90%
+0-Ud-r-Ud-100-13-amazonia-8%
