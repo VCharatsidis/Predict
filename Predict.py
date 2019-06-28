@@ -104,6 +104,7 @@ max_features = 6
 max_depth = 25
 bootstrap = True
 
+# {'n_estimators': 2000, 'min_samples_split': 9, 'min_samples_leaf': 15, 'max_features': 5, 'max_depth': 5, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 24, 'min_samples_leaf': 22, 'max_features': 5, 'max_depth': 14, 'bootstrap': False}
 # {'n_estimators': 1336, 'min_samples_split': 24, 'min_samples_leaf': 21, 'max_features': 5, 'max_depth': 8, 'bootstrap': False}
@@ -137,12 +138,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 2, 78, 870, 0]
-my_prediction = 60
+xin = [1, 1, 4, 65, 655, 1]
+my_prediction = 72
 Vagelis = 0
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
@@ -225,12 +226,13 @@ neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, ne
 ############################################################## one hot rf ###############################
 
 estimators = 2000
-min_samples_split = 13
-min_samples_leaf = 18
-max_features = 22
-max_depth = 22
+min_samples_split = 29
+min_samples_leaf = 15
+max_features = 21
+max_depth = 20
 bootstrap = True
 
+# {'n_estimators': 2000, 'min_samples_split': 29, 'min_samples_leaf': 15, 'max_features': 21, 'max_depth': 20, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 13, 'min_samples_leaf': 18, 'max_features': 22, 'max_depth': 22, 'bootstrap': True}
 one_hot_rf = RandomForestClassifier(n_estimators=estimators,
                                     random_state=0,

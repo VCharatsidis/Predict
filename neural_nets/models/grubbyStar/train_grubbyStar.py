@@ -12,7 +12,7 @@ import torch
 from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
-import GStarNet
+from GStarNet import GStarNet
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
 import os
@@ -78,7 +78,7 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 80
+    validation_games = 100
 
     onehot_input, y, _ = input_to_onehot()
 

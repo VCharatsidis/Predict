@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class SimpleMLP(nn.Module):
+class GStar3L3WNet(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,9 +33,9 @@ class SimpleMLP(nn.Module):
         Implement initialization of the network.
         """
 
-        super(SimpleMLP, self).__init__()
+        super(GStar3L3WNet, self).__init__()
 
-        width = 2
+        width = 3
         width_2 = 10
         self.layers = nn.Sequential(
 

@@ -9,20 +9,20 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from simple_net import SimpleMLP
+from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
+import GStarNet
 from neural_nets import test_nn
-from neural_nets.models.cross_entropy.input_cross_entropy import cross_entropy_input_to_onehot
+from neural_nets.input_to_onehot import input_to_onehot
+from GStar3L3W import GStar3L3WNet
 import os
-
-# CROSS ENTROPY NN
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 300000
-BATCH_SIZE_DEFAULT = 16
+LEARNING_RATE_DEFAULT = 2e-5
+MAX_STEPS_DEFAULT = 2000000
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -69,13 +69,19 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
+    if torch.cuda.is_available():
+        device = torch.device('cuda')
+        print("cuda")
+    else:
+        device = torch.device('cpu')
+
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCrossEntropy.model'
-    model_to_train = os.path.join(script_directory, filepath)
+    filepath = 'grubbyStar3L-3W.model'
+    model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 100
 
-    onehot_input, y, _ = cross_entropy_input_to_onehot()
+    onehot_input, y, _ = input_to_onehot()
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -105,7 +111,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = SimpleMLP(onehot_input.shape[1])
+    model = GStar3L3WNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -115,8 +121,10 @@ def train():
     max_acc = 0
     min_loss = 100
 
+    loss_func = torch.nn.MSELoss()
+
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 16
+        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -131,8 +139,7 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-
-        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
+        loss = loss_func(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -156,7 +163,7 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+            calc_loss = loss_func(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -179,9 +186,9 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+            train_loss = loss_func(pred, targets)
 
-            p = 0.8
+            p = 0.9
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
@@ -189,10 +196,11 @@ def train():
                 print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
                     calc_loss.item()))
 
-
+    #torch.save(model, model_to_train)
     test_nn.test_all(model_to_train)
     print(model_to_train)
-
+    print("maxx acc")
+    print(max_acc)
     plt.plot(accuracies)
     plt.ylabel('accuracies')
     plt.show()
@@ -203,6 +211,16 @@ def train():
     ########################
     # END OF YOUR CODE    #
     #######################
+
+
+def my_loss(output, target):
+    loss = torch.mean((3+output) * ((output - target) ** 2))
+    return loss
+
+
+def center_my_loss(output, target):
+    loss = ((output - target) ** 2) + torch.mean((target - 0.5)/(0.7+10*torch.abs(target-output)) ** 4)
+    return loss
 
 
 def print_flags():
