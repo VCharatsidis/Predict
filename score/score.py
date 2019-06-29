@@ -163,9 +163,9 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = 550
+LIMIT = 641
 
-opp = 10
+opp = 9
 graph_a = 0
 graph_b = 7
 

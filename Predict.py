@@ -97,26 +97,18 @@ input2 = copy.deepcopy(input)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
 
-estimators = 2000
-min_samples_split = 17
-min_samples_leaf = 17
-max_features = 6
-max_depth = 25
-bootstrap = True
 
-# {'n_estimators': 2000, 'min_samples_split': 9, 'min_samples_leaf': 15, 'max_features': 5, 'max_depth': 5, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 24, 'min_samples_leaf': 22, 'max_features': 5, 'max_depth': 14, 'bootstrap': False}
-# {'n_estimators': 1336, 'min_samples_split': 24, 'min_samples_leaf': 21, 'max_features': 5, 'max_depth': 8, 'bootstrap': False}
 
-numeric_rf = RandomForestClassifier(n_estimators=estimators,
+numeric_rf = RandomForestClassifier(n_estimators=2000,
                                     random_state=0,
                                     oob_score=True,
-                                    min_samples_leaf=min_samples_leaf,
-                                    min_samples_split=min_samples_split,
-                                    max_features=max_features,
-                                    max_depth=max_depth,
-                                    bootstrap=bootstrap)
+                                    min_samples_leaf=17,
+                                    min_samples_split=17,
+                                    max_features=6,
+                                    max_depth=25,
+                                    bootstrap=True)
 numeric_rf.fit(input, y)
 oob_error1 = 1 - numeric_rf.oob_score_
 errors.append(oob_error1)
@@ -138,8 +130,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [1, 1, 4, 65, 655, 1]
-my_prediction = 72
+xin = [2, 1, 2, 66, 250, 4]
+my_prediction = 78
 Vagelis = 0
 result = 1
 
@@ -292,7 +284,7 @@ strong_logistic_CV = int(round(strong_logistic_CV*100))
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
-if games < 40:
+if games < 30:
     logistic_mutchups = 0
     logistic_mu_CV = 0
 

@@ -9,11 +9,13 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from neural_net import MLP
+
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
+
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
+from GStar4L3W import GStar4L3WNet
 import os
 
 # Default constants
@@ -74,7 +76,7 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'models/grubbyStar4L4W.model'
+    filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 100
@@ -109,7 +111,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = MLP(onehot_input.shape[1])
+    model = GStar4L3WNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -186,7 +188,7 @@ def train():
 
             train_loss = loss_func(pred, targets)
 
-            p = 1
+            p = 0.9
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)

@@ -186,7 +186,7 @@ def train():
 
             train_loss = loss_func(pred, targets)
 
-            p = 0.8
+            p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)

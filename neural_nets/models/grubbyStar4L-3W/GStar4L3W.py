@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class MLP(nn.Module):
+class GStar4L3WNet(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,9 +33,9 @@ class MLP(nn.Module):
         Implement initialization of the network.
         """
 
-        super(MLP, self).__init__()
+        super(GStar4L3WNet, self).__init__()
 
-        width = 4
+        width = 3
         width_2 = 10
         self.layers = nn.Sequential(
 
@@ -50,14 +50,6 @@ class MLP(nn.Module):
             nn.Linear(width_2, width_2//2),
             nn.BatchNorm1d(width_2//2),
             nn.Tanh(),
-
-            nn.Linear(width_2//2, width_2//2),
-            nn.BatchNorm1d(width_2//2),
-            nn.Tanh(),
-
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
 
             nn.Linear(width_2//2, 1),
             nn.Sigmoid()

@@ -12,8 +12,8 @@ def load_models(onehot_encoded):
 
     grubby_star = os.path.join(script_directory, filepath + 'grubbyStar/grubbyStar.model')
     grubby_star2 = os.path.join(script_directory, filepath + 'grubbyStar2/grubbyStar2.model')
-    grubby_star_3L3W = os.path.join(script_directory, filepath + 'grubbyStar3L-3W.model')
-    grubby_star_4L3W = os.path.join(script_directory, filepath + 'grubbyStar4L-3W.model')
+    grubby_star_3L3W = os.path.join(script_directory, filepath + 'grubbyStar3L-3W/grubbyStar3L-3W.model')
+    grubby_star_4L3W = os.path.join(script_directory, filepath + 'grubbyStar4L-3W/grubbyStar4L-3W.model')
     grubby_star_4L4W = os.path.join(script_directory, filepath + 'grubbyStar4L4W.model')
     grubby_star_test = os.path.join(script_directory, filepath + 'grubbyStarTest.model')
     grubby_star_cross_entropy = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCrossEntropy.model')
