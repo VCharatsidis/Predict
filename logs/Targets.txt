@@ -709,3 +709,16 @@
 1-Ne-t-Hum-61-500-echo-90%
 1-Ne-t-Orc-84-25-turtle-80%
 1-Ne-t-Ud-65-655-concealed-92%
+0-Ne-r-Ud-92-13-turtle-15%
+1-Ne-r-Hum-72-78-refuge-75%
+0-Ne-r-Ne-72-584-northren-47%
+0-Hum-r-Ne-68-660-refuge-40%
+1-Ne-r-Orc-58-209-terenas-94%
+0-Ud-r-Orc-100-6-northren-3%
+1-Hum-r-Ra-58-77-terenas-89%
+0-Orc-r-Ud-76-33-terenas-54%
+1-Orc-t-Hum-83-30-northren-79%
+1-Orc-t-Ud-87-4200-turtle-66%
+1-Orc-t-Orc-66-250-refuge-89%
+1-Orc-t-Ne-69-45-concealed-96%
+1-Orc-t-Hum-65-804-ancient-97%

@@ -98,6 +98,12 @@ input2 = copy.deepcopy(input)
 errors = []
 
 
+
+old_numeric_rf = RandomForestClassifier(n_estimators=2000, oob_score=True)
+old_numeric_rf.fit(input, y)
+oob_error_old = 1 - old_numeric_rf.oob_score_
+importances_old = old_numeric_rf.feature_importances_
+
 # {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 24, 'min_samples_leaf': 22, 'max_features': 5, 'max_depth': 14, 'bootstrap': False}
 
@@ -130,12 +136,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 2, 66, 250, 4]
-my_prediction = 78
+xin = [2, 1, 0, 65, 804, 9]
+my_prediction = 79
 Vagelis = 0
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
 
 
@@ -194,6 +200,8 @@ onehot_encoded.flatten()
 
 # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 y_pred1 = numeric_rf.predict_proba([xin])
+old_numeric_pred = old_numeric_rf.predict_proba([xin])
+
 if y_pred1[0][1] < 0.5:
     result = 0
 
@@ -274,6 +282,7 @@ strong_logistic, strong_logistic_CV = strong_logistic.strong_logistic(games, log
 
 s = parse_x(to_print, result)
 
+old_numeric_pred = int(round(old_numeric_pred[0][1]*100))
 pred1 = int(round(y_pred1[0][1]*100))
 pred3 = int(round(y_pred3[0][1]*100))
 logistic_pred = int(round(y_pred_logistic[0][1]*100))
@@ -296,7 +305,7 @@ avg_neural = (int(round(neural_pred[0][0] * 100)) +
               int(round(neural_predTest[0][0] * 100)))/6
 
 log =(s + "-" + str(pred1)
-      + "%-" + str(0)
+      + "%-" + str(old_numeric_pred)
       + "%-" + str(pred3)
       + "%-" + str(strong_logistic_CV)
       + "%-" + str(logistic_mu_CV)
@@ -325,6 +334,7 @@ print("avg opponent winrate: " + str(avg_opponents_winrate))
 print("observed Grubby winrates: " + str(observed_grubby_winrates))
 
 print("numeric rf: " + str(pred1) + "%")
+print("old numeric rf: " + str(old_numeric_pred) + "%")
 print("matchups logistic: " + str(logistic_mutchups)+"%")
 print("matchups logistic CV: " + str(logistic_mu_CV)+"%")
 print("strong logistic: " + str(strong_logistic) + "%")

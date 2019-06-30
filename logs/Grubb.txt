@@ -720,3 +720,5 @@
 1-Orc-t-Hum-83-30-northren
 1-Orc-t-Ud-87-4200-turtle
 1-Orc-t-Orc-66-250-refuge
+1-Orc-t-Ne-69-45-concealed
+1-Orc-t-Hum-65-804-ancient

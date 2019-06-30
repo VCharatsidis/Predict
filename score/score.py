@@ -32,6 +32,7 @@ def calc_scores(counter, preds, participations, pred_number, excluded_list=[], c
     s = n_predictions * [0]
 
     if counter < 676:
+        predictions[1] = 0
         predictions[3] = 0
         predictions[4] = 0
 
@@ -151,7 +152,7 @@ cap = 95
 
 print("cap "+str(cap))
 
-participants = {0: "numerical rf", 1: "no maps numeric rf", 2: "one hot rf", 3:"strong logistic CV", 4: "logistic mu CV", 5: "logistic matchup",
+participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
@@ -163,7 +164,8 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = 641
+LIMIT = 500
+UPPER_LIMIT = 2000
 
 opp = 9
 graph_a = 0
@@ -188,7 +190,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         counter = 0
         for i in contents:
-            if counter > LIMIT:
+            if counter > LIMIT and counter < UPPER_LIMIT:
                 s = calc_scores(counter, i, participations, counter, excluded, cap)
                 s = np.array(s)
 
@@ -201,7 +203,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 1 or participant == 8 or participant == 11 or participant == 12 or participant == 13:
+        if  participant == 8 or participant == 11 or participant == 12 or participant == 13:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
 
@@ -224,7 +226,7 @@ exc = [1, 8, 12, 13]
 points = []
 points.append(0)
 for i in contents:
-    if counter > LIMIT:
+    if counter > LIMIT and counter < UPPER_LIMIT:
         s = calc_scores(counter, i, participations, counter, exc)
         s = np.array(s)
 
