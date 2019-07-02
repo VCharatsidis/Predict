@@ -164,7 +164,7 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = 500
+LIMIT = 600
 UPPER_LIMIT = 2000
 
 opp = 9
@@ -203,7 +203,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if  participant == 8 or participant == 11 or participant == 12 or participant == 13:
+        if participant == 8 or participant == 11 or participant == 12 or participant == 13:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
 
@@ -222,7 +222,7 @@ total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
 
-exc = [1, 8, 12, 13]
+exc = [ 8, 12, 13]
 points = []
 points.append(0)
 for i in contents:

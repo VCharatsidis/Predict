@@ -92,6 +92,18 @@ input[:, 5] = labelencoder.fit_transform(input[:, 5])
 input[:, 5] = [int(x) for x in input[:, 5]]
 
 
+print(config.maps[int(input[0, 0:6][5])])
+print(config.maps[int(input[1, 0:6][5])])
+print(config.maps[int(input[2, 0:6][5])])
+print(config.maps[int(input[3, 0:6][5])])
+print(config.maps[int(input[4, 0:6][5])])
+print(config.maps[int(input[5, 0:6][5])])
+print(config.maps[int(input[6, 0:6][5])])
+print(config.maps[int(input[7, 0:6][5])])
+print(config.maps[int(input[8, 0:6][5])])
+print(config.maps[int(input[9, 0:6][5])])
+
+
 input2 = copy.deepcopy(input)
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,13 +147,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-
-xin = [2, 1, 0, 65, 804, 9]
-my_prediction = 79
-Vagelis = 0
+xin = [4, 1, 4, 88, 24, 1]
+my_prediction = 55
+Vagelis = 50
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 
@@ -225,23 +236,17 @@ neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, ne
 
 ############################################################## one hot rf ###############################
 
-estimators = 2000
-min_samples_split = 29
-min_samples_leaf = 15
-max_features = 21
-max_depth = 20
-bootstrap = True
 
 # {'n_estimators': 2000, 'min_samples_split': 29, 'min_samples_leaf': 15, 'max_features': 21, 'max_depth': 20, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 13, 'min_samples_leaf': 18, 'max_features': 22, 'max_depth': 22, 'bootstrap': True}
-one_hot_rf = RandomForestClassifier(n_estimators=estimators,
+one_hot_rf = RandomForestClassifier(n_estimators=2000,
                                     random_state=0,
                                     oob_score=True,
-                                    min_samples_leaf=min_samples_leaf,
-                                    min_samples_split=min_samples_split,
-                                    max_features=max_features,
-                                    max_depth=max_depth,
-                                    bootstrap=bootstrap)
+                                    min_samples_leaf=15,
+                                    min_samples_split=29,
+                                    max_features=21,
+                                    max_depth=20,
+                                    bootstrap=True)
 
 one_hot_rf.fit(onehot_input, y)
 oob_error3 = 1 - one_hot_rf.oob_score_
@@ -354,6 +359,7 @@ print("average neural: " + str(round(avg_neural)) +"%")
 
 print()
 print("oob error numeric rf: " + str(oob_error1))
+print("old importances " + str(importances_old))
 print("importances numeric rf: " + str(importances1))
 print("one hot importances: " + str(importances2))
 print("oob error one hot rf: " + str(oob_error3))

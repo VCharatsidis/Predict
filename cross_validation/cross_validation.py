@@ -42,7 +42,7 @@ numeric_rf = RandomForestClassifier()
 
 # Random search of parameters, using cv fold cross validation,
 # search across n_iter different combinations, and use all available cores
-rf_random = RandomizedSearchCV(estimator=numeric_rf, param_distributions=random_grid, n_iter=1200, cv=10, verbose=2, random_state=42, n_jobs=-1)
+rf_random = RandomizedSearchCV(estimator=numeric_rf, param_distributions=random_grid, n_iter=1000, cv=8, verbose=2, random_state=42, n_jobs=-1)
 
 # Fit the random search model
 

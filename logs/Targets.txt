@@ -714,7 +714,7 @@
 0-Ne-r-Ne-72-584-northren-47%
 0-Hum-r-Ne-68-660-refuge-40%
 1-Ne-r-Orc-58-209-terenas-94%
-0-Ud-r-Orc-100-6-northren-3%
+0-Ud-r-Orc-100-6-northren-10%
 1-Hum-r-Ra-58-77-terenas-89%
 0-Orc-r-Ud-76-33-terenas-54%
 1-Orc-t-Hum-83-30-northren-79%

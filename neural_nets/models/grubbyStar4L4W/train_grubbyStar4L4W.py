@@ -15,14 +15,14 @@ import matplotlib.pyplot as plt
 
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
-from GStar4L3W import GStar4L3WNet
+from GStar4L4W import GStar4L4WNet
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 2000000
-BATCH_SIZE_DEFAULT = 8
+MAX_STEPS_DEFAULT = 2200000
+BATCH_SIZE_DEFAULT = 16
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -76,7 +76,7 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStar4L-3W.model'
+    filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 100
@@ -111,7 +111,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = GStar4L3WNet(onehot_input.shape[1])
+    model = GStar4L4WNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -124,7 +124,7 @@ def train():
     loss_func = torch.nn.MSELoss()
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
+        BATCH_SIZE_DEFAULT = 16
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
