@@ -171,8 +171,8 @@ def test_all_models():
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'models/'
     models = ['grubbyStar/grubbyStar.model', 'grubbyStar2/grubbyStar2.model',
-              'grubbyStar3L-3W.model', 'grubbyStar4L-3W.model',
-              'grubbyStar4L4W.model', 'grubbyStarTest.model',
+              'grubbyStar3L-3W/grubbyStar3L-3W.model', 'grubbyStar4L-3W/grubbyStar4L-3W.model',
+              'grubbyStar4L4W/grubbyStar4L4W.model', 'grubbyStarTest.model',
               'cross_entropy/grubbyStarCrossEntropy.model']
 
     for model in models:

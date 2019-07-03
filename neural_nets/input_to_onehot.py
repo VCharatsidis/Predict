@@ -21,7 +21,7 @@ def get_predictions(data):
 
         processed_X = []
         max_prediction = 3.
-        min_prediction = 97.
+        min_prediction = 98.
 
         for x in X:
             if '%' in x:
@@ -36,10 +36,10 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 8
+        max_saturation = 3
         min_saturation = 0
 
-        max_prediction = min(max_prediction - max_saturation, 97.)
+        max_prediction = min(max_prediction - max_saturation, 98.)
         min_prediction = max(min_prediction + min_saturation, 3.)
 
         if float(X[0]) > 0.5:

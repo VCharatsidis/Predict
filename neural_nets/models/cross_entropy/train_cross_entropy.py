@@ -21,7 +21,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 300000
+MAX_STEPS_DEFAULT = 50000
 BATCH_SIZE_DEFAULT = 16
 EVAL_FREQ_DEFAULT = 1
 
@@ -73,7 +73,7 @@ def train():
     filepath = 'grubbyStarCrossEntropy.model'
     model_to_train = os.path.join(script_directory, filepath)
 
-    validation_games = 100
+    validation_games = 110
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
@@ -181,7 +181,7 @@ def train():
 
             train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-            p = 0.8
+            p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)

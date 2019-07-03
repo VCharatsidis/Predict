@@ -735,4 +735,13 @@
 0-Ud-t-Orc-57-350-terenas
 0-Ud-t-Ud-63-280-concealed
 1-Ud-t-Orc-74-85-refuge
-1-Ud-t-Ud-88-24-concealed
+0-Ud-t-Ud-88-24-concealed
+1-Hum-t-Ne-64-1650-terenas
+1-Hum-t-Orc-76-900-refuge
+0-Hum-t-Hum-87-3900-refuge
+0-Hum-t-Hum-65-850-terenas
+1-Hum-t-Ne-63-181-amazonia
+1-Hum-t-Ud-71-28-northren
+0-Hum-t-Orc-75-910-echo
+1-Hum-t-Ud-74-34-refuge
+0-Hum-t-Ud-66-650-turtle
