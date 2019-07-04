@@ -30,7 +30,12 @@ def logistic_reg(xin):
         Grubby_race = X[1]
         opponent_race = X[3]
 
+        X[4] = int(X[4])
+        if X[4] < 55:
+            continue
+
         X[1] = muchups_dicts[Grubby_race][opponent_race]
+
         X[3] = int(X[4])
         X[4] = X[6].rstrip("\n")
 
@@ -48,8 +53,8 @@ def logistic_reg(xin):
     y = input[:, 0]
     input = input[:, 1:]
 
-    input[:, 0] = labelencoder.fit_transform(input[:, 0])
-    input[:, 0] = [int(x) for x in input[:, 0]]
+    # input[:, 0] = labelencoder.fit_transform(input[:, 0])
+    # input[:, 0] = [int(x) for x in input[:, 0]]
 
     input[:, 1] = labelencoder.fit_transform(input[:, 1])
     input[:, 1] = [int(x) for x in input[:, 1]]
@@ -59,6 +64,8 @@ def logistic_reg(xin):
 
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 3])
     onehot_input = onehotencoder.fit_transform(input).toarray()
+    print(input[-1])
+    print(onehot_input[-1])
 
     clf = LogisticRegression(solver='lbfgs', max_iter=300).fit(onehot_input, y)
     clfCV = LogisticRegressionCV(solver='lbfgs', max_iter=300, cv=10).fit(onehot_input, y)
@@ -100,9 +107,9 @@ def logistic_reg(xin):
 
 #0-Hum-t-Ne-60-660-northren
 
-# xin = [4, 1, 4, 86, 3800, 7]
-# res = logistic_reg(xin)
-# print(res)
+xin = [4, 1, 4, 86, 3800, 7]
+res = logistic_reg(xin)
+print(res)
 
 
 

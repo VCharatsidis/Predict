@@ -40,6 +40,8 @@ def calc_scores(counter, preds, participations, pred_number, excluded_list=[], c
 
         if int(z[5]) <= 40:
             predictions[7] = 0
+            predictions[3] = 0
+            predictions[4] = 0
 
         if pred_number < FIXED_INPUT:
             if i > 13:
@@ -70,7 +72,8 @@ def calc_scores(counter, preds, participations, pred_number, excluded_list=[], c
 
             if int(z[5]) <= 40:
                 predictions[7] = 0
-
+                predictions[3] = 0
+                predictions[4] = 0
 
             if predictions[j] == 0:
                 continue
@@ -166,12 +169,12 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = 500
+LIMIT = 600
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 0
-graph_b = 1
+graph_a = 9
+graph_b = 20
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

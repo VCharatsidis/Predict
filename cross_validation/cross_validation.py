@@ -10,7 +10,7 @@ train_one_hot, train_features, train_labels = get_input()
 n_estimators = [2000]  #[int(x) for x in np.linspace(start=200, stop=2000, num=20)]
 
 # Number of features to consider at every split
-max_features = [int(x) for x in np.linspace(1, len(train_one_hot[0]), num=len(train_one_hot[0]))]
+max_features = [int(x) for x in np.linspace(1, len(train_features[0]), num=len(train_features[0]))]
 
 # Maximum number of levels in tree
 max_depth = [int(x) for x in np.linspace(5, 32, num=27)]
@@ -31,7 +31,7 @@ random_grid = {'n_estimators': n_estimators,
                'max_depth': max_depth,
                'min_samples_split': min_samples_split,
                'min_samples_leaf': min_samples_leaf,
-               'bootstrap': bootstrap}
+               }
 
 print(random_grid)
 
@@ -54,7 +54,7 @@ for i in train_features:
     print(str(counter)+" "+str(train_labels[counter]))
     counter += 1
 
-rf_random.fit(train_one_hot, train_labels)
+rf_random.fit(train_features, train_labels)
 
 print(rf_random.best_params_)
 

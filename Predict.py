@@ -109,23 +109,22 @@ input2 = copy.deepcopy(input)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
 
-
-
-old_numeric_rf = RandomForestClassifier(n_estimators=2000, oob_score=True)
+old_numeric_rf = RandomForestClassifier(n_estimators=2000, min_samples_split=10, oob_score=True)
 old_numeric_rf.fit(input, y)
 oob_error_old = 1 - old_numeric_rf.oob_score_
 importances_old = old_numeric_rf.feature_importances_
 
+
 # {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
-# {'n_estimators': 2000, 'min_samples_split': 24, 'min_samples_leaf': 22, 'max_features': 5, 'max_depth': 14, 'bootstrap': False}
+# {'n_estimators': 2000, 'min_samples_split': 5, 'min_samples_leaf': 18, 'max_features': 5, 'max_depth': 5}
 
 numeric_rf = RandomForestClassifier(n_estimators=2000,
                                     random_state=0,
                                     oob_score=True,
-                                    min_samples_leaf=17,
-                                    min_samples_split=17,
-                                    max_features=6,
-                                    max_depth=25,
+                                    min_samples_leaf=18,
+                                    min_samples_split=5,
+                                    max_features=3,
+                                    max_depth=20,
                                     bootstrap=True)
 numeric_rf.fit(input, y)
 oob_error1 = 1 - numeric_rf.oob_score_
@@ -147,8 +146,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-xin = [0, 1, 4, 66, 650, 7]
-my_prediction = 72
+xin = [1, 1, 2, 63, 1480, 9]
+my_prediction = 74
 Vagelis = 0
 result = 1
 
@@ -359,10 +358,14 @@ print("average neural: " + str(round(avg_neural)) +"%")
 
 print()
 print("oob error numeric rf: " + str(oob_error1))
-print("old importances " + str(importances_old))
 print("importances numeric rf: " + str(importances1))
-print("one hot importances: " + str(importances2))
+print()
+print("oob error old numeric rf: " + str(oob_error_old))
+print("old importances " + str(importances_old))
+print()
 print("oob error one hot rf: " + str(oob_error3))
+print("one hot importances: " + str(importances2))
+
 
 
 

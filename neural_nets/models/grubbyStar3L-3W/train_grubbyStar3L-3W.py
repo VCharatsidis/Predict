@@ -119,7 +119,7 @@ def train():
     accuracies = []
     losses = []
     max_acc = 0
-    min_loss = 100
+    min_loss = 110
 
     loss_func = torch.nn.MSELoss()
 

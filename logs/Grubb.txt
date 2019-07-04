@@ -745,3 +745,15 @@
 0-Hum-t-Orc-75-910-echo
 1-Hum-t-Ud-74-34-refuge
 0-Hum-t-Ud-66-650-turtle
+1-Ne-t-Ne-64-1650-refuge
+1-Ne-t-Hum-70-90-amazonia
+1-Ne-t-Orc-66-260-concealed
+1-Ne-t-Hum-63-62-amazonia
+1-Ne-t-Hum-87-3910-concealed
+0-Ne-t-Ud-84-90-twisted
+1-Ne-t-Orc-93-14-amazonia
+0-Ne-t-Ud-82-480-refuge
+0-Ne-t-Ud-73-590-turtle
+1-Ne-t-Orc-78-901-concealed
+0-Ne-t-Ne-82-88-terenas
+1-Ne-t-Orc-63-1480-xancient
