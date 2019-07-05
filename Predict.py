@@ -151,7 +151,7 @@ my_prediction = 74
 Vagelis = 0
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
 
 

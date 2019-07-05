@@ -64,6 +64,7 @@ def one_h(onehot_encoded, categories, xin):
 
 
 def test(modelTest, x):
+
     predTest = modelTest.forward(x)
     neural_predTest = predTest.detach().numpy()
 
@@ -133,7 +134,7 @@ def test_all(model):
     nes.append(ne5)
 
     mean1, std1, mean2, std2 = get_means_and_stds()
-
+    print(modelTest)
     print_results(undeads, mean1, std1, mean2, std2, modelTest)
     print(" ")
     print_results(orcs, mean1, std1, mean2, std2, modelTest)

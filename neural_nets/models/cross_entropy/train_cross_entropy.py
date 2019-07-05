@@ -20,9 +20,9 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 50000
-BATCH_SIZE_DEFAULT = 16
+LEARNING_RATE_DEFAULT = 1e-4
+MAX_STEPS_DEFAULT = 200000
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -109,6 +109,7 @@ def train():
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
+    #optimizer = torch.optim.RMSprop(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
 
     accuracies = []
     losses = []
@@ -116,7 +117,7 @@ def train():
     min_loss = 100
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 16
+        BATCH_SIZE_DEFAULT = 8
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)

@@ -20,9 +20,9 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-5
-MAX_STEPS_DEFAULT = 2000000
-BATCH_SIZE_DEFAULT = 8
+LEARNING_RATE_DEFAULT = 1e-4
+MAX_STEPS_DEFAULT = 200000
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 120
+    validation_games = 140
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -124,7 +124,7 @@ def train():
     loss_func = torch.nn.MSELoss()
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
+        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)

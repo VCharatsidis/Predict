@@ -169,12 +169,12 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = 600
+LIMIT = 755
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 9
-graph_b = 20
+graph_a = 0
+graph_b = 10
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

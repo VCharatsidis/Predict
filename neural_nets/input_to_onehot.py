@@ -3,7 +3,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import copy
 import os
 
-
+maps = []
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
@@ -50,10 +50,13 @@ def get_predictions(data):
         X[4] = float(X[4])
         X[5] = float(X[5])
 
+
         if X[5] > 300:
             X[5] = 300
 
         X[6] = X[6].rstrip("\n")
+        if X[6] not in maps:
+            maps.append(X[6])
 
         processed_X.append(X[0])
         processed_X.append(X[1])
@@ -67,6 +70,7 @@ def get_predictions(data):
         data.append(processed_X)
         counter += 1
 
+    print(maps)
     return data
 
 
