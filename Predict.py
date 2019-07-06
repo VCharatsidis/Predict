@@ -146,16 +146,16 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-xin = [1, 1, 2, 63, 1480, 9]
-my_prediction = 74
+xin = [3, 1, 3, 100, 1255, 2]
+my_prediction = 62
 Vagelis = 0
 result = 1
 
 write = False
 NEW_PATCH = 500
 
-
-logistic_mutchups, logistic_mu_CV = logistic_mutchups.logistic_reg(xin)
+path = "logs/Grubb.txt"
+logistic_mutchups, logistic_mu_CV = logistic_mutchups.logistic_reg(xin, path, 2000)
 
 
 # Hum = 0

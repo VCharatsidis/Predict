@@ -17,14 +17,18 @@ import config
 ################################## Logistic  -------------------------------------------------
 
 
-def logistic_reg(xin):
-    f = open("logs/Grubb.txt", "r")
+def logistic_reg(xin, path, i):
+    f = open(path, "r")
 
     contents = f.readlines()
 
     input = []
     counter = 0
     for l in contents:
+        if counter == i:
+            counter += 1
+            continue
+
         X = l.split('-')
 
         Grubby_race = X[1]
@@ -32,6 +36,7 @@ def logistic_reg(xin):
 
         X[4] = int(X[4])
         if X[4] < 55:
+            counter += 1
             continue
 
         X[1] = muchups_dicts[Grubby_race][opponent_race]
@@ -69,11 +74,11 @@ def logistic_reg(xin):
 
     clf = LogisticRegression(solver='lbfgs', max_iter=300).fit(onehot_input, y)
     clfCV = LogisticRegressionCV(solver='lbfgs', max_iter=300, cv=10).fit(onehot_input, y)
+    print(xin)
+    Grubby_race = config.races[int(xin[0])]
+    opponent_race = config.races[int(xin[2])]
 
-    Grubby_race = config.races[xin[0]]
-    opponent_race = config.races[xin[2]]
-
-    xin = [muchups_dicts[Grubby_race][opponent_race], xin[1], xin[3], xin[5]]
+    xin = [muchups_dicts[Grubby_race][opponent_race], int(xin[1]), int(xin[3]), int(xin[5])]
 
     onehot_encoded = []
 
@@ -107,9 +112,9 @@ def logistic_reg(xin):
 
 #0-Hum-t-Ne-60-660-northren
 
-xin = [4, 1, 4, 86, 3800, 7]
-res = logistic_reg(xin)
-print(res)
+# xin = [4, 1, 4, 86, 3800, 7]
+# res = logistic_reg(xin)
+# print(res)
 
 
 

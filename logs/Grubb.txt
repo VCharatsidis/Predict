@@ -13,7 +13,7 @@
 0-Ne-t-Hum-100-166-amazonia
 0-Ne-t-Hum-100-289-northren
 0-Ne-t-Ne-100-455-concealed
-0-Ne-t-Orc-100-1255-echo
+0-Ne-t-Orc-100-1255-xxnomad
 0-Ne-t-Ne-100-320-refuge
 0-Ne-t-Ud-98-455-terenas
 0-Ud-t-Hum-100-1800-amazonia
@@ -25,6 +25,7 @@
 1-Orc-t-Ud-100-12-terenas
 1-Hum-t-Hum-100-12-refuge
 1-Ra-r-Ra-58-40-refuge
+1-Ra-r-Ra-58-40-amazonia
 1-Ra-t-Ud-58-40-refuge
 1-Ra-t-Hum-58-40-refuge
 1-Ra-t-Ne-58-40-refuge
@@ -757,3 +758,13 @@
 1-Ne-t-Orc-78-901-concealed
 0-Ne-t-Ne-82-88-terenas
 1-Ne-t-Orc-63-1480-xancient
+1-Hum-t-Hum-80-243-refuge
+0-Hum-t-Ne-83-340-concealed
+1-Orc-t-Ne-58-660-echo
+0-Hum-r-Ne-68-710-terenas
+1-Ne-r-Ne-58-90-turtle
+1-Ud-t-Ud-63-2000-concealed
+0-Ud-r-Ne-65-1740-northren
+1-Ud-r-Hum-75-28-turtle
+1-Orc-r-Hum-79-253-refuge
+1-Orc-t-Ud-83-107-refuge
