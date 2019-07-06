@@ -73,7 +73,7 @@ def train():
     filepath = 'grubbyStarCrossEntropy.model'
     model_to_train = os.path.join(script_directory, filepath)
 
-    validation_games = 110
+    validation_games = 140
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 

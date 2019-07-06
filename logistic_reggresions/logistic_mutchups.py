@@ -47,6 +47,7 @@ def logistic_reg(xin, path, i):
         X = X[:-2]
 
         X = np.array(X)
+
         input.append(X)
 
         counter += 1
@@ -58,9 +59,6 @@ def logistic_reg(xin, path, i):
     y = input[:, 0]
     input = input[:, 1:]
 
-    # input[:, 0] = labelencoder.fit_transform(input[:, 0])
-    # input[:, 0] = [int(x) for x in input[:, 0]]
-
     input[:, 1] = labelencoder.fit_transform(input[:, 1])
     input[:, 1] = [int(x) for x in input[:, 1]]
 
@@ -69,16 +67,15 @@ def logistic_reg(xin, path, i):
 
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 3])
     onehot_input = onehotencoder.fit_transform(input).toarray()
-    print(input[-1])
-    print(onehot_input[-1])
 
-    clf = LogisticRegression(solver='lbfgs', max_iter=300).fit(onehot_input, y)
-    clfCV = LogisticRegressionCV(solver='lbfgs', max_iter=300, cv=10).fit(onehot_input, y)
-    print(xin)
+    clf = LogisticRegression(solver='lbfgs', max_iter=1000).fit(onehot_input, y)
+    clfCV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(onehot_input, y)
+
     Grubby_race = config.races[int(xin[0])]
     opponent_race = config.races[int(xin[2])]
 
     xin = [muchups_dicts[Grubby_race][opponent_race], int(xin[1]), int(xin[3]), int(xin[5])]
+    print("xin logistic regression mu: " + str(xin))
 
     onehot_encoded = []
 

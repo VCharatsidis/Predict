@@ -129,8 +129,8 @@ def input_to_onehot():
 
 
 def check_input():
-    predictions = open("Targets.txt", "r")
-    results = open("Grubb.txt", "r")
+    predictions = open("../logs/Targets.txt", "r")
+    results = open("../logs/Grubb.txt", "r")
 
     contents_pred = predictions.readlines()
     contents_res = results.readlines()

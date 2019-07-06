@@ -32,6 +32,7 @@ def strong_logistic(games, logistic_input, xin, original_input):
     else:
         logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
         y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
+
         clfRest = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_inputRest, y_Rest)
         clfRest_CV = LogisticRegressionCV(solver='lbfgs', max_iter=400, cv=10).fit(logistic_inputRest, y_Rest)
 

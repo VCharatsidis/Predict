@@ -1,6 +1,6 @@
 import numpy as np
 
-f = open("../logs/predictions.txt", "r")
+f = open("../logs/refinedPredictions.txt", "r")
 k = open("../logs/Grubb.txt")
 grubb = k.readlines()
 
@@ -8,8 +8,8 @@ input = []
 counter = 0
 x_train = []
 
-file = open("../logs/Targets.txt", "a")
-targets_file = open("../logs/Targets.txt", "r")
+file = open("../logs/refinedTargets.txt", "a")
+targets_file = open("../logs/refinedTargets.txt", "r")
 targets = targets_file.readlines()
 
 data = []
@@ -27,7 +27,7 @@ for line in contents:
 
     processed_X = []
     max_prediction = 3
-    min_prediction = 97
+    min_prediction = 98
 
     for x in X:
         if '%' in x:
@@ -49,7 +49,7 @@ for line in contents:
         max_saturation = 0
         min_saturation = 0
 
-    max_prediction = min(max_prediction - max_saturation, 97)
+    max_prediction = min(max_prediction - max_saturation, 98)
     min_prediction = max(min_prediction - min_saturation, 3)
 
     if float(X[0]) > 0.5:
@@ -62,7 +62,7 @@ for line in contents:
     X = s.join(X)
 
     print(X)
-    print(grubb[counter])
+    print(f[counter])
     target = grubb[counter].rstrip("\n")+ "-" + pred+"%"+"\n"
     file.write(target)
 

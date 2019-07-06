@@ -7,6 +7,10 @@ from logistic_reggresions.logistic_mutchups import logistic_reg
 from logistic_reggresions import strong_logistic
 from load_models import load_models
 
+from warnings import simplefilter
+simplefilter(action='ignore', category=FutureWarning)
+simplefilter(action='ignore', category=DeprecationWarning)
+
 import config
 
 
@@ -68,10 +72,9 @@ def predict(i):
     labelencoder = LabelEncoder()
 
     input_cp = np.array(input_cp)
+    original_input_for_strong_log_reg = copy.deepcopy(input_cp)
     y = input_cp[:, 0]
     input_cp = input_cp[:, 1:]
-
-
 
     input_cp[:, 0] = labelencoder.fit_transform(input_cp[:, 0])
     input_cp[:, 0] = [int(x) for x in input_cp[:, 0]]
@@ -91,6 +94,7 @@ def predict(i):
 
     print(xin)
     print(len(input_cp))
+    original_input_for_strong_log_reg = np.delete(original_input_for_strong_log_reg, i, axis=0)
     input_cp = np.delete(input_cp, i, axis=0)
     print(len(input_cp))
 
@@ -183,10 +187,6 @@ def predict(i):
 
     # One Hot ############################################################
 
-    # from sklearn.compose import ColumnTransformer
-    # # The last arg ([0]) is the list of columns you want to transform in this step
-    # ct = ColumnTransformer([("race grub", OneHotEncoder()),("tryhard", OneHotEncoder()), ("race opp", OneHotEncoder()), "map"])
-
 
     onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
     onehot_input = onehotencoder.fit_transform(input2).toarray()
@@ -226,7 +226,9 @@ def predict(i):
     clf = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_input, y)
     y_pred_logistic = clf.predict_proba([xin])
 
-    print("xin before srong log reg "+str(xin))
+    print("xin before strong log reg "+str(xin))
+    print("original_input_for_strong_log_reg[0] before strong log reg: " + str(original_input_for_strong_log_reg[0]))
+
     games = xin[-1]
 
     strong_logistic = 0
@@ -234,7 +236,7 @@ def predict(i):
 
     if games <= 15:
         logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
-        y_15 = [a[0] for a in original_input if int(a[-2]) <= 20]
+        y_15 = [a[0] for a in original_input_for_strong_log_reg if int(a[-2]) <= 20]
         clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
         clf15CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input15, y_15)
 
@@ -246,7 +248,7 @@ def predict(i):
 
     elif games < 40:
         logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
-        y_35 = [a[0] for a in original_input if 16 <= int(a[-2]) <= 60]
+        y_35 = [a[0] for a in original_input_for_strong_log_reg if 16 <= int(a[-2]) <= 60]
         clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
         clf35CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input35, y_35)
 
@@ -258,9 +260,10 @@ def predict(i):
 
     else:
         logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
-        y_Rest = [a[0] for a in original_input if 40 <= int(a[-2])]
-        clfRest = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_inputRest, y_Rest)
-        clfRest_CV = LogisticRegressionCV(solver='lbfgs', max_iter=400, cv=10).fit(logistic_inputRest, y_Rest)
+        y_Rest = [a[0] for a in original_input_for_strong_log_reg if 40 <= int(a[-2])]
+
+        clfRest = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_inputRest, y_Rest)
+        clfRest_CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_inputRest, y_Rest)
 
         y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
         y_pred_logisticRestCV = clfRest_CV.predict_proba([xin[:-1]])
