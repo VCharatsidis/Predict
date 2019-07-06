@@ -146,12 +146,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-xin = [3, 1, 4, 100, 1255, 2]
-my_prediction = 62
+xin = [2, 1, 0, 61, 49, 8]
+my_prediction = 82
 Vagelis = 0
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 path = "logs/Grubb.txt"
