@@ -185,9 +185,9 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 9
-graph_a = 9
-graph_b = 14
+opp = 14
+graph_a = 14
+graph_b = 20
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

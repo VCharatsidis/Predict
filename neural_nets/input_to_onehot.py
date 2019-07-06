@@ -7,7 +7,7 @@ maps = []
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'Targets.txt')
+    targets = os.path.join(script_directory, filepath + 'refinedTargets.txt')
     f = open(targets, "r")
 
     contents = f.readlines()
@@ -129,7 +129,7 @@ def input_to_onehot():
 
 
 def check_input():
-    predictions = open("../logs/Targets.txt", "r")
+    predictions = open("../logs/refinedTargets.txt", "r")
     results = open("../logs/Grubb.txt", "r")
 
     contents_pred = predictions.readlines()
