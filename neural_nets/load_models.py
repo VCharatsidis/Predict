@@ -17,6 +17,9 @@ def load_models(onehot_encoded):
     grubby_star_4L4W = os.path.join(script_directory, filepath + 'grubbyStar4L4W/grubbyStar4L4W.model')
     grubby_star_test = os.path.join(script_directory, filepath + 'grubbyStarTest.model')
     grubby_star_cross_entropy = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCrossEntropy.model')
+    grubby_ce2 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE2.model')
+    grubby_ce3 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE3.model')
+    grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
 
     onehot_neural = copy.deepcopy(onehot_encoded)
     mean1,  std1, mean2, std2 = get_means_and_stds()
@@ -66,5 +69,21 @@ def load_models(onehot_encoded):
     predCross = modelCross.forward(x)
     neural_predCross = predCross.detach().numpy()
 
+    modelCE2 = torch.load(grubby_ce2)
+    modelCE2.eval()
+    predCross2 = modelCE2.forward(x)
+    neural_predCross2 = predCross2.detach().numpy()
 
-    return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, neural_predTest, neural_predCross
+    modelCE3 = torch.load(grubby_ce3)
+    modelCE3.eval()
+    predCross3 = modelCE3.forward(x)
+    neural_predCross3 = predCross3.detach().numpy()
+
+    modelCE4 = torch.load(grubby_ce4)
+    modelCE4.eval()
+    predCross4 = modelCE4.forward(x)
+    neural_predCross4 = predCross4.detach().numpy()
+
+
+    return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, \
+           neural_pred4L4W, neural_predTest, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4

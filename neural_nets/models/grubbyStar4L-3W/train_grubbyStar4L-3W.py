@@ -211,13 +211,8 @@ def train():
     #######################
 
 
-def my_loss(output, target):
-    loss = torch.mean((3+output) * ((output - target) ** 2))
-    return loss
-
-
 def center_my_loss(output, target):
-    loss = torch.mean((output - target) ** 2) + torch.mean((target - 0.5)/(0.7+10*torch.abs(target-output)) ** 4)
+    loss = torch.mean((output - target) ** 2) + torch.mean(torch.abs(target - 0.5)/(0.9+12 * torch.abs(target-output)) ** 4)
     return loss
 
 

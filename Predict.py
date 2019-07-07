@@ -146,8 +146,10 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 
 # --------------------------------------------- Input -----------------------------------------------------------
 
-xin = [2, 1, 2, 70, 34, 9]
-my_prediction = 87
+# [0, 0, 0, 64, 36, 4] 76
+# [1, 1, 4, 83, 255, 0] 50
+xin = [1, 0, 0, 86, 14, 2]
+my_prediction = 74
 Vagelis = 0
 result = 1
 
@@ -230,7 +232,9 @@ logistic_input = copy.deepcopy(onehot_input)
 ####################################################   Neural nets   #####################################
 
 
-neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, neural_predTest, neural_predCross = load_models(onehot_encoded)
+neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
+neural_predTest, neural_predCross, neural_predCross2, neural_predCross3,\
+neural_predCross4 = load_models(onehot_encoded)
 
 
 ############################################################## one hot rf ###############################

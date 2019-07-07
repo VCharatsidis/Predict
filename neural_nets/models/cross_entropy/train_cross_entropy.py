@@ -9,7 +9,9 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from simple_net import SimpleMLP
+from cross_net2 import CrossNet2
+from cross_net3 import CrossNet3
+from cross_net4 import CrossNet4
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from neural_nets import test_nn
@@ -21,7 +23,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 200000
+MAX_STEPS_DEFAULT = 500000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -70,10 +72,10 @@ def train():
     # np.random.seed(42)
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCrossEntropy.model'
+    filepath = 'grubbyStarCE4.model'
     model_to_train = os.path.join(script_directory, filepath)
 
-    validation_games = 140
+    validation_games = 150
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
@@ -105,7 +107,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = SimpleMLP(onehot_input.shape[1])
+    model = CrossNet4(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)

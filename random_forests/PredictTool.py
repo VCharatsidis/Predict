@@ -196,7 +196,9 @@ def predict(i):
     ####################################################   Neural nets   #####################################
 
 
-    neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W, neural_predTest, neural_predCross = load_models(onehot_encoded)
+    neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
+    neural_predTest, neural_predCross, neural_predCross2, neural_predCross3,\
+    neural_predCross4 = load_models(onehot_encoded)
 
 
     ############################################################## one hot rf ###############################
@@ -319,6 +321,9 @@ def predict(i):
           +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
           +"-" + str(round(avg_neural))+"%"
           +"-" + str((int(round(neural_predCross[0][0]*100)))) + "%"
+          + "-" + str((int(round(neural_predCross2[0][0] * 100)))) + "%"
+          + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
+          + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
           +"\n")
 
     print(log)

@@ -144,7 +144,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/refinedPredictions.txt'
+filepath = '../logs/new_predictions.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
@@ -161,7 +161,7 @@ for i in contents2:
         continue
     old_preds.append(i)
 
-n_predictions = 21
+n_predictions = 24
 participations = n_predictions * [0]
 
 counter = 0
@@ -173,7 +173,8 @@ print("cap "+str(cap))
 participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV", 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
-                17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross"}
+                17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
+                22: "neural C 3", 23: "neural C 4"}
 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
@@ -185,9 +186,9 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 20
-graph_a = 14
-graph_b = 20
+opp = 9
+graph_a = 9
+graph_b = 16
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
