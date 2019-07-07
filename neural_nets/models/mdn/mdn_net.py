@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class GStar2Net(nn.Module):
+class SimpleMLP(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,10 +33,10 @@ class GStar2Net(nn.Module):
         Implement initialization of the network.
         """
 
-        super(GStar2Net, self).__init__()
+        super(SimpleMLP, self).__init__()
 
         width = 3
-        width_2 = 8
+        width_2 = 6
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -47,15 +47,15 @@ class GStar2Net(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2, width_2//2),
-            nn.BatchNorm1d(width_2//2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2//2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
-            nn.Tanh(),
+            # nn.Linear(width_2, width_2 // 2),
+            # nn.BatchNorm1d(width_2 // 2),
+            # nn.Tanh(),
 
-            nn.Linear(width_2//2, 1),
+            nn.Linear(width_2, 1),
             nn.Sigmoid()
 
         )

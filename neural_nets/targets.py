@@ -1,6 +1,6 @@
 import numpy as np
 
-f = open("../logs/refinedPredictions.txt", "r")
+f = open("../logs/new_predictions.txt", "r")
 k = open("../logs/Grubb.txt")
 grubb = k.readlines()
 
@@ -8,8 +8,8 @@ input = []
 counter = 0
 x_train = []
 
-file = open("../logs/refinedTargetsSecond.txt", "a")
-targets_file = open("../logs/refinedTargetsSecond.txt", "r")
+file = open("../logs/third_gen_targets.txt", "a")
+targets_file = open("../logs/third_gen_targets.txt", "r")
 targets = targets_file.readlines()
 
 data = []
@@ -64,9 +64,9 @@ for line in contents:
     min_prediction = max(min_prediction - min_saturation, 3)
 
     if float(X[0]) > 0.5:
-        pred = str(second_max)
+        pred = str(max_prediction)
     else:
-        pred = str(second_min)
+        pred = str(min_prediction)
 
 
     s = "-"

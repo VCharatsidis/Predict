@@ -4,16 +4,12 @@ from matplotlib import pyplot as plt
 import os
 
 
-def excluded(i, excluded):
-    for e in excluded:
-        if i == e:
-            return True
-
 
 points = []
 points.append(0)
-def calc_scores(vagelis, egw, counter, preds, participations, pred_number, excluded_list=[], cap=95):
-    z = preds.split("-")
+def calc_scores(preds, participations,  cap=95):
+    z = preds[0].split("-")
+    z2 = preds[1].split("-")
     predictions = []
 
     for s in z:
@@ -22,8 +18,14 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             s = s.replace('\n', '')
 
             predictions.append(int(s))
-    predictions[9] = vagelis
-    predictions[10] = egw
+
+    for s in z2:
+        if '%' in s:
+            s = s.replace('%', '')
+            s = s.replace('\n', '')
+
+            predictions.append(int(s))
+
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
 
@@ -51,8 +53,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
         if predictions[i] == 0:
             continue
 
-        if excluded(i, excluded_list):
-            continue
 
         if predictions[i] > cap:
             predictions[i] = cap
@@ -61,8 +61,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
         opponent = i+1
         for j in range(opponent, n_predictions):
 
-            if excluded(j, excluded_list):
-                continue
+
 
             if predictions[j] > cap:
                 predictions[j] = cap
@@ -144,12 +143,12 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/refinedPredictions.txt'
+filepath = '../logs/third_gen_targets.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
 
-filepath2 = '../logs/predictions.txt'
+filepath2 = '../logs/refinedTargets.txt'
 model_to_train2 = os.path.join(script_directory, filepath2)
 f2 = open(filepath2, "r")
 contents2 = f2.readlines()
@@ -185,117 +184,39 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 20
-graph_a = 14
+opp = 9
+graph_a = 9
 graph_b = 20
 
 
-def calc_scores_vs_opponent(opponent, cap=95):
-    scores_vs_opponent = n_predictions * [0]
-    for participant in range(n_predictions):
-
-        if participant == opponent:
-            continue
-
-        total_scores = n_predictions * [0]
-        total_scores = np.array(total_scores)
-        participations = n_predictions * [0]
-
-        excluded = list(range(0, n_predictions))
-
-        excluded.remove(participant)
-        excluded.remove(opponent)
-
-        counter = 0
-        for i in contents:
-
-            if counter > LIMIT and counter < UPPER_LIMIT:
-                humans = old_preds[counter].split("-")
-                if len(humans) < 18:
-                    vagelis = 0
-                    egw = 0
-                else:
-
-                    humans[16] = humans[16].replace('%', '')
-                    humans[17] = humans[17].replace('%', '')
-                    if '\n' in humans[17]:
-                        humans[17] = humans[17].replace('\n', '')
-
-                    vagelis = int(humans[16])
-
-                    if humans[17] =='':
-                        egw = 0
-                    else:
-                        egw = int(humans[17])
-
-
-
-                s = calc_scores(vagelis, egw, counter, i, participations, counter, excluded)
-                s = np.array(s)
-
-                total_scores = s + total_scores
-
-            counter += 1
-
-        if participations[participant] == 0:
-            continue
-
-        scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
-
-        if participant == 8 or participant == 11 or participant == 12 or participant == 13:
-            continue
-        print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
-
-    return scores_vs_opponent
-
-
-scores_vs_opp = calc_scores_vs_opponent(opp, 92)
-# for p in range(n_predictions):
-#     if p == 1 or p == 3 or p == 11:
-#         continue
-#
-#     print(participants[p] + " vs " + participants[opp] + " " + str(scores_vs_opp[p]))
 
 total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
-counter = 0
-participations = n_predictions * [0]
+
+participations = 2 * [0]
 
 exc = [8, 12, 13]
 points = []
 points.append(0)
 
 
-for i in contents:
+for i in range(len(contents)):
 
-    if counter > LIMIT and counter < UPPER_LIMIT:
-        humans = old_preds[counter].split("-")
-        if len(humans) < 18:
-            vagelis = 0
-            egw = 0
-        else:
-
-            humans[16] = humans[16].replace('%', '')
-            humans[17] = humans[17].replace('%', '')
-            if '\n' in humans[17]:
-                humans[17] = humans[17].replace('\n', '')
-
-            vagelis = int(humans[16])
-            if humans[17] == '':
-                egw = 0
-            else:
-                egw = int(humans[17])
-
-        s = calc_scores(vagelis, egw, counter, i, participations, counter, exc)
+    if i > LIMIT and i < UPPER_LIMIT:
+        print(contents2[i])
+        print(contents[i])
+        preds = [contents[i], contents2[i]]
+        s = calc_scores(preds, participations)
         s = np.array(s)
 
         total_scores = s + total_scores
+        points.append(total_scores[0])
 
     counter += 1
 
 print(points)
 plt.plot(points)
-plt.title(participants[graph_a]+" vs " + participants[graph_b])
+plt.title("third_gen_targets"+" vs " + "refinedTargetsSecond")
 plt.ylabel('winnings '+ participants[graph_a])
 plt.xlabel('bets')
 plt.show()

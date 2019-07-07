@@ -21,7 +21,7 @@ import os
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 1000000
-BATCH_SIZE_DEFAULT = 32
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -123,7 +123,7 @@ def train():
     loss_func = torch.nn.MSELoss()
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 32
+        BATCH_SIZE_DEFAULT = 8
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)

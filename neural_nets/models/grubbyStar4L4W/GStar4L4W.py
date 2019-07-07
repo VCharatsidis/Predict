@@ -36,7 +36,7 @@ class GStar4L4WNet(nn.Module):
         super(GStar4L4WNet, self).__init__()
 
         width = 4
-        width_2 = 20
+        width_2 = 8
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),

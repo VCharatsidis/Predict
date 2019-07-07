@@ -326,7 +326,7 @@ def predict(i):
 
 ################################## Score between classifiers ################################
 
-    file = open("../logs/refinedPredictions.txt", "a")
+    file = open("../logs/new_predictions.txt", "a")
     file.write(log)
     file.close()
 

@@ -7,7 +7,7 @@ maps = []
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'refinedTargetsSecond.txt')
+    targets = os.path.join(script_directory, filepath + 'refinedTargets.txt')
     f = open(targets, "r")
 
     contents = f.readlines()

@@ -24,8 +24,8 @@ def get_predictions(data):
         X[4] = float(X[4])
         X[5] = float(X[5])
 
-        if X[5] > 300:
-            X[5] = 300
+        if X[5] > 400:
+            X[5] = 400
 
         X[6] = X[6].rstrip("\n")
 

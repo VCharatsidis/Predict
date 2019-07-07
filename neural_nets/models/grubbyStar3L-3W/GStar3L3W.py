@@ -36,7 +36,7 @@ class GStar3L3WNet(nn.Module):
         super(GStar3L3WNet, self).__init__()
 
         width = 3
-        width_2 = 10
+        width_2 = 12
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),

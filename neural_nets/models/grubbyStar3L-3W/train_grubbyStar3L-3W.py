@@ -22,7 +22,7 @@ import os
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 300000
-BATCH_SIZE_DEFAULT = 32
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 130
+    validation_games = 200
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -121,10 +121,8 @@ def train():
     max_acc = 0
     min_loss = 110
 
-    loss_func = torch.nn.MSELoss()
-
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 32
+        BATCH_SIZE_DEFAULT = 8
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -139,7 +137,7 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-        loss = loss_func(output, y_train_batch)
+        loss = center_my_loss(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -163,7 +161,7 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = loss_func(pred, targets)
+            calc_loss = center_my_loss(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -186,9 +184,9 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = loss_func(pred, targets)
+            train_loss = center_my_loss(pred, targets)
 
-            p = 0.95
+            p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
@@ -219,7 +217,7 @@ def my_loss(output, target):
 
 
 def center_my_loss(output, target):
-    loss = ((output - target) ** 2) + torch.mean((target - 0.5)/(0.7+10*torch.abs(target-output)) ** 4)
+    loss = torch.mean((output - target) ** 2 + ((target - 0.5)/(0.7+10*torch.abs(target-output)) ** 4))
     return loss
 
 
