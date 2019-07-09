@@ -7,7 +7,7 @@ maps = []
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'refinedTargets.txt')
+    targets = os.path.join(script_directory, filepath + 'third_gen_targets.txt')
     f = open(targets, "r")
 
     contents = f.readlines()
@@ -36,7 +36,7 @@ def get_predictions(data):
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 3
+        max_saturation = 0
         min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 98.)
@@ -128,21 +128,30 @@ def input_to_onehot():
     return onehot_input, y, not_standardized_input
 
 
+
 def check_input():
-    predictions = open("../logs/refinedTargets.txt", "r")
-    results = open("../logs/Grubb.txt", "r")
+    predictions = open("../logs/third_gen_targets.txt", "r")
+    results = open("../logs/automagic.txt", "r")
 
     contents_pred = predictions.readlines()
     contents_res = results.readlines()
 
+
+
+    counter_55 = 0
     for i in range(len(contents_pred)):
+        z = contents_res[i].split("-")
+        if int(z[4]) < 55:
+            counter_55 += 1
+
+        print(z)
         print(i)
         print(contents_pred[i])
-        print(contents_res[i])
-        if contents_pred[i][0] != contents_res[i][0]:
+        print(contents_res[i+counter_55])
+        if contents_pred[i][0] != contents_res[i+counter_55][0]:
             print("ERROR")
             print(i)
             break
 
 
-#check_input()
+# check_input()

@@ -22,7 +22,7 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
+LEARNING_RATE_DEFAULT = 5e-5
 MAX_STEPS_DEFAULT = 500000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
@@ -71,13 +71,15 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE4.model'
-    model_to_train = os.path.join(script_directory, filepath)
-
-    validation_games = 150
-
     onehot_input, y, _ = cross_entropy_input_to_onehot()
+
+    validation_games = 120
+    model = CrossNet2(onehot_input.shape[1])
+    script_directory = os.path.split(os.path.abspath(__file__))[0]
+    filepath = 'grubbyStarCE2.model'
+    model_to_train = os.path.join(script_directory, filepath)
+    print(model)
+
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -107,19 +109,20 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = CrossNet4(onehot_input.shape[1])
-    print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
     #optimizer = torch.optim.RMSprop(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
+    #optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE_DEFAULT, weight_decay=1e-4)
 
     accuracies = []
     losses = []
     max_acc = 0
     min_loss = 100
-
+    patience = 20000
+    flag = 0
     for iteration in range(MAX_STEPS_DEFAULT):
         BATCH_SIZE_DEFAULT = 8
+
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -188,7 +191,7 @@ def train():
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
-
+                flag = iteration
                 print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
                     calc_loss.item()))
 

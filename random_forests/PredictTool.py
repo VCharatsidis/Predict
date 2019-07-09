@@ -111,29 +111,29 @@ def predict(i):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     errors = []
 
-    old_numeric_rf = RandomForestClassifier(n_estimators=2000, min_samples_split=10, oob_score=True)
-    old_numeric_rf.fit(input_cp, y)
-
-    numeric_rf = RandomForestClassifier(n_estimators=2000,
-                                        random_state=0,
-                                        oob_score=True,
-                                        min_samples_leaf=18,
-                                        min_samples_split=5,
-                                        max_features=3,
-                                        max_depth=20,
-                                        bootstrap=True)
-    numeric_rf.fit(input_cp, y)
-    oob_error1 = 1 - numeric_rf.oob_score_
-    errors.append(oob_error1)
-    importances1 = numeric_rf.feature_importances_
-
-
-
-    np.set_printoptions(precision=2)
-    importances1 = ['%.2f'%(float(a)) for a in importances1]
-
-
-    logistic_mutchups, logistic_mu_CV = logistic_reg(xin, "../logs/Grubb.txt", i)
+    # old_numeric_rf = RandomForestClassifier(n_estimators=2000, min_samples_split=10, oob_score=True)
+    # old_numeric_rf.fit(input_cp, y)
+    #
+    # numeric_rf = RandomForestClassifier(n_estimators=2000,
+    #                                     random_state=0,
+    #                                     oob_score=True,
+    #                                     min_samples_leaf=18,
+    #                                     min_samples_split=5,
+    #                                     max_features=3,
+    #                                     max_depth=20,
+    #                                     bootstrap=True)
+    # numeric_rf.fit(input_cp, y)
+    # oob_error1 = 1 - numeric_rf.oob_score_
+    # errors.append(oob_error1)
+    # importances1 = numeric_rf.feature_importances_
+    #
+    #
+    #
+    # np.set_printoptions(precision=2)
+    # importances1 = ['%.2f'%(float(a)) for a in importances1]
+    #
+    #
+    # logistic_mutchups, logistic_mu_CV = logistic_reg(xin, "../logs/Grubb.txt", i)
 
 
     # Hum = 0
@@ -181,124 +181,145 @@ def predict(i):
 
     # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 
-    y_pred1 = numeric_rf.predict_proba([xin])
-    old_numeric_pred = old_numeric_rf.predict_proba([xin])
-
-
-    # One Hot ############################################################
-
-
-    onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
-    onehot_input = onehotencoder.fit_transform(input2).toarray()
-    logistic_input = copy.deepcopy(onehot_input)
-
-
-    ####################################################   Neural nets   #####################################
-
-
+    # y_pred1 = numeric_rf.predict_proba([xin])
+    # old_numeric_pred = old_numeric_rf.predict_proba([xin])
+    #
+    #
+    # # One Hot ############################################################
+    #
+    #
+    # onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
+    # onehot_input = onehotencoder.fit_transform(input2).toarray()
+    # logistic_input = copy.deepcopy(onehot_input)
+    #
+    #
+    # ####################################################   Neural nets   #####################################
+    #
+    #
     neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
     neural_predTest, neural_predCross, neural_predCross2, neural_predCross3,\
     neural_predCross4 = load_models(onehot_encoded)
-
-
-    ############################################################## one hot rf ###############################
-
-    one_hot_rf = RandomForestClassifier(n_estimators=2000,
-                                        random_state=0,
-                                        oob_score=True,
-                                        min_samples_leaf=15,
-                                        min_samples_split=29,
-                                        max_features=21,
-                                        max_depth=20,
-                                        bootstrap=True)
-
-    one_hot_rf.fit(onehot_input, y)
-    oob_error3 = 1 - one_hot_rf.oob_score_
-    errors.append(oob_error3)
-
-    xin = onehot_encoded
-    y_pred3 = one_hot_rf.predict_proba([xin])
-
-    importances2 = one_hot_rf.feature_importances_
+    #
+    #
+    # ############################################################## one hot rf ###############################
+    #
+    # one_hot_rf = RandomForestClassifier(n_estimators=2000,
+    #                                     random_state=0,
+    #                                     oob_score=True,
+    #                                     min_samples_leaf=15,
+    #                                     min_samples_split=29,
+    #                                     max_features=21,
+    #                                     max_depth=20,
+    #                                     bootstrap=True)
+    #
+    # one_hot_rf.fit(onehot_input, y)
+    # oob_error3 = 1 - one_hot_rf.oob_score_
+    # errors.append(oob_error3)
+    #
+    # xin = onehot_encoded
+    # y_pred3 = one_hot_rf.predict_proba([xin])
+    #
+    # importances2 = one_hot_rf.feature_importances_
 
 
     ################################## Logistic  -------------------------------------------------
 
 
-    clf = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_input, y)
-    y_pred_logistic = clf.predict_proba([xin])
+    # clf = LogisticRegression(solver='lbfgs', max_iter=400).fit(logistic_input, y)
+    # y_pred_logistic = clf.predict_proba([xin])
+    #
+    # print("xin before strong log reg "+str(xin))
+    # print("original_input_for_strong_log_reg[0] before strong log reg: " + str(original_input_for_strong_log_reg[0]))
+    #
+    # games = xin[-1]
+    #
+    # strong_logistic = 0
+    # strong_logistic_CV = 0
+    #
+    # if games <= 15:
+    #     logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
+    #     y_15 = [a[0] for a in original_input_for_strong_log_reg if int(a[-2]) <= 20]
+    #     clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
+    #     clf15CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input15, y_15)
+    #
+    #     y_pred_logistic15_CV = clf15CV.predict_proba([xin[:-1]])
+    #     y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
+    #
+    #     strong_logistic = y_pred_logistic15[0][1]
+    #     strong_logistic_CV = y_pred_logistic15_CV[0][1]
+    #
+    # elif games < 40:
+    #     logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
+    #     y_35 = [a[0] for a in original_input_for_strong_log_reg if 16 <= int(a[-2]) <= 60]
+    #     clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
+    #     clf35CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input35, y_35)
+    #
+    #     y_pred_logistic15_CV = clf35CV.predict_proba([xin[:-1]])
+    #     y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
+    #
+    #     strong_logistic = y_pred_logistic35[0][1]
+    #     strong_logistic_CV = y_pred_logistic15_CV[0][1]
+    #
+    # else:
+    #     logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
+    #     y_Rest = [a[0] for a in original_input_for_strong_log_reg if 40 <= int(a[-2])]
+    #
+    #     clfRest = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_inputRest, y_Rest)
+    #     clfRest_CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_inputRest, y_Rest)
+    #
+    #     y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
+    #     y_pred_logisticRestCV = clfRest_CV.predict_proba([xin[:-1]])
+    #
+    #     strong_logistic = y_pred_logisticRest[0][1]
+    #     strong_logistic_CV = y_pred_logisticRestCV[0][1]
+    #
+    # ###############################  K nearest neightours   ##############################################
+    #
+    #
+    s = parse_x(to_print, result)
+    #
+    # old_numeric_pred = int(round(old_numeric_pred[0][1]*100))
+    # pred1 = int(round(y_pred1[0][1]*100))
+    # pred3 = int(round(y_pred3[0][1]*100))
+    # logistic_pred = int(round(y_pred_logistic[0][1]*100))
+    # logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
+    # logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
+    # strong_logistic = int(round(strong_logistic*100))
+    # strong_logistic_CV = int(round(strong_logistic_CV*100))
 
-    print("xin before strong log reg "+str(xin))
-    print("original_input_for_strong_log_reg[0] before strong log reg: " + str(original_input_for_strong_log_reg[0]))
-
-    games = xin[-1]
-
+    old_numeric_pred = 0
+    pred1 = 0
+    pred3 = 0
+    logistic_pred = 0
+    logistic_mutchups = 0
+    logistic_mu_CV = 0
     strong_logistic = 0
     strong_logistic_CV = 0
 
-    if games <= 15:
-        logistic_input15 = [a[:-1] for a in logistic_input if a[-1] <= 20]
-        y_15 = [a[0] for a in original_input_for_strong_log_reg if int(a[-2]) <= 20]
-        clf15 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input15, y_15)
-        clf15CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input15, y_15)
+    # neural_pred[0][0] = 0
+    # neural_pred2[0][0] = 0
+    # neural_pred3L3W[0][0] = 0
+    # neural_pred4L3W[0][0] = 0
+    # neural_pred4L4W[0][0] = 0
+    # neural_predTest[0][0] = 0
+    #
+    # neural_predCross2[0][0] = 0
+    # neural_predCross3[0][0] = 0
 
-        y_pred_logistic15_CV = clf15CV.predict_proba([xin[:-1]])
-        y_pred_logistic15 = clf15.predict_proba([xin[:-1]])
-
-        strong_logistic = y_pred_logistic15[0][1]
-        strong_logistic_CV = y_pred_logistic15_CV[0][1]
-
-    elif games < 40:
-        logistic_input35 = [a[:-1] for a in logistic_input if 16 <= a[-1] <= 60]
-        y_35 = [a[0] for a in original_input_for_strong_log_reg if 16 <= int(a[-2]) <= 60]
-        clf35 = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_input35, y_35)
-        clf35CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_input35, y_35)
-
-        y_pred_logistic15_CV = clf35CV.predict_proba([xin[:-1]])
-        y_pred_logistic35 = clf35.predict_proba([xin[:-1]])
-
-        strong_logistic = y_pred_logistic35[0][1]
-        strong_logistic_CV = y_pred_logistic15_CV[0][1]
-
-    else:
-        logistic_inputRest = [a[:-1] for a in logistic_input if 40 <= a[-1]]
-        y_Rest = [a[0] for a in original_input_for_strong_log_reg if 40 <= int(a[-2])]
-
-        clfRest = LogisticRegression(solver='lbfgs', max_iter=1000).fit(logistic_inputRest, y_Rest)
-        clfRest_CV = LogisticRegressionCV(solver='lbfgs', max_iter=1000, cv=10).fit(logistic_inputRest, y_Rest)
-
-        y_pred_logisticRest = clfRest.predict_proba([xin[:-1]])
-        y_pred_logisticRestCV = clfRest_CV.predict_proba([xin[:-1]])
-
-        strong_logistic = y_pred_logisticRest[0][1]
-        strong_logistic_CV = y_pred_logisticRestCV[0][1]
-
-    ###############################  K nearest neightours   ##############################################
-
-
-    s = parse_x(to_print, result)
-
-    old_numeric_pred = int(round(old_numeric_pred[0][1]*100))
-    pred1 = int(round(y_pred1[0][1]*100))
-    pred3 = int(round(y_pred3[0][1]*100))
-    logistic_pred = int(round(y_pred_logistic[0][1]*100))
-    logistic_mutchups = int(round(logistic_mutchups[0][1]*100))
-    logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
-    strong_logistic = int(round(strong_logistic*100))
-    strong_logistic_CV = int(round(strong_logistic_CV*100))
 
     # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
     print("")
-    if games < 30:
-        logistic_mutchups = 0
-        logistic_mu_CV = 0
+    # if games < 30:
+    #     logistic_mutchups = 0
+    #     logistic_mu_CV = 0
 
-    avg_neural = (int(round(neural_pred[0][0] * 100)) +
-                  int(round(neural_pred2[0][0] * 100)) +
-                  int(round(neural_pred3L3W[0][0] * 100)) +
-                  int(round(neural_pred4L3W[0][0] * 100)) +
-                  int(round(neural_pred4L4W[0][0] * 100)) +
-                  int(round(neural_predTest[0][0] * 100)))/6
+    avg_neural = 0
+    # avg_neural = (int(round(neural_pred[0][0] * 100)) +
+    #               int(round(neural_pred2[0][0] * 100)) +
+    #               int(round(neural_pred3L3W[0][0] * 100)) +
+    #               int(round(neural_pred4L3W[0][0] * 100)) +
+    #               int(round(neural_pred4L4W[0][0] * 100)) +
+    #               int(round(neural_predTest[0][0] * 100)))/6
 
     log =(s + "-" + str(pred1)
           + "%-" + str(old_numeric_pred)

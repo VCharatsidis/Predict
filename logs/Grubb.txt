@@ -822,3 +822,13 @@
 1-Ud-r-Ne-57-1210-amazonia
 0-Ne-t-Ud-83-255-amazonia
 0-Ne-r-Hum-86-14-echo
+1-Ud-t-Ud-66-380-swamped
+1-Ud-t-Hum-88-16-northren
+1-Ud-t-Ud-93-14-turtle
+1-Ud-t-Ud-67-66-refuge
+1-Ud-t-Ne-64-242-refuge
+0-Ud-t-Hum-86-4000-northren
+0-Ud-t-Ud-83-264-xxnomad
+1-Ud-t-Hum-68-80-northren
+1-Ud-t-Ud-64-710-twisted
+0-Ud-t-Ne-68-710-concealed

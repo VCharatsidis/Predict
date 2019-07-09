@@ -64,9 +64,9 @@ for line in contents:
     min_prediction = max(min_prediction - min_saturation, 3)
 
     if float(X[0]) > 0.5:
-        pred = str(max_prediction)
+        pred = str(max_prediction+1)
     else:
-        pred = str(min_prediction)
+        pred = str(min_prediction-1)
 
 
     s = "-"
