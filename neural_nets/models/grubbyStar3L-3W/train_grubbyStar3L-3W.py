@@ -122,7 +122,6 @@ def train():
     min_loss = 110
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -146,19 +145,18 @@ def train():
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
 
-            BATCH_SIZE_DEFAULT = len(X_test)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            ids = np.array(range(len(X_test)))
             x = X_test[ids, :]
             targets = y_test[ids]
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            x = np.reshape(x, (len(X_test), -1))
 
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
 
             acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = np.reshape(targets, (len(X_test), -1))
             targets = Variable(torch.FloatTensor(targets))
 
             calc_loss = center_my_loss(pred, targets)
@@ -169,17 +167,17 @@ def train():
             ###################
 
             BATCH_SIZE_DEFAULT = len(X_train)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            ids = np.array(range(X_train))
             x = X_train[ids, :]
             targets = y_train[ids]
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            x = np.reshape(x, (X_train, -1))
 
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
 
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = np.reshape(targets, (X_train, -1))
             train_acc = accuracy(pred, targets)
 
             targets = Variable(torch.FloatTensor(targets))
@@ -211,13 +209,8 @@ def train():
     #######################
 
 
-def my_loss(output, target):
-    loss = torch.mean((3+output) * ((output - target) ** 2))
-    return loss
-
-
 def center_my_loss(output, target):
-    loss = torch.mean(torch.abs(output - target) + torch.abs((target - 0.5)/12) ** 2)
+    loss = torch.mean(torch.abs(torch.log(output/target)))
     return loss
 
 

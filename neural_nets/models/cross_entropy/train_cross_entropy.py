@@ -73,7 +73,10 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    validation_games = 120
+    LEARNING_RATE_DEFAULT = 5e-5
+    MAX_STEPS_DEFAULT = 300000
+    BATCH_SIZE_DEFAULT = 9
+    validation_games = 130
     model = CrossNet2(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStarCE2.model'
@@ -121,8 +124,6 @@ def train():
     patience = 20000
     flag = 0
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
-
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -147,19 +148,18 @@ def train():
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
 
-            BATCH_SIZE_DEFAULT = len(X_test)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            ids = np.array(range(len(X_test)))
             x = X_test[ids, :]
             targets = y_test[ids]
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            x = np.reshape(x, (len(X_test), -1))
 
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
 
             acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = np.reshape(targets, (len(X_test), -1))
             targets = Variable(torch.FloatTensor(targets))
 
             calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
@@ -169,18 +169,17 @@ def train():
 
             ###################
 
-            BATCH_SIZE_DEFAULT = len(X_train)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
+            ids = np.array(range(len(X_train)))
             x = X_train[ids, :]
             targets = y_train[ids]
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            x = np.reshape(x, (len(X_train), -1))
 
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
 
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            targets = np.reshape(targets, (len(X_train), -1))
             train_acc = accuracy(pred, targets)
 
             targets = Variable(torch.FloatTensor(targets))

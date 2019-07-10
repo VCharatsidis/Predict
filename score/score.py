@@ -22,8 +22,11 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             s = s.replace('\n', '')
 
             predictions.append(int(s))
+
+
     predictions[9] = vagelis
     predictions[10] = egw
+
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
 
@@ -186,8 +189,8 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 20
-graph_a = 17
+opp = 9
+graph_a = 9
 graph_b = 20
 
 

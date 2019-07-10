@@ -18,8 +18,8 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 2000000
+LEARNING_RATE_DEFAULT = 5e-5
+MAX_STEPS_DEFAULT = 3000000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -77,7 +77,7 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 130
+    validation_games = 140
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -119,8 +119,6 @@ def train():
     max_acc = 0
     min_loss = 100
 
-    loss_func = torch.nn.MSELoss()
-
     for iteration in range(MAX_STEPS_DEFAULT):
         BATCH_SIZE_DEFAULT = 8
         model.train()
@@ -137,7 +135,7 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-        loss = loss_func(output, y_train_batch)
+        loss = center_my_loss(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -161,7 +159,7 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = loss_func(pred, targets)
+            calc_loss = center_my_loss(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -184,7 +182,7 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = loss_func(pred, targets)
+            train_loss = center_my_loss(pred, targets)
 
             p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -211,13 +209,8 @@ def train():
     #######################
 
 
-def my_loss(output, target):
-    loss = torch.mean((3+output) * ((output - target) ** 2))
-    return loss
-
-
 def center_my_loss(output, target):
-    loss = ((output - target) ** 2) + ((target - 0.5)/(0.7+10*torch.abs(target-output)) ** 4)
+    loss = torch.mean(torch.abs(torch.log(output/target)))
     return loss
 
 

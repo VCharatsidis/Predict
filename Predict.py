@@ -147,8 +147,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [4, 1, 1, 68, 710, 1]
-my_prediction = 65
+xin = [0, 1, 0, 87, 4000, 6]
+my_prediction = 43
 Vagelis = 0
 result = 1
 
@@ -332,6 +332,9 @@ log =(s + "-" + str(pred1)
       +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
       +"-" + str(round(avg_neural))+"%"
       +"-" + str((int(round(neural_predCross[0][0]*100)))) + "%"
+      + "-" + str((int(round(neural_predCross2[0][0] * 100)))) + "%"
+      + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
+      + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
       +"\n")
 
 print(log)
@@ -350,6 +353,9 @@ print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 print("")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
+print("neural Cross 2: " + str(int(round(neural_predCross2[0][0]*100))) + "%")
+print("neural Cross 3: " + str(int(round(neural_predCross3[0][0]*100))) + "%")
+print("neural Cross 4: " + str(int(round(neural_predCross4[0][0]*100))) + "%")
 print("neural pred: " + str(int(round(neural_pred[0][0]*100))) + "%")
 print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
 print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")

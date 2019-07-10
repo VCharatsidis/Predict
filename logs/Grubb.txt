@@ -832,3 +832,9 @@
 1-Ud-t-Hum-68-80-northren
 1-Ud-t-Ud-64-710-twisted
 0-Ud-t-Ne-68-710-concealed
+1-Hum-t-Orc-64-164-terenas
+1-Hum-t-Ne-65-1800-northren
+1-Hum-t-Ud-59-1250-amazonia
+1-Hum-t-Ne-79-203-twisted
+1-Hum-t-Ud-68-25-amazonia
+0-Hum-t-Hum-87-4000-terenas

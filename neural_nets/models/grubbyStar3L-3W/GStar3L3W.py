@@ -47,11 +47,11 @@ class GStar3L3WNet(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width, width_2),
-            nn.BatchNorm1d(width_2),
+            nn.Linear(width_2, width_2//2),
+            nn.BatchNorm1d(width_2//2),
             nn.Tanh(),
 
-            nn.Linear(width_2, width_2//2),
+            nn.Linear(width_2//2, width_2//2),
             nn.BatchNorm1d(width_2//2),
             nn.Tanh(),
 
