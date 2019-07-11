@@ -20,7 +20,7 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-5
+LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 2000000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
@@ -75,11 +75,12 @@ def train():
     else:
         device = torch.device('cpu')
 
+    BATCH_SIZE_DEFAULT = 32
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 130
+    validation_games = 150
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -167,17 +168,17 @@ def train():
             ###################
 
             BATCH_SIZE_DEFAULT = len(X_train)
-            ids = np.array(range(X_train))
+            ids = np.array(range(BATCH_SIZE_DEFAULT))
             x = X_train[ids, :]
             targets = y_train[ids]
 
-            x = np.reshape(x, (X_train, -1))
+            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
             x = Variable(torch.FloatTensor(x))
 
             pred = model.forward(x)
 
-            targets = np.reshape(targets, (X_train, -1))
+            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             train_acc = accuracy(pred, targets)
 
             targets = Variable(torch.FloatTensor(targets))
@@ -210,7 +211,7 @@ def train():
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(torch.abs(torch.log(output/target)))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target -0.05))))
     return loss
 
 

@@ -15,13 +15,14 @@ import matplotlib.pyplot as plt
 from GStarNet import GStarNet
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
+from train_cross_entropy import cross_entropy_input_to_onehot
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 5e-5
+LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 3000000
-BATCH_SIZE_DEFAULT = 16
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -78,8 +79,9 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 150
+    validation_games = 130
 
+    _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
@@ -87,6 +89,7 @@ def train():
 
     X_train = onehot_input[train_ids, :]
     y_train = y[train_ids]
+    y_train_real = real_y[train_ids]
 
     # X_train = onehot_input[0: -validation_games, :]
     # y_train = y[0: -validation_games]
@@ -98,6 +101,7 @@ def train():
 
     X_test = onehot_input[val_ids, :]
     y_test = y[val_ids]
+    y_test_real = real_y[val_ids]
 
     # X_test = onehot_input[-validation_games:, :]
     # y_test = y[-validation_games:]
@@ -122,13 +126,14 @@ def train():
 
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 16
+        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
         X_train_batch = X_train[ids, :]
         y_train_batch = y_train[ids]
+        y_train_batch_real = y_train_real[ids]
 
         X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
         X_train_batch = Variable(torch.FloatTensor(X_train_batch))
@@ -137,7 +142,10 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-        loss = center_my_loss(output, y_train_batch)
+
+        y_train_batch_real = np.reshape(y_train_batch_real, (BATCH_SIZE_DEFAULT, -1))
+        y_train_batch_real = Variable(torch.FloatTensor(y_train_batch_real))
+        loss = center_my_loss(output, y_train_batch, y_train_batch_real)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -150,6 +158,7 @@ def train():
             ids = np.array(range(BATCH_SIZE_DEFAULT))
             x = X_test[ids, :]
             targets = y_test[ids]
+            real_targets = y_test_real[ids]
 
             x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
@@ -161,7 +170,10 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = center_my_loss(pred, targets)
+            real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
+            real_targets = Variable(torch.FloatTensor(real_targets))
+
+            calc_loss = center_my_loss(pred, targets, real_targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -172,6 +184,7 @@ def train():
             ids = np.array(range(BATCH_SIZE_DEFAULT))
             x = X_train[ids, :]
             targets = y_train[ids]
+            real_targets = y_train_real[ids]
 
             x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
@@ -180,11 +193,13 @@ def train():
             pred = model.forward(x)
 
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+            real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
             train_acc = accuracy(pred, targets)
 
             targets = Variable(torch.FloatTensor(targets))
+            real_targets = Variable(torch.FloatTensor(real_targets))
 
-            train_loss = center_my_loss(pred, targets)
+            train_loss = center_my_loss(pred, targets, real_targets)
 
             p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -216,8 +231,8 @@ def my_loss(output, target):
     return loss
 
 
-def center_my_loss(output, target):
-    loss = torch.mean(torch.abs(torch.log(output/target) * target + 0.05) * (1 +torch.abs(0.5 - target)))
+def center_my_loss(output, target, y):
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.84 * target))))
     return loss
 
 

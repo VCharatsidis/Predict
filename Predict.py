@@ -147,8 +147,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [0, 1, 0, 87, 4000, 6]
-my_prediction = 43
+xin = [1, 1, 4, 81, 16, 6]
+my_prediction = 75
 Vagelis = 0
 result = 1
 

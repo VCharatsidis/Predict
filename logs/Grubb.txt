@@ -838,3 +838,7 @@
 1-Hum-t-Ne-79-203-twisted
 1-Hum-t-Ud-68-25-amazonia
 0-Hum-t-Hum-87-4000-terenas
+1-Ne-t-Ra-79-200-amazonia
+0-Ne-t-Orc-92-13-northren
+1-Ne-t-Orc-58-170-amazonia
+1-Ne-t-Ud-81-16-terenas

@@ -73,13 +73,13 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 5e-5
+    LEARNING_RATE_DEFAULT = 3e-5
     MAX_STEPS_DEFAULT = 300000
-    BATCH_SIZE_DEFAULT = 9
-    validation_games = 130
-    model = CrossNet2(onehot_input.shape[1])
+    BATCH_SIZE_DEFAULT = 16
+    validation_games = 150
+    model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
     print(model)
 
@@ -209,6 +209,9 @@ def train():
     # END OF YOUR CODE    #
     #######################
 
+def center_my_loss(output, target):
+    loss = torch.mean(-target * 0.97 * torch.log(output) - (1-target) * torch.log(1 - output))
+    return loss
 
 def print_flags():
     """
