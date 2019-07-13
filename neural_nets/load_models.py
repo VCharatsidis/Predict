@@ -25,7 +25,7 @@ def load_models(onehot_encoded):
     mean1,  std1, mean2, std2 = get_means_and_stds()
     x = standardize_instance(onehot_neural, mean1, std1, mean2, std2)
 
-    print(x)
+    # print(x)
 
     # input->2, 2->2, 2->1
     model = torch.load(grubby_star)

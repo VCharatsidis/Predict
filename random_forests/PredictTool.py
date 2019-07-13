@@ -92,11 +92,11 @@ def predict(i):
     xin = copy.deepcopy(input_cp[i])
     xin = [int(x) for x in xin]
 
-    print(xin)
-    print(len(input_cp))
+    # print(xin)
+    # print(len(input_cp))
     original_input_for_strong_log_reg = np.delete(original_input_for_strong_log_reg, i, axis=0)
     input_cp = np.delete(input_cp, i, axis=0)
-    print(len(input_cp))
+    #print(len(input_cp))
 
     result = y[i]
     y = np.delete(y, i, axis=0)
@@ -107,10 +107,10 @@ def predict(i):
     #
     #
     # input2 = copy.deepcopy(input_cp)
-    #
-    # # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # #
+    # # # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # errors = []
-    #
+    # #
     # old_numeric_rf = RandomForestClassifier(n_estimators=2000, min_samples_split=10, oob_score=True)
     # old_numeric_rf.fit(input_cp, y)
     #
@@ -183,11 +183,11 @@ def predict(i):
 
     # y_pred1 = numeric_rf.predict_proba([xin])
     # old_numeric_pred = old_numeric_rf.predict_proba([xin])
-    #
-    #
-    # # One Hot ############################################################
-    #
-    #
+    # #
+    # #
+    # # # One Hot ############################################################
+    # #
+    # #
     # onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
     # onehot_input = onehotencoder.fit_transform(input2).toarray()
     # logistic_input = copy.deepcopy(onehot_input)
@@ -297,7 +297,7 @@ def predict(i):
     strong_logistic_CV = 0
 
     # neural_pred[0][0] = 0
-    #neural_pred2[0][0] = 0
+    # neural_pred2[0][0] = 0
     # neural_pred3L3W[0][0] = 0
     # neural_pred4L3W[0][0] = 0
     # neural_pred4L4W[0][0] = 0
@@ -321,6 +321,16 @@ def predict(i):
                   int(round(neural_pred4L4W[0][0] * 100)) +
                   int(round(neural_predTest[0][0] * 100)))/6
 
+    if neural_predCross4[0][0] * 100 > 66:
+        merged = neural_predCross4[0][0] * 100
+    else:
+        merged = neural_pred[0][0] * 100
+
+    if merged < 0.5:
+        result = 0
+
+    averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0]) / 2 * 100
+
     log =(s + "-" + str(pred1)
           + "%-" + str(old_numeric_pred)
           + "%-" + str(pred3)
@@ -333,8 +343,8 @@ def predict(i):
           + "0%-"
           + "0%-"
           + "0%-"
-          + "0%-"
-          + "0%"
+          + str(merged) +"%-"
+          + str(averaged)+"%"
           +"-" + str((int(round(neural_pred[0][0]*100)))) + "%"
           +"-" + str((int(round(neural_pred2[0][0]*100)))) + "%"
           +"-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
@@ -370,9 +380,9 @@ for l in contents:
     X[5] = int(X[5])
 
     if X[5] < 15:
-        X[4] = int(X[4] * 0.88)
+        X[4] = int(X[4] * 0.9)
     elif X[5] < 30:
-        X[4] = int(X[4] * 0.93)
+        X[4] = int(X[4] * 0.95)
 
     X[6] = X[6].rstrip("\n")
 

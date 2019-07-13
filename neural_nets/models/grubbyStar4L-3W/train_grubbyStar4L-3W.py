@@ -22,7 +22,7 @@ import os
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 1000000
-BATCH_SIZE_DEFAULT = 16
+BATCH_SIZE_DEFAULT = 128
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 150
+    validation_games = 130
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -122,7 +122,7 @@ def train():
     min_loss = 100
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 16
+        BATCH_SIZE_DEFAULT = 64
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -212,9 +212,13 @@ def train():
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(torch.abs(output - target) + torch.abs((target - 0.5)/12) ** 2)
-    return loss
+    real = torch.round(target)
+    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+    target_reduction = (0.9 * y - 0.01 * torch.exp(y)) * real + (1.02 * y + 0.01 * torch.exp(y))*(1-real)
 
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+    return loss
 
 def print_flags():
     """

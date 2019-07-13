@@ -842,3 +842,14 @@
 0-Ne-t-Orc-92-13-northren
 1-Ne-t-Orc-58-170-amazonia
 1-Ne-t-Ud-81-16-terenas
+0-Ne-r-Hum-59-135-echo
+0-Ne-t-Ud-85-164-twisted
+1-Ne-t-Orc-77-900-northren
+0-Hum-r-Orc-57-385-refuge
+1-Orc-t-Orc-66-290-refuge
+1-Orc-t-Hum-92-12-northren
+1-Orc-t-Ud-83-53-northren
+1-Orc-t-Ne-58-390-amazonia
+1-Orc-t-Ud-77-146-twisted
+1-Orc-t-Ud-82-500-refuge
+1-Orc-t-Ud-82-500-terenas

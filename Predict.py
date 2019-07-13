@@ -147,8 +147,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [1, 1, 4, 81, 16, 6]
-my_prediction = 75
+xin = [2, 1, 4, 82, 500, 6]
+my_prediction = 70
 Vagelis = 0
 result = 1
 
@@ -213,8 +213,7 @@ onehot_encoded.flatten()
 y_pred1 = numeric_rf.predict_proba([xin])
 old_numeric_pred = old_numeric_rf.predict_proba([xin])
 
-if y_pred1[0][1] < 0.5:
-    result = 0
+
 
 # One Hot ############################################################
 
@@ -298,6 +297,17 @@ logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
 strong_logistic = int(round(strong_logistic*100))
 strong_logistic_CV = int(round(strong_logistic_CV*100))
 
+
+if neural_predCross4[0][0] * 100 > 66:
+    merged = neural_predCross4[0][0] * 100
+else:
+    merged = neural_pred[0][0] * 100
+
+if merged < 0.5:
+    result = 0
+
+averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0])/2 * 100
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 30:
@@ -323,8 +333,8 @@ log =(s + "-" + str(pred1)
       + str(Vagelis)
       +"%-" + str(my_prediction) + "%"
       +"-0%-"
-      + "0%-"
-      + "0%"
+      + str(int(round(merged))) + "%-"
+      + str(int(round(averaged))) + "%"
       +"-" + str((int(round(neural_pred[0][0]*100)))) + "%"
       +"-" + str((int(round(neural_pred2[0][0]*100)))) + "%"
       +"-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
@@ -352,6 +362,8 @@ print("strong logistic CV: " + str(strong_logistic_CV) + "%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 print("")
+print("merged: " + str(int(round(merged))) + "%")
+print("averaged: " + str(int(round(averaged))) + "%")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural Cross 2: " + str(int(round(neural_predCross2[0][0]*100))) + "%")
 print("neural Cross 3: " + str(int(round(neural_predCross3[0][0]*100))) + "%")

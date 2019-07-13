@@ -20,9 +20,9 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 2e-5
+LEARNING_RATE_DEFAULT = 5e-5
 MAX_STEPS_DEFAULT = 3000000
-BATCH_SIZE_DEFAULT = 8
+BATCH_SIZE_DEFAULT = 16
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 200
+    validation_games = 160
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -119,12 +119,12 @@ def train():
     accuracies = []
     losses = []
     max_acc = 0
-    min_loss = 100
+    min_loss = 1000
 
     loss_func = torch.nn.MSELoss()
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 8
+        BATCH_SIZE_DEFAULT = 16
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -139,7 +139,7 @@ def train():
 
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-        loss = loss_func(output, y_train_batch)
+        loss = center_my_loss(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -163,7 +163,7 @@ def train():
             targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = loss_func(pred, targets)
+            calc_loss = center_my_loss(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -186,7 +186,7 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = loss_func(pred, targets)
+            train_loss = center_my_loss(pred, targets)
 
             p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -212,6 +212,10 @@ def train():
     # END OF YOUR CODE    #
     #######################
 
+
+def center_my_loss(output, target):
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.9 * target - 0.01*torch.exp(target)))))
+    return loss
 
 
 def print_flags():

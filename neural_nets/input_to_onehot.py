@@ -127,31 +127,34 @@ def input_to_onehot():
 
     return onehot_input, y, not_standardized_input
 
+def filter(list):
+    filter_55 = []
+    for i in range(len(list)):
+        z = list[i].split("-")
+        if int(z[4]) < 55:
+            continue
+        filter_55.append(list[i])
 
+    return filter_55
 
 def check_input():
-    predictions = open("../logs/third_gen_targets.txt", "r")
+    predictions = open("../logs/new_predictions.txt", "r")
     results = open("../logs/automagic.txt", "r")
 
     contents_pred = predictions.readlines()
     contents_res = results.readlines()
 
+    filtered_results = filter(contents_res)
 
-
-    counter_55 = 0
     for i in range(len(contents_pred)):
-        z = contents_res[i].split("-")
-        if int(z[4]) < 55:
-            counter_55 += 1
-
-        print(z)
         print(i)
+
         print(contents_pred[i])
-        print(contents_res[i+counter_55])
-        if contents_pred[i][0] != contents_res[i+counter_55][0]:
+        print(filtered_results[i])
+        if contents_pred[i][0] != filtered_results[i][0]:
             print("ERROR")
             print(i)
             break
 
 
-# check_input()
+#check_input()

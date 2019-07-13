@@ -23,16 +23,15 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
             predictions.append(int(s))
 
-
     predictions[9] = vagelis
     predictions[10] = egw
 
-    if(predictions[23]>70):
-        predictions[0] = predictions[23]
+    if(predictions[23] > 66):
+        predictions[13] = predictions[23]
     else:
-        predictions[0] = predictions[14]
+        predictions[13] = predictions[14]
 
-    predictions[11] = (predictions[20] + predictions[14])/2
+    predictions[12] = (predictions[20] + predictions[16])/2
 
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
@@ -42,17 +41,12 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     s = n_predictions * [0]
 
-    # if counter < 676:
-    #     predictions[1] = 0
-    #     predictions[3] = 0
-    #     predictions[4] = 0
-
     for i in range(0, n_predictions-1):
 
-        # if int(z[5]) <= 40:
-        #     predictions[7] = 0
-        #     predictions[3] = 0
-        #     predictions[4] = 0
+        if int(z[5]) <= 40:
+            predictions[7] = 0
+            predictions[3] = 0
+            predictions[4] = 0
 
         # if pred_number < FIXED_INPUT:
         #     if i > 13:
@@ -67,7 +61,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
         if predictions[i] > cap:
             predictions[i] = cap
 
-
         opponent = i+1
         for j in range(opponent, n_predictions):
 
@@ -81,10 +74,10 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             #     if j > 13:
             #         predictions[j] = 0
             #
-            # if int(z[5]) <= 40:
-            #     predictions[7] = 0
-            #     predictions[3] = 0
-            #     predictions[4] = 0
+            if int(z[5]) <= 40:
+                predictions[7] = 0
+                predictions[3] = 0
+                predictions[4] = 0
 
             if predictions[j] == 0:
                 continue
@@ -142,7 +135,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
                         s[i] += value
                         s[j] -= value
 
-
             if i == graph_a and j==graph_b:
                 points.append(points[-1] + val)
 
@@ -180,9 +172,10 @@ cap = 95
 
 print("cap "+str(cap))
 
-participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV", 5: "logistic matchup",
+participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV",
+                5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
-                12: "winrates logistic", 13: "formula winrates logistic", 14: "neural1", 15: "neural2", 16: "neural3L3W",
+                12: "avg-20-16", 13: "merged-23-14", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
                 22: "neural C 3", 23: "neural C 4"}
 
@@ -197,7 +190,7 @@ LIMIT = -1
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 15
+graph_a = 18
 graph_b = 20
 
 
@@ -218,17 +211,16 @@ def calc_scores_vs_opponent(opponent, cap=95):
         excluded.remove(participant)
         excluded.remove(opponent)
 
-
         counter = 0
         for i in contents:
 
             if counter > LIMIT and counter < UPPER_LIMIT:
                 humans = old_preds[counter].split("-")
+
                 if len(humans) < 18:
                     vagelis = 0
                     egw = 0
                 else:
-
                     humans[16] = humans[16].replace('%', '')
                     humans[17] = humans[17].replace('%', '')
                     if '\n' in humans[17]:
@@ -241,8 +233,6 @@ def calc_scores_vs_opponent(opponent, cap=95):
                     else:
                         egw = int(humans[17])
 
-
-
                 s = calc_scores(vagelis, egw, counter, i, participations, counter, excluded)
                 s = np.array(s)
 
@@ -250,14 +240,12 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
             counter += 1
 
-
-
         if participations[participant] == 0:
             continue
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 8 or participant == 11 or participant == 12 or participant == 13:
+        if participant == 8 or participant == 11:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
 
@@ -265,24 +253,19 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
 
 scores_vs_opp = calc_scores_vs_opponent(opp, 95)
-# for p in range(n_predictions):
-#     if p == 1 or p == 3 or p == 11:
-#         continue
-#
-#     print(participants[p] + " vs " + participants[opp] + " " + str(scores_vs_opp[p]))
+
 
 total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
 
-exc = [8, 12, 13]
+exc = [8]
 points = []
 points.append(0)
 
 
 for i in contents:
-
     if counter > LIMIT and counter < UPPER_LIMIT:
         humans = old_preds[counter].split("-")
         if len(humans) < 18:
