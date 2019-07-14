@@ -147,8 +147,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 4, 82, 500, 6]
-my_prediction = 70
+xin = [2, 1, 1, 57, 1500, 2]
+my_prediction = 83
 Vagelis = 0
 result = 1
 
@@ -301,12 +301,13 @@ strong_logistic_CV = int(round(strong_logistic_CV*100))
 if neural_predCross4[0][0] * 100 > 66:
     merged = neural_predCross4[0][0] * 100
 else:
+    #merged = (neural_pred[0][0] + neural_predCross4[0][0]) / 2 * 100
     merged = neural_pred[0][0] * 100
 
 if merged < 0.5:
     result = 0
 
-averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0])/2 * 100
+averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0]) / 2 * 100
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")

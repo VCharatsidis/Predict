@@ -853,3 +853,5 @@
 1-Orc-t-Ud-77-146-twisted
 1-Orc-t-Ud-82-500-refuge
 1-Orc-t-Ud-82-500-terenas
+1-Orc-t-Hum-65-900-refuge
+1-Orc-t-Ne-57-1500-echo

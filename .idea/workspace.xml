@@ -2,30 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b103d616-74e2-41e0-8c5f-70ed43fc4842" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Predict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/Grubb.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/Grubb.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/automagic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/automagic.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/new_predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/new_predictions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/predictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/predictions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/refinedPredictions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/refinedPredictions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/third_gen_targets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/third_gen_targets.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/input_to_onehot.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/input_to_onehot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/load_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/load_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/cross_entropy/grubbyStarCE3.model" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/cross_entropy/grubbyStarCE3.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/GStar2Net.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/GStar2Net.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/grubbyStar2.model" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/grubbyStar2.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/train_grubbyStar2.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar2/train_grubbyStar2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar3L-3W/grubbyStar3L-3W.model" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar3L-3W/grubbyStar3L-3W.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar3L-3W/train_grubbyStar3L-3W.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar3L-3W/train_grubbyStar3L-3W.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/GStar4L3W.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/GStar4L3W.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/grubbyStar4L-3W.model" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/grubbyStar4L-3W.model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/train_grubbyStar4L-3W.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/train_grubbyStar4L-3W.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/grubbyStar4L4W.model" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/grubbyStar4L4W.model" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_nets/targets.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_nets/targets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/random_forests/PredictTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_forests/PredictTool.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/score/score.py" beforeDir="false" afterPath="$PROJECT_DIR$/score/score.py" afterDir="false" />
     </list>
@@ -37,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/score/score.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="188" column="10" lean-forward="true" selection-start-line="188" selection-start-column="10" selection-end-line="188" selection-end-column="10" />
+            <state relative-caret-position="370">
+              <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -52,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/train_grubbyStar4L-3W.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="223" column="7" lean-forward="true" selection-start-line="223" selection-start-column="7" selection-end-line="223" selection-end-column="7" />
+            <state relative-caret-position="204">
+              <caret line="213" selection-start-line="213" selection-end-line="220" selection-end-column="15" />
               <folding>
                 <element signature="e#144#182#0" expanded="true" />
               </folding>
@@ -61,11 +45,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="937">
+              <caret line="225" column="18" lean-forward="true" selection-start-line="224" selection-end-line="225" selection-end-column="18" />
+              <folding>
+                <element signature="e#144#182#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="47" column="22" lean-forward="true" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+              <folding>
+                <element signature="e#123#161#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="150" column="18" lean-forward="true" selection-start-line="150" selection-start-column="18" selection-end-line="150" selection-end-column="18" />
+            <state relative-caret-position="122">
+              <caret line="303" column="5" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -88,8 +96,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/random_forests/PredictTool.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="346" column="27" selection-start-line="346" selection-start-column="27" selection-end-line="346" selection-end-column="27" />
+            <state relative-caret-position="233">
+              <caret line="345" column="16" lean-forward="true" selection-start-line="345" selection-start-column="16" selection-end-line="345" selection-end-column="16" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -104,30 +112,6 @@
               <caret line="159" column="1" selection-start-line="159" selection-start-column="1" selection-end-line="159" selection-end-column="1" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_nets/load_models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neural_nets/test_nn.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-175">
-              <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -208,18 +192,18 @@
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar/train_grubbyStar.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar3L-3W/train_grubbyStar3L-3W.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py" />
-        <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py" />
         <option value="$PROJECT_DIR$/neural_nets/input_to_onehot.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar2/train_grubbyStar2.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar2/GStar2Net.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/GStar4L3W.py" />
         <option value="$PROJECT_DIR$/neural_nets/load_models.py" />
-        <option value="$PROJECT_DIR$/score/score.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py" />
         <option value="$PROJECT_DIR$/neural_nets/targets.py" />
-        <option value="$PROJECT_DIR$/random_forests/PredictTool.py" />
         <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/train_grubbyStar4L-3W.py" />
+        <option value="$PROJECT_DIR$/random_forests/PredictTool.py" />
+        <option value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py" />
         <option value="$PROJECT_DIR$/Predict.py" />
+        <option value="$PROJECT_DIR$/score/score.py" />
       </list>
     </option>
   </component>
@@ -275,7 +259,7 @@
               <item name="PredictBet" type="462c0819:PsiDirectoryNode" />
               <item name="neural_nets" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="grubbyStar4L-3W" type="462c0819:PsiDirectoryNode" />
+              <item name="grubbyStar4L4W" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PredictBet" type="b2602c69:ProjectViewProjectNode" />
@@ -320,7 +304,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Predict">
+  <component name="RunManager" selected="Python.score">
     <configuration name="Predict" type="PythonConfigurationType" factoryName="Python">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -405,27 +389,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train_cross_entropy" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="PredictBet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_nets/models/cross_entropy" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="train_grubbyStar4L-3W" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PredictBet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -447,13 +410,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train_grubbyStar4L4W" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PredictBet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.train_grubbyStar4L-3W" />
         <item itemvalue="Python.score" />
         <item itemvalue="Python.PredictTool" />
+        <item itemvalue="Python.train_grubbyStar4L4W" />
+        <item itemvalue="Python.train_grubbyStar4L-3W" />
         <item itemvalue="Python.targets" />
-        <item itemvalue="Python.train_cross_entropy" />
       </list>
     </recent_temporary>
   </component>
@@ -488,7 +472,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32879817" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.39029768" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49935484" visible="true" weight="0.32524806" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39470783" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -745,16 +729,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-350">
-          <caret line="47" column="22" lean-forward="true" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
-          <folding>
-            <element signature="e#123#161#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_nets/models/cross_entropy/cross_net3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -774,16 +748,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_nets/neural_net.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="216" column="94" selection-start-line="216" selection-start-column="70" selection-end-line="216" selection-end-column="94" />
-          <folding>
-            <element signature="e#144#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar2/train_grubbyStar2.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -865,16 +829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/score/score.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="188" column="10" lean-forward="true" selection-start-line="188" selection-start-column="10" selection-end-line="188" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neural_nets/models/cross_entropy/train_cross_entropy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -904,8 +858,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/random_forests/PredictTool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="346" column="27" selection-start-line="346" selection-start-column="27" selection-end-line="346" selection-end-column="27" />
+        <state relative-caret-position="233">
+          <caret line="345" column="16" lean-forward="true" selection-start-line="345" selection-start-column="16" selection-end-line="345" selection-end-column="16" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -914,8 +868,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L-3W/train_grubbyStar4L-3W.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="213" selection-start-line="213" selection-end-line="220" selection-end-column="15" />
+          <folding>
+            <element signature="e#144#182#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/GStar4L4W.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="223" column="7" lean-forward="true" selection-start-line="223" selection-start-column="7" selection-end-line="223" selection-end-column="7" />
+          <caret line="47" column="22" lean-forward="true" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+          <folding>
+            <element signature="e#123#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_nets/models/grubbyStar4L4W/train_grubbyStar4L4W.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="937">
+          <caret line="225" column="18" lean-forward="true" selection-start-line="224" selection-end-line="225" selection-end-column="18" />
           <folding>
             <element signature="e#144#182#0" expanded="true" />
           </folding>
@@ -924,10 +898,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="150" column="18" lean-forward="true" selection-start-line="150" selection-start-column="18" selection-end-line="150" selection-end-column="18" />
+        <state relative-caret-position="122">
+          <caret line="303" column="5" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/score/score.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

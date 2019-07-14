@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 160
+    validation_games = 140
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -214,7 +214,12 @@ def train():
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.9 * target - 0.01*torch.exp(target)))))
+    real = torch.round(target)
+    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+    target_reduction = (0.95 * y - 0.01 * torch.exp(y)) * real + (1.02 * y + 0.01 * torch.exp(y))*(1-real)
+
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
     return loss
 
 

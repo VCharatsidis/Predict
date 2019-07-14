@@ -25,13 +25,16 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     predictions[9] = vagelis
     predictions[10] = egw
+    predictions[12] = (0.6*predictions[20] + 0.4*predictions[16])
 
     if(predictions[23] > 66):
         predictions[13] = predictions[23]
+        #predictions[13] = (predictions[14] + predictions[23]) / 2
     else:
+        #predictions[13] = predictions[14]
         predictions[13] = predictions[14]
+        #predictions[13] = (predictions[14] + predictions[23])/2
 
-    predictions[12] = (predictions[20] + predictions[16])/2
 
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
@@ -190,8 +193,8 @@ LIMIT = -1
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 18
-graph_b = 20
+graph_a = 9
+graph_b = 13
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
