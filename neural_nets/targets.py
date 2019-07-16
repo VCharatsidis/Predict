@@ -1,9 +1,25 @@
 import numpy as np
 
-f = open("../logs/new_predictions.txt", "r")
 k = open("../logs/Grubb.txt")
 grubb = k.readlines()
+old_preds = []
+for i in grubb:
+    z = i.split("-")
+    if int(z[4]) < 55:
+        continue
+    old_preds.append(i)
 
+f = open("../logs/refinedPredictions.txt", "r")
+contents = f.readlines()
+automag = []
+for i in contents:
+    asd = i.split("-")
+    if int(asd[4]) < 55:
+        continue
+    automag.append(i)
+
+print(len(automag))
+print(len(old_preds))
 input = []
 counter = 0
 x_train = []
@@ -14,19 +30,16 @@ targets = targets_file.readlines()
 
 data = []
 
-contents = f.readlines()
-counter = 0
-grub_counter = 0
 print(len(targets))
-for line in contents:
 
-    grub_X = grubb[counter].split('-')
-    if int(grub_X[4]) < 55:
-        grub_counter += 1
+counter = 0
+for line in automag:
+    print("hi")
+    X = line.split('-')
 
-    if counter < len(targets):
-        counter += 1
-        continue
+    grub_X = old_preds[counter].split('-')
+
+    print(counter)
 
     print("hi")
     X = line.split('-')
@@ -47,15 +60,9 @@ for line in contents:
             if pred > max_prediction:
                 max_prediction = pred
 
-            if pred < max_prediction and pred > second_max:
-                second_max = pred
-
             if pred > 0:
                 if pred < min_prediction:
                     min_prediction = pred
-
-                if pred > min_prediction and pred < second_min:
-                    second_min = pred
 
     max_saturation = 0
     min_saturation = 0
@@ -73,8 +80,8 @@ for line in contents:
     X = s.join(X)
 
     print(X)
-    print(grubb[counter + grub_counter])
-    target = grubb[counter+grub_counter].rstrip("\n")+ "-" + pred+"%"+"\n"
+    print(old_preds[counter])
+    target = old_preds[counter].rstrip("\n") + "-" + pred+"%"+"\n"
     file.write(target)
 
     counter += 1

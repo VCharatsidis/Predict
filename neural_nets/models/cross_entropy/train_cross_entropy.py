@@ -12,6 +12,7 @@ import torch
 from cross_net2 import CrossNet2
 from cross_net3 import CrossNet3
 from cross_net4 import CrossNet4
+from simple_net import SimpleMLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from neural_nets import test_nn
@@ -75,8 +76,8 @@ def train():
 
     LEARNING_RATE_DEFAULT = 1e-4
     MAX_STEPS_DEFAULT = 400000
-    BATCH_SIZE_DEFAULT = 4
-    validation_games = 140
+    BATCH_SIZE_DEFAULT = 16
+    validation_games = 160
     model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStarCE3.model'
@@ -139,7 +140,7 @@ def train():
         y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-        loss = center_my_loss(output, y_train_batch)
+        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -162,7 +163,7 @@ def train():
             targets = np.reshape(targets, (len(X_test), -1))
             targets = Variable(torch.FloatTensor(targets))
 
-            calc_loss = center_my_loss(pred, targets)
+            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -184,9 +185,9 @@ def train():
 
             targets = Variable(torch.FloatTensor(targets))
 
-            train_loss = center_my_loss(pred, targets)
+            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-            p = 1
+            p = 0.95
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
@@ -210,7 +211,7 @@ def train():
     #######################
 
 def center_my_loss(output, target):
-    loss = torch.mean(-target * 0.94 * torch.log(output) - (1-target) * torch.log(1 - output))
+    loss = torch.mean(- 0.8 * torch.log(output) - (1-target) * torch.log(1 - output))
     return loss
 
 def print_flags():

@@ -21,7 +21,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 3000000
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 130
+    validation_games = 150
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
@@ -145,7 +145,7 @@ def train():
 
         y_train_batch_real = np.reshape(y_train_batch_real, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch_real = Variable(torch.FloatTensor(y_train_batch_real))
-        loss = center_my_loss(output, y_train_batch, y_train_batch_real)
+        loss = center_my_loss(output, y_train_batch)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -173,7 +173,7 @@ def train():
             real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
             real_targets = Variable(torch.FloatTensor(real_targets))
 
-            calc_loss = center_my_loss(pred, targets, real_targets)
+            calc_loss = center_my_loss(pred, targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -199,9 +199,9 @@ def train():
             targets = Variable(torch.FloatTensor(targets))
             real_targets = Variable(torch.FloatTensor(real_targets))
 
-            train_loss = center_my_loss(pred, targets, real_targets)
+            train_loss = center_my_loss(pred, targets)
 
-            p = 1
+            p = 0.98
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                 min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                 torch.save(model, model_to_train)
@@ -226,14 +226,18 @@ def train():
     #######################
 
 
-def my_loss(output, target):
-    loss = torch.mean((3+output) * ((output - target) ** 2))
+def center_my_loss(output, target):
+    real = torch.round(target)
+    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+    target_reduction = (0.97 * y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
+
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
     return loss
 
-
-def center_my_loss(output, target, y):
-    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.84 * target))))
-    return loss
+# def center_my_loss(output, target, y):
+#     loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.84 * target))))
+#     return loss
 
 
 def print_flags():

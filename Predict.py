@@ -48,11 +48,6 @@ for l in contents:
 
     X[5] = int(X[5])
 
-    if X[5] < 15:
-        X[4] = int(X[4] * 0.88)
-    elif X[5] < 30:
-        X[4] = int(X[4] * 0.93)
-
     X[6] = X[6].rstrip("\n")
 
     X = np.array(X)
@@ -147,8 +142,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 1, 57, 1500, 2]
-my_prediction = 83
+xin = [0, 1, 1, 69, 760, 0]
+my_prediction = 57
 Vagelis = 0
 result = 1
 
@@ -307,8 +302,10 @@ else:
 if merged < 0.5:
     result = 0
 
+percentage = neural_predCross[0][0]
+print(percentage)
 averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0]) / 2 * 100
-
+averaged = (percentage * neural_predCross[0][0] + (1-percentage) * neural_pred3L3W[0][0]) * 100
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 30:

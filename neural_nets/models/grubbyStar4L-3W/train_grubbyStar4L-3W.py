@@ -22,7 +22,7 @@ import os
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 1000000
-BATCH_SIZE_DEFAULT = 128
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -122,7 +122,7 @@ def train():
     min_loss = 100
 
     for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 64
+        BATCH_SIZE_DEFAULT = 32
         model.train()
 
         ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -215,10 +215,14 @@ def center_my_loss(output, target):
     real = torch.round(target)
     pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
     y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    target_reduction = (0.9 * y - 0.01 * torch.exp(y)) * real + (1.02 * y + 0.01 * torch.exp(y))*(1-real)
+    target_reduction = (0.94*y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
 
     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
     return loss
+
+# def center_my_loss(output, target):
+#     loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.88 * target))))
+#     return loss
 
 def print_flags():
     """

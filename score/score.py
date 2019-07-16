@@ -2,7 +2,7 @@ from operator import add
 import numpy as np
 from matplotlib import pyplot as plt
 import os
-
+import statistics
 
 def excluded(i, excluded):
     for e in excluded:
@@ -25,13 +25,16 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     predictions[9] = vagelis
     predictions[10] = egw
-    predictions[12] = (0.6*predictions[20] + 0.4*predictions[16])
+    percentage = predictions[15]/100
+    predictions[12] = (percentage*predictions[20] + (1-percentage)*predictions[15])
+
+    predictions[0] = (predictions[14] + predictions[15]+ predictions[16] + predictions[17] + predictions[19] + predictions[20]\
+                     +predictions[21] + predictions[22] +predictions[23]) / 9
 
     if(predictions[23] > 66):
         predictions[13] = predictions[23]
         #predictions[13] = (predictions[14] + predictions[23]) / 2
     else:
-        #predictions[13] = predictions[14]
         predictions[13] = predictions[14]
         #predictions[13] = (predictions[14] + predictions[23])/2
 
@@ -189,12 +192,12 @@ STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 
 
-LIMIT = -1
+LIMIT = 500
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 9
-graph_b = 13
+graph_a = 0
+graph_b = 10
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
@@ -286,6 +289,14 @@ for i in contents:
                 egw = 0
             else:
                 egw = int(humans[17])
+
+        if counter % 100 == 0:
+            print("vagelis " + str(vagelis))
+            print("egw " + str(egw))
+            print(counter)
+            print(humans)
+            print(i)
+
 
         s = calc_scores(vagelis, egw, counter, i, participations, counter, exc)
         s = np.array(s)

@@ -7,7 +7,7 @@ maps = []
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'refinedTargetsSecond.txt')
+    targets = os.path.join(script_directory, filepath + 'refinedPredictions.txt')
     f = open(targets, "r")
 
     contents = f.readlines()
@@ -50,10 +50,6 @@ def get_predictions(data):
         X[4] = float(X[4])
         X[5] = float(X[5])
 
-
-        if X[5] > 300:
-            X[5] = 300
-
         X[6] = X[6].rstrip("\n")
         if X[6] not in maps:
             maps.append(X[6])
@@ -70,15 +66,13 @@ def get_predictions(data):
         data.append(processed_X)
         counter += 1
 
-    print(maps)
+
     return data
 
 
 def get_input():
     data = []
     get_predictions(data)
-
-    print("data: " + str(len(data)))
 
     return data
 

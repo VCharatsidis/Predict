@@ -41,7 +41,6 @@ def get_means_and_stds():
 
 def standardize_instance(onehot_neural, mean1, std1, mean2, std2):
     onehot_neural = onehot_neural.astype(float)
-    onehot_neural[-1] = min(onehot_neural[-1], 200.)
 
     onehot_neural[-1] -= mean1
     k = onehot_neural[-1] / std1

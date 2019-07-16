@@ -57,11 +57,6 @@ def predict(i):
 
         X[5] = int(X[5])
 
-        if X[5] < 15:
-            X[4] = int(X[4] * 0.92)
-        elif X[5] < 30:
-            X[4] = int(X[4] * 0.95)
-
         X[6] = X[6].rstrip("\n")
 
         X = np.array(X)
@@ -143,7 +138,8 @@ def predict(i):
     # Ud = 4
 
     to_print = copy.deepcopy(xin)
-    print(parse_x(to_print, result))
+
+    #print(parse_x(to_print, result))
 
 
     onehot_encoded = []
@@ -329,7 +325,7 @@ def predict(i):
     if merged < 0.5:
         result = 0
 
-    averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0]) / 2 * 100
+    averaged = (neural_pred3L3W[0][0]*0.4 + neural_predCross[0][0]*0.6) * 100
 
     log =(s + "-" + str(pred1)
           + "%-" + str(old_numeric_pred)
@@ -356,6 +352,7 @@ def predict(i):
           + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
           +"\n")
+
 
     print(log)
 

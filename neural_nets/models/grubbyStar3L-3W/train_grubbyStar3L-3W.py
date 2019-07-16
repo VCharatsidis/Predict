@@ -211,7 +211,12 @@ def train():
 
 
 def center_my_loss(output, target):
-    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.83 * target))))
+    real = torch.round(target)
+    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+    target_reduction = (0.95*y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
+
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
     return loss
 
 

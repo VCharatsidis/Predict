@@ -21,11 +21,11 @@ def load_models(onehot_encoded):
     grubby_ce3 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE3.model')
     grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
 
-    onehot_neural = copy.deepcopy(onehot_encoded)
-    mean1,  std1, mean2, std2 = get_means_and_stds()
-    x = standardize_instance(onehot_neural, mean1, std1, mean2, std2)
 
-    # print(x)
+    onehot_neural = copy.deepcopy(onehot_encoded)
+
+    mean1, std1, mean2, std2 = get_means_and_stds()
+    x = standardize_instance(onehot_neural, mean1, std1, mean2, std2)
 
     # input->2, 2->2, 2->1
     model = torch.load(grubby_star)
