@@ -104,7 +104,7 @@ input2 = copy.deepcopy(input)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 errors = []
 
-old_numeric_rf = RandomForestClassifier(n_estimators=2000, min_samples_split=10, oob_score=True)
+old_numeric_rf = RandomForestClassifier(n_estimators=1000, min_samples_split=10, oob_score=True)
 old_numeric_rf.fit(input, y)
 oob_error_old = 1 - old_numeric_rf.oob_score_
 importances_old = old_numeric_rf.feature_importances_
@@ -113,7 +113,7 @@ importances_old = old_numeric_rf.feature_importances_
 # {'n_estimators': 2000, 'min_samples_split': 17, 'min_samples_leaf': 17, 'max_features': 6, 'max_depth': 25, 'bootstrap': True}
 # {'n_estimators': 2000, 'min_samples_split': 5, 'min_samples_leaf': 18, 'max_features': 5, 'max_depth': 5}
 
-numeric_rf = RandomForestClassifier(n_estimators=2000,
+numeric_rf = RandomForestClassifier(n_estimators=1000,
                                     random_state=0,
                                     oob_score=True,
                                     min_samples_leaf=18,
@@ -142,8 +142,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [0, 1, 1, 69, 760, 0]
-my_prediction = 57
+xin = [1, 1, 4, 56, 766, 1]
+my_prediction = 85
 Vagelis = 0
 result = 1
 
@@ -293,31 +293,24 @@ strong_logistic = int(round(strong_logistic*100))
 strong_logistic_CV = int(round(strong_logistic_CV*100))
 
 
-if neural_predCross4[0][0] * 100 > 66:
-    merged = neural_predCross4[0][0] * 100
-else:
-    #merged = (neural_pred[0][0] + neural_predCross4[0][0]) / 2 * 100
-    merged = neural_pred[0][0] * 100
+
+merged = (neural_predCross2[0][0] + neural_pred3L3W[0][0])/2 * 100
+
 
 if merged < 0.5:
     result = 0
 
 percentage = neural_predCross[0][0]
 print(percentage)
-averaged = (neural_pred3L3W[0][0] + neural_predCross[0][0]) / 2 * 100
-averaged = (percentage * neural_predCross[0][0] + (1-percentage) * neural_pred3L3W[0][0]) * 100
+averaged = (neural_pred[0][0] + neural_pred2[0][0] + neural_pred3L3W[0][0] + neural_pred4L3W[0][0] + neural_pred4L4W[0][0]
+            + neural_predCross[0][0] + neural_predCross2[0][0] + neural_predCross3[0][0] + neural_predCross4[0][0]) / 9 * 100
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
 if games < 30:
     logistic_mutchups = 0
     logistic_mu_CV = 0
 
-avg_neural = (int(round(neural_pred[0][0] * 100)) +
-              int(round(neural_pred2[0][0] * 100)) +
-              int(round(neural_pred3L3W[0][0] * 100)) +
-              int(round(neural_pred4L3W[0][0] * 100)) +
-              int(round(neural_pred4L4W[0][0] * 100)) +
-              int(round(neural_predTest[0][0] * 100)))/6
 
 log =(s + "-" + str(pred1)
       + "%-" + str(old_numeric_pred)
@@ -338,7 +331,7 @@ log =(s + "-" + str(pred1)
       +"-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
       +"-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
-      +"-" + str(round(avg_neural))+"%"
+      +"-0%"
       +"-" + str((int(round(neural_predCross[0][0]*100)))) + "%"
       + "-" + str((int(round(neural_predCross2[0][0] * 100)))) + "%"
       + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
@@ -371,8 +364,6 @@ print("neural pred2: " + str(int(round(neural_pred2[0][0]*100))) + "%")
 print("neural pred3L-3W: " + str(int(round(neural_pred3L3W[0][0] * 100))) + "%")
 print("neural pred4L-3W: " + str(int(round(neural_pred4L3W[0][0] * 100))) + "%")
 print("neural pred4L4W: " + str(int(round(neural_pred4L4W[0][0] * 100)))+"%")
-print("neural Test: " + str(int(round(neural_predTest[0][0] * 100))) + "%")
-print("average neural: " + str(round(avg_neural)) +"%")
 
 
 print()

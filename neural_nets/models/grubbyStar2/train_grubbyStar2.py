@@ -84,7 +84,8 @@ def train():
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
 
-    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    val_ids = np.random.choice(onehot_input.shape[0]-280, size=validation_games, replace=False)
+    val_ids = val_ids + 280
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
     X_train = onehot_input[train_ids, :]
@@ -145,7 +146,7 @@ def train():
 
         y_train_batch_real = np.reshape(y_train_batch_real, (BATCH_SIZE_DEFAULT, -1))
         y_train_batch_real = Variable(torch.FloatTensor(y_train_batch_real))
-        loss = center_my_loss(output, y_train_batch)
+        loss = center_my_loss(output, y_train_batch, y_train_batch_real)
 
         model.zero_grad()
         loss.backward(retain_graph=True)
@@ -173,7 +174,7 @@ def train():
             real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
             real_targets = Variable(torch.FloatTensor(real_targets))
 
-            calc_loss = center_my_loss(pred, targets)
+            calc_loss = center_my_loss(pred, targets, real_targets)
 
             accuracies.append(acc)
             losses.append(calc_loss.item())
@@ -199,7 +200,7 @@ def train():
             targets = Variable(torch.FloatTensor(targets))
             real_targets = Variable(torch.FloatTensor(real_targets))
 
-            train_loss = center_my_loss(pred, targets)
+            train_loss = center_my_loss(pred, targets, real_targets)
 
             p = 1
             if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -227,18 +228,18 @@ def train():
 
 
 
-# def center_my_loss(output, target, y):
-#     loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.92 * target - 0.01*torch.exp(target)))))
-#     return loss
-
-def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    target_reduction = (0.93*y - 0.01 * torch.exp(target)) * real + (1.01 * y)*(1-real)
-
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+def center_my_loss(output, target, y):
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - 0.92 * target - 0.01*torch.exp(target)))))
     return loss
+
+# def center_my_loss(output, target):
+#     real = torch.round(target)
+#     pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+#     y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+#     target_reduction = (0.93*y - 0.01 * torch.exp(target)) * real + (1.01 * y)*(1-real)
+#
+#     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+#     return loss
 
 def print_flags():
     """

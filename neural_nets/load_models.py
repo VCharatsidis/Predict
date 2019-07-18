@@ -1,10 +1,39 @@
 import copy
 import torch
-from test_nn import get_means_and_stds, standardize_instance
 import os
-
+import numpy as np
+from torch.autograd import Variable
+from neural_nets.input_to_onehot import input_to_onehot
+from input_cross_entropy import cross_entropy_input_to_onehot
 
 #####################  Neural nets   #####################################
+
+
+def get_means_and_stds(X_train):
+    mean1 = np.mean(X_train[:, -1], axis=0)
+    std1 = np.std(X_train[:, -1], axis=0)
+
+    mean2 = np.mean(X_train[:, -2], axis=0)
+    std2 = np.std(X_train[:, -2], axis=0)
+
+    return mean1, std1, mean2, std2
+
+
+def standardize_instance(onehot_neural, mean1, std1, mean2, std2):
+    onehot_neural = onehot_neural.astype(float)
+
+    onehot_neural[-1] -= mean1
+    k = onehot_neural[-1] / std1
+    onehot_neural[-1] = k
+
+    onehot_neural[-2] -= mean2
+    z = onehot_neural[-2] / std2
+    onehot_neural[-2] = z
+
+    xin = Variable(torch.FloatTensor([onehot_neural]))
+
+    return xin
+
 
 def load_models(onehot_encoded):
     filepath = 'models\\'
@@ -21,11 +50,15 @@ def load_models(onehot_encoded):
     grubby_ce3 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE3.model')
     grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
 
-
     onehot_neural = copy.deepcopy(onehot_encoded)
-
-    mean1, std1, mean2, std2 = get_means_and_stds()
+    _, _, X_train = input_to_onehot()
+    mean1, std1, mean2, std2 = get_means_and_stds(X_train)
     x = standardize_instance(onehot_neural, mean1, std1, mean2, std2)
+
+    onehot_neural_cross = copy.deepcopy(onehot_encoded)
+    _, _, X_train_cross = cross_entropy_input_to_onehot()
+    mean1_cross, std1_cross, mean2_cross, std2_cross = get_means_and_stds(X_train_cross)
+    x_cross = standardize_instance(onehot_neural_cross, mean1_cross, std1_cross, mean2_cross, std2_cross)
 
     # input->2, 2->2, 2->1
     model = torch.load(grubby_star)
@@ -62,6 +95,9 @@ def load_models(onehot_encoded):
     modelTest.eval()
     predTest = modelTest.forward(x)
     neural_predTest = predTest.detach().numpy()
+
+
+    ######### CROSS ##################
 
 
     modelCross = torch.load(grubby_star_cross_entropy)

@@ -874,3 +874,13 @@
 1-Hum-t-Orc-83-23-amazonia
 1-Hum-t-Ne-58-405-refuge
 1-Hum-t-Ne-69-760-amazonia
+1-Hum-t-Ud-85-54-terenas
+1-Ne-t-Hum-80-550-echo
+0-Ne-t-Orc-77-1300-twisted
+1-Ne-t-Orc-77-1300-concealed
+0-Ne-t-Orc-77-1300-echo
+0-Ne-t-Orc-77-1300-northren
+1-Ne-t-Orc-84-540-echo
+1-Ne-t-Hum-63-360-amazonia
+0-Ne-t-Orc-75-960-concealed
+1-Ne-t-Ud-56-766-concealed

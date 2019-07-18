@@ -77,7 +77,7 @@ def train():
     LEARNING_RATE_DEFAULT = 1e-4
     MAX_STEPS_DEFAULT = 400000
     BATCH_SIZE_DEFAULT = 16
-    validation_games = 160
+    validation_games = 120
     model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStarCE3.model'

@@ -61,7 +61,6 @@ def cross_entropy_input_to_onehot():
     y = [float(x) for x in y]
     y = np.array(y)
 
-
     input = input[:, 1:]
 
     input[:, 0] = labelencoder.fit_transform(input[:, 0])
