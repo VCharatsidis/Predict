@@ -35,31 +35,31 @@ class GStar2Net(nn.Module):
 
         super(GStar2Net, self).__init__()
 
-        width = 3
-        width_2 = 12
+        width = 4
+        width_2 = 10
         self.layers = nn.Sequential(
 
-            nn.Linear(n_inputs, 3),
-            nn.BatchNorm1d(3),
+            nn.Linear(n_inputs, width),
+            nn.BatchNorm1d(width),
             nn.Tanh(),
 
-            nn.Linear(3, 10),
-            nn.BatchNorm1d(10),
+            nn.Linear(width, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(10, 6),
-            nn.BatchNorm1d(6),
+            nn.Linear(width_2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 
-            nn.Linear(6, 3),
-            nn.BatchNorm1d(3),
+            nn.Linear(width_2//2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 
-            nn.Linear(3, 3),
-            nn.BatchNorm1d(3),
+            nn.Linear(width_2 // 2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 
-            nn.Linear(3, 1),
+            nn.Linear(width_2 // 2, 1),
             nn.Sigmoid()
 
         )

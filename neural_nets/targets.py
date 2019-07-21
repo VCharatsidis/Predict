@@ -9,7 +9,7 @@ for i in grubb:
         continue
     old_preds.append(i)
 
-f = open("../logs/refinedPredictions.txt", "r")
+f = open("../logs/new_predictions.txt", "r")
 contents = f.readlines()
 automag = []
 for i in contents:
@@ -24,8 +24,8 @@ input = []
 counter = 0
 x_train = []
 
-file = open("../logs/third_gen_targets.txt", "a")
-targets_file = open("../logs/third_gen_targets.txt", "r")
+file = open("../logs/gaussianPredictions.txt", "a")
+targets_file = open("../logs/gaussianPredictions.txt", "r")
 targets = targets_file.readlines()
 
 data = []
@@ -41,7 +41,6 @@ for line in automag:
 
     print(counter)
 
-    print("hi")
     X = line.split('-')
 
     processed_X = []
@@ -51,24 +50,41 @@ for line in automag:
     second_max = 3
     second_min = 98
 
+    array_x = []
+
     for x in X:
         if '%' in x:
             x = x.rstrip("\n")
             x = x.replace('%', '')
+
             pred = int(x)
-
-            if pred > max_prediction:
-                max_prediction = pred
-
             if pred > 0:
-                if pred < min_prediction:
-                    min_prediction = pred
+                array_x.append(pred)
 
-    max_saturation = 0
-    min_saturation = 0
 
-    max_prediction = min(max_prediction - max_saturation, 98)
-    min_prediction = max(min_prediction - min_saturation, 3)
+            # if pred > max_prediction:
+            #     max_prediction = pred
+            #
+            # if pred > 0:
+            #     if pred < min_prediction:
+            #         min_prediction = pred
+
+    array_x = np.array(array_x)
+    print(array_x)
+    mean = np.mean(array_x, axis=0)
+    std = np.std(array_x, axis=0)
+    print(mean)
+    print(std)
+
+    std = 0.2 * std
+    max_prediction = int(round(mean + std))
+    min_prediction = int(round(mean - std))
+
+    # max_saturation = 0
+    # min_saturation = 0
+    #
+    # max_prediction = min(max_prediction - max_saturation, 98)
+    # min_prediction = max(min_prediction - min_saturation, 3)
 
     if float(X[0]) > 0.5:
         pred = str(max_prediction)

@@ -25,17 +25,14 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     predictions[9] = vagelis
     predictions[10] = egw
+    # predictions[15] = 0
+    # predictions[18] = 0
 
-    predictions[12] = (predictions[14] + predictions[15]+ predictions[16] + predictions[17] + predictions[19] + predictions[20]\
-                     + predictions[21] + predictions[22] +predictions[23]) / 9
+    # predictions[11] = (predictions[14] + predictions[15] + predictions[16] + predictions[17] + predictions[18] + predictions[20]\
+    #                 + predictions[21] + predictions[22] + predictions[23]) / 9
+    #
+    # predictions[8] = (predictions[21] + predictions[16])/2
 
-    predictions[8] = (predictions[21] +predictions[16])/2
-
-    if predictions[21] > 66:
-        merged = predictions[21]
-    else:
-        # merged = (neural_pred[0][0] + neural_predCross4[0][0]) / 2 * 100
-        merged = predictions[16]
 
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
@@ -179,7 +176,7 @@ print("cap "+str(cap))
 participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV",
                 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
-                12: "average all", 13: "merged-23-14", 14: "neural1", 15: "neural2", 16: "neural3L3W",
+                12: "merged cros4 pred1", 13: "average", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
                 22: "neural C 3", 23: "neural C 4"}
 
@@ -193,7 +190,7 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 9
+opp = 13
 graph_a = 0
 graph_b = 9
 
@@ -237,6 +234,8 @@ def calc_scores_vs_opponent(opponent, cap=95):
                     else:
                         egw = int(humans[17])
 
+                vagelis = 0
+                egw = 0
                 s = calc_scores(vagelis, egw, counter, i, participations, counter, excluded)
                 s = np.array(s)
 
@@ -249,7 +248,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 8 or participant == 11:
+        if participant == 11:
             continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
 
@@ -295,6 +294,8 @@ for i in contents:
         #     print(humans)
         #     print(i)
 
+        vagelis = 0
+        egw = 0
         s = calc_scores(vagelis, egw, counter, i, participations, counter, exc)
         s = np.array(s)
 

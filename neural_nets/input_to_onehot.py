@@ -4,10 +4,11 @@ import copy
 import os
 
 maps = []
+
 def get_predictions(data):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'refinedPredictions.txt')
+    targets = os.path.join(script_directory, filepath + 'gaussianPredictions.txt')
     f = open(targets, "r")
 
     contents = f.readlines()
@@ -66,7 +67,6 @@ def get_predictions(data):
         data.append(processed_X)
         counter += 1
 
-
     return data
 
 
@@ -121,6 +121,7 @@ def input_to_onehot():
 
     return onehot_input, y, not_standardized_input
 
+
 def filter(list):
     filter_55 = []
     for i in range(len(list)):
@@ -130,6 +131,7 @@ def filter(list):
         filter_55.append(list[i])
 
     return filter_55
+
 
 def check_input():
     predictions = open("../logs/new_predictions.txt", "r")

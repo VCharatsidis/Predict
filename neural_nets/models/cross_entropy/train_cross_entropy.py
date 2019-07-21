@@ -75,10 +75,10 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-4
-    MAX_STEPS_DEFAULT = 400000
+    MAX_STEPS_DEFAULT = 500
     BATCH_SIZE_DEFAULT = 16
-    validation_games = 120
-    model = CrossNet3(onehot_input.shape[1])
+    validation_games = 400
+    model = CrossNet4(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
@@ -124,76 +124,88 @@ def train():
     min_loss = 100
     patience = 20000
     flag = 0
-    for iteration in range(MAX_STEPS_DEFAULT):
-        model.train()
 
-        ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
+    for epoch in range(500):
+        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
-        X_train_batch = X_train[ids, :]
-        y_train_batch = y_train[ids]
+        print(val_ids)
+        X_train = onehot_input[train_ids, :]
+        y_train = y[train_ids]
 
-        X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        X_train_batch = Variable(torch.FloatTensor(X_train_batch))
+        X_test = onehot_input[val_ids, :]
+        y_test = y[val_ids]
 
-        output = model.forward(X_train_batch)
+        for iteration in range(MAX_STEPS_DEFAULT):
+            model.train()
 
-        y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        y_train_batch = Variable(torch.FloatTensor(y_train_batch))
+            ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
-        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
+            X_train_batch = X_train[ids, :]
+            y_train_batch = y_train[ids]
 
-        model.zero_grad()
-        loss.backward(retain_graph=True)
-        optimizer.step()
+            X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            X_train_batch = Variable(torch.FloatTensor(X_train_batch))
 
-        if iteration % EVAL_FREQ_DEFAULT == 0:
-            model.eval()
+            output = model.forward(X_train_batch)
 
-            ids = np.array(range(len(X_test)))
-            x = X_test[ids, :]
-            targets = y_test[ids]
+            y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-            x = np.reshape(x, (len(X_test), -1))
+            loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
-            x = Variable(torch.FloatTensor(x))
+            model.zero_grad()
+            loss.backward(retain_graph=True)
+            optimizer.step()
 
-            pred = model.forward(x)
+            if iteration % EVAL_FREQ_DEFAULT == 0:
+                model.eval()
 
-            acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (len(X_test), -1))
-            targets = Variable(torch.FloatTensor(targets))
+                ids = np.array(range(len(X_test)))
+                x = X_test[ids, :]
+                targets = y_test[ids]
 
-            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                x = np.reshape(x, (len(X_test), -1))
 
-            accuracies.append(acc)
-            losses.append(calc_loss.item())
+                x = Variable(torch.FloatTensor(x))
 
-            ###################
+                pred = model.forward(x)
 
-            ids = np.array(range(len(X_train)))
-            x = X_train[ids, :]
-            targets = y_train[ids]
+                acc = accuracy(pred, targets)
+                targets = np.reshape(targets, (len(X_test), -1))
+                targets = Variable(torch.FloatTensor(targets))
 
-            x = np.reshape(x, (len(X_train), -1))
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-            x = Variable(torch.FloatTensor(x))
+                accuracies.append(acc)
+                losses.append(calc_loss.item())
 
-            pred = model.forward(x)
+                ###################
 
-            targets = np.reshape(targets, (len(X_train), -1))
-            train_acc = accuracy(pred, targets)
+                ids = np.array(range(len(X_train)))
+                x = X_train[ids, :]
+                targets = y_train[ids]
 
-            targets = Variable(torch.FloatTensor(targets))
+                x = np.reshape(x, (len(X_train), -1))
 
-            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                x = Variable(torch.FloatTensor(x))
 
-            p = 0.95
-            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
-                torch.save(model, model_to_train)
-                flag = iteration
-                print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                    calc_loss.item()))
+                pred = model.forward(x)
+
+                targets = np.reshape(targets, (len(X_train), -1))
+                train_acc = accuracy(pred, targets)
+
+                targets = Variable(torch.FloatTensor(targets))
+
+                train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+
+                p = 0.95
+                if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+                    min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
+                    torch.save(model, model_to_train)
+                    flag = iteration
+                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+                        calc_loss.item()))
 
 
     test_nn.test_all(model_to_train)
@@ -210,9 +222,6 @@ def train():
     # END OF YOUR CODE    #
     #######################
 
-def center_my_loss(output, target):
-    loss = torch.mean(- 0.8 * torch.log(output) - (1-target) * torch.log(1 - output))
-    return loss
 
 def print_flags():
     """

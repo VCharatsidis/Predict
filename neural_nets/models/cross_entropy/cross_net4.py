@@ -36,7 +36,8 @@ class CrossNet4(nn.Module):
         super(CrossNet4, self).__init__()
 
         width = 3
-        width_2 = 8
+        width_2 = 10
+        width_3 = 5
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -51,7 +52,19 @@ class CrossNet4(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2, 1),
+            nn.Linear(width_2, width_3),
+            nn.BatchNorm1d(width_3),
+            nn.Tanh(),
+
+            nn.Linear(width_3, width_3),
+            nn.BatchNorm1d(width_3),
+            nn.Tanh(),
+
+            nn.Linear(width_3, width_3),
+            nn.BatchNorm1d(width_3),
+            nn.Tanh(),
+
+            nn.Linear(width_3, 1),
             nn.Sigmoid()
 
         )

@@ -884,3 +884,17 @@
 1-Ne-t-Hum-63-360-amazonia
 0-Ne-t-Orc-75-960-concealed
 1-Ne-t-Ud-56-766-concealed
+0-Orc-r-Orc-76-54-twisted
+1-Orc-r-Hum-61-1310-northren
+1-Hum-r-Ne-57-1350-concealed
+0-Orc-r-Ud-60-1350-northren
+1-Hum-r-Hum-62-102-echo
+0-Hum-t-Ud-83-230-twisted
+1-Hum-r-Ud-61-523-refuge
+0-Hum-r-Ud-84-19-northren
+1-Hum-r-Hum-58-290-echo
+1-Hum-r-Ud-56-396-echo
+0-Ud-r-Ud-69-54-terenas
+1-Ud-r-Orc-55-138-northren
+1-Hum-t-Ud-93-15-terenas
+0-Hum-t-Hum-100-11-echo

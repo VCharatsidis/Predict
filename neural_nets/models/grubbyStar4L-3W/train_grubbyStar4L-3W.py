@@ -21,7 +21,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 1000000
+MAX_STEPS_DEFAULT = 300
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 130
+    validation_games = 400
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -121,78 +121,89 @@ def train():
     max_acc = 0
     min_loss = 100
 
-    for iteration in range(MAX_STEPS_DEFAULT):
-        BATCH_SIZE_DEFAULT = 32
-        model.train()
+    for epoch in range(2500):
+        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
-        ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
+        print("epoch " +str(epoch))
+        X_train = onehot_input[train_ids, :]
+        y_train = y[train_ids]
 
-        X_train_batch = X_train[ids, :]
-        y_train_batch = y_train[ids]
+        X_test = onehot_input[val_ids, :]
+        y_test = y[val_ids]
 
-        X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        X_train_batch = Variable(torch.FloatTensor(X_train_batch))
+        for iteration in range(MAX_STEPS_DEFAULT):
+            BATCH_SIZE_DEFAULT = 32
+            model.train()
 
-        output = model.forward(X_train_batch)
+            ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
-        y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-        loss = center_my_loss(output, y_train_batch)
+            X_train_batch = X_train[ids, :]
+            y_train_batch = y_train[ids]
 
-        model.zero_grad()
-        loss.backward(retain_graph=True)
-        optimizer.step()
+            X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            X_train_batch = Variable(torch.FloatTensor(X_train_batch))
 
-        if iteration % EVAL_FREQ_DEFAULT == 0:
-            model.eval()
+            output = model.forward(X_train_batch)
 
-            BATCH_SIZE_DEFAULT = len(X_test)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_test[ids, :]
-            targets = y_test[ids]
+            y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            y_train_batch = Variable(torch.FloatTensor(y_train_batch))
+            loss = center_my_loss(output, y_train_batch)
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+            model.zero_grad()
+            loss.backward(retain_graph=True)
+            optimizer.step()
 
-            x = Variable(torch.FloatTensor(x))
+            if iteration % EVAL_FREQ_DEFAULT == 0:
+                model.eval()
 
-            pred = model.forward(x)
+                BATCH_SIZE_DEFAULT = len(X_test)
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                x = X_test[ids, :]
+                targets = y_test[ids]
 
-            acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-            targets = Variable(torch.FloatTensor(targets))
+                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
-            calc_loss = center_my_loss(pred, targets)
+                x = Variable(torch.FloatTensor(x))
 
-            accuracies.append(acc)
-            losses.append(calc_loss.item())
+                pred = model.forward(x)
 
-            ###################
+                acc = accuracy(pred, targets)
+                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                targets = Variable(torch.FloatTensor(targets))
 
-            BATCH_SIZE_DEFAULT = len(X_train)
-            ids = np.array(range(BATCH_SIZE_DEFAULT))
-            x = X_train[ids, :]
-            targets = y_train[ids]
+                calc_loss = center_my_loss(pred, targets)
 
-            x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+                accuracies.append(acc)
+                losses.append(calc_loss.item())
 
-            x = Variable(torch.FloatTensor(x))
+                ###################
 
-            pred = model.forward(x)
+                BATCH_SIZE_DEFAULT = len(X_train)
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                x = X_train[ids, :]
+                targets = y_train[ids]
 
-            targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-            train_acc = accuracy(pred, targets)
+                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
-            targets = Variable(torch.FloatTensor(targets))
+                x = Variable(torch.FloatTensor(x))
 
-            train_loss = center_my_loss(pred, targets)
+                pred = model.forward(x)
 
-            p = 1
-            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
-                torch.save(model, model_to_train)
+                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                train_acc = accuracy(pred, targets)
 
-                print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                    calc_loss.item()))
+                targets = Variable(torch.FloatTensor(targets))
+
+                train_loss = center_my_loss(pred, targets)
+
+                p = 0.6
+                if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+                    min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
+                    torch.save(model, model_to_train)
+
+                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+                        calc_loss.item()))
 
     #torch.save(model, model_to_train)
     test_nn.test_all(model_to_train)

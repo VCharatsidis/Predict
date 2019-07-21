@@ -143,6 +143,9 @@ def train():
         loss.backward(retain_graph=True)
         optimizer.step()
 
+        if iteration % 100000 == 0:
+            print("iteration " + str(iteration))
+
         if iteration % EVAL_FREQ_DEFAULT == 0:
             model.eval()
 
