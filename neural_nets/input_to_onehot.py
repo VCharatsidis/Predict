@@ -13,23 +13,11 @@ def get_predictions():
     f = open(targets, "r")
 
     data = []
-    vagelis_games = []
 
     contents = f.readlines()
     counter = 0
     for line in contents:
         X = line.split('-')
-        if int(X[4]) < 55:
-            counter += 1
-            continue
-
-        if len(X) > 18:
-            vag = copy.deepcopy(X[16])
-            vag = vag.rstrip("\n")
-            vag = vag.replace('%', '')
-            vag = int(vag)
-            if vag != 0:
-                vagelis_games.append(counter)
 
         processed_X = []
         max_prediction = 3.
@@ -48,7 +36,7 @@ def get_predictions():
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 0
+        max_saturation = 10
         min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 98.)
@@ -78,7 +66,7 @@ def get_predictions():
         data.append(processed_X)
         counter += 1
 
-    return data, vagelis_games
+    return data
 
 
 def center(X):
@@ -93,7 +81,7 @@ def standardize(X):
 
 def input_to_onehot():
     labelencoder = LabelEncoder()
-    input, _ = get_predictions()
+    input = get_predictions()
 
     input = np.array(input)
 

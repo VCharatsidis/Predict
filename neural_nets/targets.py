@@ -5,8 +5,6 @@ grubb = k.readlines()
 old_preds = []
 for i in grubb:
     z = i.split("-")
-    if int(z[4]) < 55:
-        continue
     old_preds.append(i)
 
 f = open("../logs/new_predictions.txt", "r")
@@ -14,8 +12,6 @@ contents = f.readlines()
 automag = []
 for i in contents:
     asd = i.split("-")
-    if int(asd[4]) < 55:
-        continue
     automag.append(i)
 
 print(len(automag))
@@ -76,7 +72,7 @@ for line in automag:
     print(mean)
     print(std)
 
-    std = 0.2 * std
+    std = 0.1 * std
     max_prediction = int(round(mean + std))
     min_prediction = int(round(mean - std))
 

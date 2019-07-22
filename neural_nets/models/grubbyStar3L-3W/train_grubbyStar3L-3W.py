@@ -16,6 +16,7 @@ import GStarNet
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
 from GStar3L3W import GStar3L3WNet
+from validations_ids import get_validation_ids
 import os
 
 # Default constants
@@ -122,19 +123,30 @@ def train():
     max_acc = 0
     min_loss = 110
 
+    vag_games = get_validation_ids()
+    vag_games = np.array(vag_games)
+
+    vag_ids = vag_games[-validation_games:]
+
     for epoch in range(5000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = np.append(val_ids, vag_ids)
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
-        print("epoch " +str(epoch))
         X_train = onehot_input[train_ids, :]
         y_train = y[train_ids]
 
         X_test = onehot_input[val_ids, :]
         y_test = y[val_ids]
 
+
+        print("epoch " + str(epoch))
+
         for iteration in range(MAX_STEPS_DEFAULT):
             model.train()
+            BATCH_SIZE_DEFAULT = 32
+            if (BATCH_SIZE_DEFAULT > X_train.shape[0]):
+                BATCH_SIZE_DEFAULT = X_train.shape[0] -1
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 

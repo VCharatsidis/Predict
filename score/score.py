@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import os
 import statistics
+from validations_ids import get_validation_ids
 
 def excluded(i, excluded):
     for e in excluded:
@@ -49,9 +50,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             predictions[3] = 0
             predictions[4] = 0
 
-        # if pred_number < FIXED_INPUT:
-        #     if i > 13:
-        #         predictions[i] = 0
 
         if predictions[i] == 0:
             continue
@@ -71,10 +69,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             if predictions[j] > cap:
                 predictions[j] = cap
 
-            # if pred_number < FIXED_INPUT:
-            #     if j > 13:
-            #         predictions[j] = 0
-            #
+
             if int(z[5]) <= 40:
                 predictions[7] = 0
                 predictions[3] = 0
@@ -152,7 +147,7 @@ model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
 
-filepath2 = '../logs/predictions.txt'
+filepath2 = '../logs/automagic.txt'
 model_to_train2 = os.path.join(script_directory, filepath2)
 f2 = open(filepath2, "r")
 contents2 = f2.readlines()
@@ -160,8 +155,6 @@ contents2 = f2.readlines()
 old_preds = []
 for i in contents2:
     z = i.split("-")
-    if int(z[4]) < 55:
-        continue
     old_preds.append(i)
 
 n_predictions = 24
@@ -190,9 +183,15 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 9
+opp = 10
 graph_a = 9
-graph_b = 22
+graph_b = 14
+
+val_ids = get_validation_ids()
+val_ids = val_ids[-150:]
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
+print(len(val_ids[-150:]))
+print(val_ids)
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
@@ -208,14 +207,12 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         excluded = list(range(0, n_predictions))
 
-
         excluded.remove(participant)
         excluded.remove(opponent)
 
         counter = 0
         for i in contents:
-
-            if counter > LIMIT and counter < UPPER_LIMIT:
+            if counter in val_ids:
                 humans = old_preds[counter].split("-")
 
                 if len(humans) < 18:
@@ -269,8 +266,9 @@ points.append(0)
 
 
 for i in contents:
-    if counter > LIMIT and counter < UPPER_LIMIT:
+    if counter in val_ids:
         humans = old_preds[counter].split("-")
+
         if len(humans) < 18:
             vagelis = 0
             egw = 0

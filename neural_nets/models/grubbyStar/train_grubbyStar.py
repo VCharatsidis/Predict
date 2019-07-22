@@ -16,6 +16,7 @@ from GStarNet import GStarNet
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
 from train_cross_entropy import cross_entropy_input_to_onehot
+from validations_ids import get_validation_ids
 import os
 
 # Default constants
@@ -124,8 +125,18 @@ def train():
     max_acc = 0
     min_loss = 100
 
+    vag_games = get_validation_ids()
+    vag_games = np.array(vag_games)
+
+    vag_ids = vag_games[-validation_games:]
+
     for epoch in range(3000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        print(len(val_ids))
+        for i in vag_ids:
+            if i not in val_ids:
+                val_ids.append(vag_ids)
+        print(len(val_ids))
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]

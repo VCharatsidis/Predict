@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from neural_nets import test_nn
 from neural_nets.models.cross_entropy.input_cross_entropy import cross_entropy_input_to_onehot
 from neural_nets.input_to_onehot import get_predictions
+from neural_nets.validations_ids import get_validation_ids
 import os
 
 # CROSS ENTROPY NN
@@ -73,25 +74,26 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    data, vag_games = get_predictions()
+
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-4
     MAX_STEPS_DEFAULT = 400000
-    BATCH_SIZE_DEFAULT = 8
-    validation_games = 160
-    model = CrossNet2(onehot_input.shape[1])
+    BATCH_SIZE_DEFAULT = 4
+    validation_games = 150
+
+    model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
     print(model)
 
     # val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    val_ids = np.random.choice(len(vag_games), size=validation_games, replace=False)
-    val_ids = vag_games[val_ids]
+    val_ids = vag_games[-validation_games:]
 
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 

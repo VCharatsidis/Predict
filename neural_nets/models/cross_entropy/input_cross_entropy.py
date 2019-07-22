@@ -4,7 +4,7 @@ import copy
 import os
 
 
-def get_predictions(data):
+def get_predictions():
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'C:\\Users\\chara\\PycharmProjects\\PredictBet\\logs\\Grubb.txt'
     grubb = os.path.join(script_directory, filepath)
@@ -13,17 +13,9 @@ def get_predictions(data):
 
     contents = f.readlines()
     counter = 0
+    data = []
     for line in contents:
-
-        # if counter > len(contents) - 130:
-        #     counter += 1
-        #     continue
-
         X = line.split('-')
-
-        if int(X[4]) < 55:
-            counter += 1
-            continue
 
         X[0] = float(X[0])
         X[4] = float(X[4])
@@ -33,16 +25,6 @@ def get_predictions(data):
 
         data.append(X)
         counter += 1
-
-
-    return data
-
-
-def get_input():
-    data = []
-    get_predictions(data)
-
-    print("data: " + str(len(data)))
 
     return data
 
@@ -59,7 +41,7 @@ def standardize(X):
 
 def cross_entropy_input_to_onehot():
     labelencoder = LabelEncoder()
-    input = get_input()
+    input = get_predictions()
 
     input = np.array(input)
 

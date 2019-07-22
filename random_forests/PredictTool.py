@@ -14,8 +14,6 @@ simplefilter(action='ignore', category=DeprecationWarning)
 import config
 
 
-f = open("../logs/Grubb.txt", "r")
-
 def parse_x(xin, result):
 
     data = str(result)+"-"
@@ -26,15 +24,12 @@ def parse_x(xin, result):
     data += str(xin[3])
     data += "-"+str(xin[4])+"-"
 
-    if(len(xin)>5):
+    if len(xin)>5:
         data += config.maps[xin[5]]
 
     return data
 
-contents = f.readlines()
 
-
-counter = 0
 avg_opponents_winrate = 0
 observed_grubby_wins = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
 observer_grubby_games = {'Hum': 0, 'Ne': 0, 'Orc': 0, 'Ra': 0, 'Ud': 0}
@@ -44,56 +39,10 @@ wins_less_than_60 = 0
 games_less_than_60 = 0
 
 
-def predict(i):
-    input_cp = []
-    counter = 0
-    for l in contents:
-        X = l.split('-')
-
-        # if counter <= len(contents) - 130:
-        #     counter+=1
-        #     continue
-
-        X[4] = int(X[4])
-        if X[4] < 55:
-            counter += 1
-            continue
-
-        X[5] = int(X[5])
-
-        X[6] = X[6].rstrip("\n")
-
-        X = np.array(X)
-        input_cp.append(X)
-
-        counter += 1
-
-    labelencoder = LabelEncoder()
-
-    input_cp = np.array(input_cp)
-    original_input_for_strong_log_reg = copy.deepcopy(input_cp)
-    y = input_cp[:, 0]
-    input_cp = input_cp[:, 1:]
-
-    input_cp[:, 0] = labelencoder.fit_transform(input_cp[:, 0])
-    input_cp[:, 0] = [int(x) for x in input_cp[:, 0]]
-
-    input_cp[:, 1] = labelencoder.fit_transform(input_cp[:, 1])
-    input_cp[:, 1] = [int(x) for x in input_cp[:, 1]]
-
-    input_cp[:, 2] = labelencoder.fit_transform(input_cp[:, 2])
-    input_cp[:, 2] = [int(x) for x in input_cp[:, 2]]
-
-    input_cp[:, 5] = labelencoder.fit_transform(input_cp[:, 5])
-    input_cp[:, 5] = [int(x) for x in input_cp[:, 5]]
-
-
+def predict(input_cp, original_input_for_strong_log_reg, y, i):
     xin = copy.deepcopy(input_cp[i])
     xin = [int(x) for x in xin]
 
-    # print(xin)
-    # print(len(input_cp))
-    original_input_for_strong_log_reg = np.delete(original_input_for_strong_log_reg, i, axis=0)
     input_cp = np.delete(input_cp, i, axis=0)
     #print(len(input_cp))
 
@@ -161,18 +110,15 @@ def predict(i):
     for i in letter:
         onehot_encoded.append(i)
 
-
     letter = [0 for _ in range(5)]
     letter[xin[2]] = 1
     for i in letter:
         onehot_encoded.append(i)
 
-
     letter = [0 for _ in range(config.map_number)]
     letter[xin[5]] = 1
     for i in letter:
         onehot_encoded.append(i)
-
 
     onehot_encoded = np.array(onehot_encoded)
     onehot_encoded.flatten()
@@ -319,14 +265,10 @@ def predict(i):
     s = parse_x(to_print, result)
     # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
-
     if neural_predCross4[0][0] * 100 > 66:
         merged = neural_predCross2[0][0] * 100
     else:
         merged = neural_pred3L3W[0][0] * 100
-
-    if merged < 0.5:
-        result = 0
 
     merged = (neural_pred3L3W[0][0]*0.5 + neural_predCross2[0][0]*0.5) * 100
 
@@ -361,7 +303,6 @@ def predict(i):
           + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
           +"\n")
 
-
     print(log)
 
 
@@ -372,30 +313,61 @@ def predict(i):
     file.close()
 
 
-input = []
 
-for l in contents:
 
-    X = l.split('-')
 
-    X[4] = int(X[4])
-    if X[4] < 55:
-        continue
+def prepare_input():
+    f = open("../logs/Grubb.txt", "r")
+    contents = f.readlines()
 
-    X[5] = int(X[5])
+    for line in contents:
+        input_cp = []
+        counter = 0
 
-    X[6] = X[6].rstrip("\n")
+        for line in contents:
+            X = line.split('-')
 
-    X = np.array(X)
-    input.append(X)
+            X[4] = int(X[4])
 
-input = np.array(input)
+            X[5] = int(X[5])
+
+            X[6] = X[6].rstrip("\n")
+
+            X = np.array(X)
+            input_cp.append(X)
+
+            counter += 1
+
+        labelencoder = LabelEncoder()
+
+        input_cp = np.array(input_cp)
+        original_input_for_strong_log_reg = copy.deepcopy(input_cp)
+        y = input_cp[:, 0]
+        input_cp = input_cp[:, 1:]
+
+        input_cp[:, 0] = labelencoder.fit_transform(input_cp[:, 0])
+        input_cp[:, 0] = [int(x) for x in input_cp[:, 0]]
+
+        input_cp[:, 1] = labelencoder.fit_transform(input_cp[:, 1])
+        input_cp[:, 1] = [int(x) for x in input_cp[:, 1]]
+
+        input_cp[:, 2] = labelencoder.fit_transform(input_cp[:, 2])
+        input_cp[:, 2] = [int(x) for x in input_cp[:, 2]]
+
+        input_cp[:, 5] = labelencoder.fit_transform(input_cp[:, 5])
+        input_cp[:, 5] = [int(x) for x in input_cp[:, 5]]
+
+        return input_cp, original_input_for_strong_log_reg, y
+
+
+input, or_input, y = prepare_input()
+print("data number "+str(len(input)))
 
 for i in range(len(input)):
 
     xin = input[i]
 
-    predict(i)
+    predict(input, or_input, y, i)
 
 
 

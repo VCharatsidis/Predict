@@ -16,12 +16,13 @@ import matplotlib.pyplot as plt
 from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
 from GStar4L4W import GStar4L4WNet
+from validations_ids import get_validation_ids
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 200
+MAX_STEPS_DEFAULT = 1
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -79,7 +80,8 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 500
+    BATCH_SIZE_DEFAULT = 32
+    validation_games = 600
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -121,8 +123,14 @@ def train():
     max_acc = 0
     min_loss = 1000
 
-    for epoch in range(3000):
+    vag_games = get_validation_ids()
+    vag_games = np.array(vag_games)
+
+    vag_ids = vag_games
+
+    for epoch in range(1000000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = np.append(val_ids, vag_ids)
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
@@ -131,10 +139,11 @@ def train():
         X_test = onehot_input[val_ids, :]
         y_test = y[val_ids]
 
-        print("epoch " +str(epoch))
-
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 64
+            if X_train.shape[0] < BATCH_SIZE_DEFAULT:
+                continue
+
+
             model.train()
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -159,19 +168,18 @@ def train():
             if iteration % EVAL_FREQ_DEFAULT == 0:
                 model.eval()
 
-                BATCH_SIZE_DEFAULT = len(X_test)
-                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                ids = np.array(range(len(X_test)))
                 x = X_test[ids, :]
                 targets = y_test[ids]
 
-                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+                x = np.reshape(x, (len(X_test), -1))
 
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
 
                 acc = accuracy(pred, targets)
-                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
                 calc_loss = center_my_loss(pred, targets)
@@ -181,18 +189,17 @@ def train():
 
                 ###################
 
-                BATCH_SIZE_DEFAULT = len(X_train)
-                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                ids = np.array(range(len(X_train)))
                 x = X_train[ids, :]
                 targets = y_train[ids]
 
-                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+                x = np.reshape(x, (len(X_train), -1))
 
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
 
-                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                targets = np.reshape(targets, (len(X_train), -1))
                 train_acc = accuracy(pred, targets)
 
                 targets = Variable(torch.FloatTensor(targets))
@@ -204,7 +211,7 @@ def train():
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
 
-                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+                    print("epoch: " + str(epoch) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
                         calc_loss.item()))
 
     #torch.save(model, model_to_train)
