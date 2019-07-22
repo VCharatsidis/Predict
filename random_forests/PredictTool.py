@@ -50,6 +50,10 @@ def predict(i):
     for l in contents:
         X = l.split('-')
 
+        # if counter <= len(contents) - 130:
+        #     counter+=1
+        #     continue
+
         X[4] = int(X[4])
         if X[4] < 55:
             counter += 1

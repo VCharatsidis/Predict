@@ -17,6 +17,7 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from neural_nets import test_nn
 from neural_nets.models.cross_entropy.input_cross_entropy import cross_entropy_input_to_onehot
+from neural_nets.input_to_onehot import get_predictions
 import os
 
 # CROSS ENTROPY NN
@@ -53,7 +54,7 @@ def accuracy(predictions, targets):
     predictions = predictions.detach().numpy()
     predictions = predictions.flatten()
     preds = np.round(predictions)
-    targets = np.round(targets)
+
     result = preds == targets
 
     sum = np.sum(result)
@@ -72,20 +73,26 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
+    data, vag_games = get_predictions()
+
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-4
-    MAX_STEPS_DEFAULT = 500
-    BATCH_SIZE_DEFAULT = 16
-    validation_games = 400
-    model = CrossNet4(onehot_input.shape[1])
+    MAX_STEPS_DEFAULT = 400000
+    BATCH_SIZE_DEFAULT = 8
+    validation_games = 160
+    model = CrossNet2(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE3.model'
+    filepath = 'grubbyStarCE2.model'
     model_to_train = os.path.join(script_directory, filepath)
     print(model)
 
+    # val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    vag_games = np.array(vag_games)
 
-    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    val_ids = np.random.choice(len(vag_games), size=validation_games, replace=False)
+    val_ids = vag_games[val_ids]
+
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
     X_train = onehot_input[train_ids, :]
@@ -113,10 +120,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
-    #optimizer = torch.optim.RMSprop(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
-    #optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE_DEFAULT, weight_decay=1e-4)
 
     accuracies = []
     losses = []
@@ -125,87 +129,89 @@ def train():
     patience = 20000
     flag = 0
 
-    for epoch in range(500):
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
+    # for epoch in range(300000):
+    #     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    #     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
+    #
+    #     if epoch % 5000 == 0:
+    #         print("epoch " + str(epoch))
+    #
+    #     X_train = onehot_input[train_ids, :]
+    #     y_train = y[train_ids]
+    #
+    #     X_test = onehot_input[val_ids, :]
+    #     y_test = y[val_ids]
 
-        print(val_ids)
-        X_train = onehot_input[train_ids, :]
-        y_train = y[train_ids]
+    for iteration in range(MAX_STEPS_DEFAULT):
+        model.train()
 
-        X_test = onehot_input[val_ids, :]
-        y_test = y[val_ids]
+        ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
-        for iteration in range(MAX_STEPS_DEFAULT):
-            model.train()
+        X_train_batch = X_train[ids, :]
+        y_train_batch = y_train[ids]
 
-            ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
+        X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
+        X_train_batch = Variable(torch.FloatTensor(X_train_batch))
 
-            X_train_batch = X_train[ids, :]
-            y_train_batch = y_train[ids]
+        output = model.forward(X_train_batch)
 
-            X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
-            X_train_batch = Variable(torch.FloatTensor(X_train_batch))
+        y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
+        y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-            output = model.forward(X_train_batch)
+        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
-            y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
-            y_train_batch = Variable(torch.FloatTensor(y_train_batch))
+        model.zero_grad()
+        loss.backward(retain_graph=True)
+        optimizer.step()
 
-            loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
+        if iteration % EVAL_FREQ_DEFAULT == 0:
+            model.eval()
 
-            model.zero_grad()
-            loss.backward(retain_graph=True)
-            optimizer.step()
+            ids = np.array(range(len(X_test)))
+            x = X_test[ids, :]
+            targets = y_test[ids]
 
-            if iteration % EVAL_FREQ_DEFAULT == 0:
-                model.eval()
+            x = np.reshape(x, (len(X_test), -1))
 
-                ids = np.array(range(len(X_test)))
-                x = X_test[ids, :]
-                targets = y_test[ids]
+            x = Variable(torch.FloatTensor(x))
 
-                x = np.reshape(x, (len(X_test), -1))
+            pred = model.forward(x)
 
-                x = Variable(torch.FloatTensor(x))
+            acc = accuracy(pred, targets)
+            targets = np.reshape(targets, (len(X_test), -1))
+            targets = Variable(torch.FloatTensor(targets))
 
-                pred = model.forward(x)
+            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-                acc = accuracy(pred, targets)
-                targets = np.reshape(targets, (len(X_test), -1))
-                targets = Variable(torch.FloatTensor(targets))
+            accuracies.append(acc)
+            losses.append(calc_loss.item())
 
-                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+            ###################
 
-                accuracies.append(acc)
-                losses.append(calc_loss.item())
+            ids = np.array(range(len(X_train)))
+            x = X_train[ids, :]
+            targets = y_train[ids]
 
-                ###################
+            x = np.reshape(x, (len(X_train), -1))
 
-                ids = np.array(range(len(X_train)))
-                x = X_train[ids, :]
-                targets = y_train[ids]
+            x = Variable(torch.FloatTensor(x))
 
-                x = np.reshape(x, (len(X_train), -1))
+            pred = model.forward(x)
 
-                x = Variable(torch.FloatTensor(x))
+            targets = np.reshape(targets, (len(X_train), -1))
+            train_acc = accuracy(pred, targets)
 
-                pred = model.forward(x)
+            targets = Variable(torch.FloatTensor(targets))
 
-                targets = np.reshape(targets, (len(X_train), -1))
-                train_acc = accuracy(pred, targets)
+            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-                targets = Variable(torch.FloatTensor(targets))
-
-                train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
-
-                p = 0.95
-                if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                    min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
-                    torch.save(model, model_to_train)
-                    flag = iteration
-                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                        calc_loss.item()))
+            p = 1
+            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
+                torch.save(model, model_to_train)
+                flag = iteration
+                print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+                    calc_loss.item()))
 
 
     test_nn.test_all(model_to_train)

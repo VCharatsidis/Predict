@@ -190,9 +190,9 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 13
-graph_a = 0
-graph_b = 9
+opp = 9
+graph_a = 9
+graph_b = 22
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
@@ -234,8 +234,8 @@ def calc_scores_vs_opponent(opponent, cap=95):
                     else:
                         egw = int(humans[17])
 
-                vagelis = 0
-                egw = 0
+                # vagelis = 0
+                # egw = 0
                 s = calc_scores(vagelis, egw, counter, i, participations, counter, excluded)
                 s = np.array(s)
 
@@ -294,8 +294,8 @@ for i in contents:
         #     print(humans)
         #     print(i)
 
-        vagelis = 0
-        egw = 0
+        # vagelis = 0
+        # egw = 0
         s = calc_scores(vagelis, egw, counter, i, participations, counter, exc)
         s = np.array(s)
 

@@ -5,20 +5,31 @@ import os
 
 maps = []
 
-def get_predictions(data):
+
+def get_predictions():
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'gaussianPredictions.txt')
+    targets = os.path.join(script_directory, filepath + 'automagic.txt')
     f = open(targets, "r")
+
+    data = []
+    vagelis_games = []
 
     contents = f.readlines()
     counter = 0
     for line in contents:
         X = line.split('-')
-
         if int(X[4]) < 55:
             counter += 1
             continue
+
+        if len(X) > 18:
+            vag = copy.deepcopy(X[16])
+            vag = vag.rstrip("\n")
+            vag = vag.replace('%', '')
+            vag = int(vag)
+            if vag != 0:
+                vagelis_games.append(counter)
 
         processed_X = []
         max_prediction = 3.
@@ -67,14 +78,7 @@ def get_predictions(data):
         data.append(processed_X)
         counter += 1
 
-    return data
-
-
-def get_input():
-    data = []
-    get_predictions(data)
-
-    return data
+    return data, vagelis_games
 
 
 def center(X):
@@ -89,7 +93,7 @@ def standardize(X):
 
 def input_to_onehot():
     labelencoder = LabelEncoder()
-    input = get_input()
+    input, _ = get_predictions()
 
     input = np.array(input)
 

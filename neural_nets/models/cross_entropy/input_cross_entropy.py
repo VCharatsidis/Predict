@@ -14,6 +14,11 @@ def get_predictions(data):
     contents = f.readlines()
     counter = 0
     for line in contents:
+
+        # if counter > len(contents) - 130:
+        #     counter += 1
+        #     continue
+
         X = line.split('-')
 
         if int(X[4]) < 55:
@@ -28,6 +33,7 @@ def get_predictions(data):
 
         data.append(X)
         counter += 1
+
 
     return data
 
