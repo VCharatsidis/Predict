@@ -36,7 +36,7 @@ def get_predictions():
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 10
+        max_saturation = 7
         min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 98.)

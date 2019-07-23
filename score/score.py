@@ -31,8 +31,8 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     # predictions[11] = (predictions[14] + predictions[15] + predictions[16] + predictions[17] + predictions[18] + predictions[20]\
     #                 + predictions[21] + predictions[22] + predictions[23]) / 9
-    #
-    # predictions[8] = (predictions[21] + predictions[16])/2
+    # #
+    # predictions[8] = (predictions[23] + predictions[14])/2
 
 
     for i in range(len(predictions), n_predictions):
@@ -183,7 +183,7 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 2000
 
-opp = 10
+opp = 9
 graph_a = 9
 graph_b = 14
 

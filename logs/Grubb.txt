@@ -875,3 +875,9 @@
 0-Ud-t-Ne-72-900-twisted
 1-Ud-t-Hum-76-124-amazonia
 0-Ud-t-Hum-80-590-northren
+1-Ud-t-Hum-60-270-terenas
+1-Ud-t-Ne-67-440-terenas
+0-Hum-t-Ne-65-1850-terenas
+0-Hum-t-Ra-76-240-terenas
+1-Hum-t-Ud-75-144-xancient
+0-Hum-t-Ud-69-81-echo

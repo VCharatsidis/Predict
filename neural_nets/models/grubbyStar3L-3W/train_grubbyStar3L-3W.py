@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 50
+MAX_STEPS_DEFAULT = 400
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -81,7 +81,7 @@ def train():
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 500
+    validation_games = 330
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -126,11 +126,15 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    vag_ids = vag_games[-validation_games:]
+    vag_ids = vag_games[-150:]
 
-    for epoch in range(5000):
+    for epoch in range(3500):
+
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
+
+        val_ids = np.unique(val_ids)
+
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
@@ -146,7 +150,7 @@ def train():
             model.train()
             BATCH_SIZE_DEFAULT = 32
             if (BATCH_SIZE_DEFAULT > X_train.shape[0]):
-                BATCH_SIZE_DEFAULT = X_train.shape[0] -1
+                BATCH_SIZE_DEFAULT = X_train.shape[0] - 1
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
@@ -236,11 +240,10 @@ def train():
 
 def center_my_loss(output, target):
     real = torch.round(target)
-    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    target_reduction = (0.95*y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
+    pred = output * real + (1 - output) * (1 - real)
+    y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - y))))
     return loss
 
 

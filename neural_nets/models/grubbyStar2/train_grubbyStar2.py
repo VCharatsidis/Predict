@@ -52,6 +52,7 @@ def accuracy(predictions, targets):
     predictions = predictions.flatten()
     preds = np.round(predictions)
 
+
     result = preds == targets
 
     sum = np.sum(result)
@@ -80,7 +81,7 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 400
+    validation_games = 600
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
@@ -95,17 +96,22 @@ def train():
 
     accuracies = []
     losses = []
+    vag_losses = []
     max_acc = 0
     min_loss = 100
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    vag_ids = vag_games[-validation_games:]
+    vag_ids = vag_games[-150:]
+    vag_input = onehot_input[vag_ids, :]
+    vag_targets = y[vag_ids]
+    vag_real = real_y[vag_ids]
 
-    for epoch in range(2000):
+    for epoch in range(2500):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        val_ids = np.append(val_ids, vag_ids)
+        val_ids = [i for i in val_ids if i not in vag_ids]
+
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
@@ -119,7 +125,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 64
+            BATCH_SIZE_DEFAULT = 32
             model.train()
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -195,13 +201,36 @@ def train():
 
                 train_loss = center_my_loss(pred, targets)
 
+                ########## VAG #############
+
+                BATCH_SIZE_DEFAULT = len(vag_ids)
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                x = vag_input
+                targets = vag_targets
+                real_targets = vag_real
+
+                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+
+                x = Variable(torch.FloatTensor(x))
+
+                pred = model.forward(x)
+                vag_acc = accuracy(pred, real_targets)
+
+                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
+
+                targets = Variable(torch.FloatTensor(targets))
+                real_targets = Variable(torch.FloatTensor(real_targets))
+
+                vag_loss = center_my_loss(pred, targets)
+                vag_losses.append(vag_loss)
                 p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
 
-                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                        calc_loss.item()))
+                    print("iteration: " + str(iteration) +" train acc "+str(train_acc)+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
+                        calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: "+str(vag_loss.item()))
 
 
     #torch.save(model, model_to_train)
@@ -213,7 +242,8 @@ def train():
     plt.ylabel('accuracies')
     plt.show()
 
-    plt.plot(losses)
+    plt.plot(vag_losses, 'r')
+    plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
     ########################

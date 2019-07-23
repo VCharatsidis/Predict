@@ -128,7 +128,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    vag_ids = vag_games[-validation_games:]
+    vag_ids = vag_games
 
     for epoch in range(3000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)

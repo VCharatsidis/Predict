@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 1
+MAX_STEPS_DEFAULT = 200
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -81,7 +81,7 @@ def train():
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     BATCH_SIZE_DEFAULT = 32
-    validation_games = 600
+    validation_games = 400
 
     onehot_input, y, _ = input_to_onehot()
 
@@ -128,9 +128,10 @@ def train():
 
     vag_ids = vag_games
 
-    for epoch in range(1000000):
+    for epoch in range(6000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
+
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
@@ -142,7 +143,6 @@ def train():
         for iteration in range(MAX_STEPS_DEFAULT):
             if X_train.shape[0] < BATCH_SIZE_DEFAULT:
                 continue
-
 
             model.train()
 
@@ -233,11 +233,10 @@ def train():
 
 def center_my_loss(output, target):
     real = torch.round(target)
-    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    #target_reduction = (0.90 * y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
-    target_reduction = y
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+    pred = output * real + (1 - output) * (1 - real)
+    y = target * real + (1 - target) * (1 - real)
+
+    loss = torch.mean(-(torch.log(1 - torch.abs(pred - 0.98 * y))))
     return loss
 
 # def center_my_loss(output, target):

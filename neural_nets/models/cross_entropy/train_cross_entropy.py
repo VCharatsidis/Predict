@@ -78,9 +78,9 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 1e-4
-    MAX_STEPS_DEFAULT = 400000
-    BATCH_SIZE_DEFAULT = 4
+    LEARNING_RATE_DEFAULT = 5e-5
+    MAX_STEPS_DEFAULT = 500000
+    BATCH_SIZE_DEFAULT = 5
     validation_games = 150
 
     model = CrossNet3(onehot_input.shape[1])
