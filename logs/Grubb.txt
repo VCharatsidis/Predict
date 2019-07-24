@@ -881,3 +881,11 @@
 0-Hum-t-Ra-76-240-terenas
 1-Hum-t-Ud-75-144-xancient
 0-Hum-t-Ud-69-81-echo
+1-Hum-t-Ne-65-114-amazonia
+1-Hum-t-Ne-60-97-turtle
+1-Hum-t-Hum-63-370-echo
+1-Hum-t-Ud-100-6-echo
+1-Hum-t-Ud-83-340-turtle
+0-Hum-t-Hum-80-600-refuge
+1-Hum-t-Hum-80-600-refuge
+1-Hum-t-Hum-80-600-refuge

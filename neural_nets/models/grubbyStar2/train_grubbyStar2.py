@@ -23,7 +23,7 @@ import os
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
 MAX_STEPS_DEFAULT = 400
-BATCH_SIZE_DEFAULT = 64
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -81,7 +81,7 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 600
+    validation_games = 500
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
@@ -90,6 +90,7 @@ def train():
     print(onehot_input.shape[1])
 
     model = GStar2Net(onehot_input.shape[1])
+
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -108,7 +109,7 @@ def train():
     vag_targets = y[vag_ids]
     vag_real = real_y[vag_ids]
 
-    for epoch in range(2500):
+    for epoch in range(7000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = [i for i in val_ids if i not in vag_ids]
 
@@ -223,7 +224,8 @@ def train():
                 real_targets = Variable(torch.FloatTensor(real_targets))
 
                 vag_loss = center_my_loss(pred, targets)
-                vag_losses.append(vag_loss)
+                vag_losses.append(vag_loss.item())
+
                 p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
