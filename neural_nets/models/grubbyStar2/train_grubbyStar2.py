@@ -81,7 +81,7 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 500
+    validation_games = 700
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot()
@@ -111,7 +111,8 @@ def train():
 
     for epoch in range(7000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        val_ids = [i for i in val_ids if i not in vag_ids]
+        val_ids = np.append(val_ids, vag_ids)
+        val_ids = np.unique(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
@@ -126,7 +127,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 32
+            BATCH_SIZE_DEFAULT = 16
             model.train()
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)

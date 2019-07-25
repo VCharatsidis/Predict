@@ -184,12 +184,13 @@ LIMIT = -1
 UPPER_LIMIT = 2000
 
 opp = 9
-graph_a = 9
+graph_a = 10
 graph_b = 14
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
 #val_ids = list(range(LIMIT, UPPER_LIMIT))
+
 print(len(val_ids[-150:]))
 print(val_ids)
 

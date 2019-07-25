@@ -888,4 +888,9 @@
 1-Hum-t-Ud-83-340-turtle
 0-Hum-t-Hum-80-600-refuge
 1-Hum-t-Hum-80-600-refuge
-1-Hum-t-Hum-80-600-refuge
+0-Hum-t-Hum-80-600-refuge
+0-Ne-t-Ud-69-262-twisted
+1-Ne-t-Ne-80-25-northren
+1-Ne-t-Orc-64-1050-refuge
+1-Ne-t-Ud-75-155-echo
+1-Ne-t-Ra-76-250-amazonia

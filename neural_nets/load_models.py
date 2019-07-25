@@ -51,7 +51,7 @@ def load_models(onehot_encoded):
     grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
 
     onehot_neural = copy.deepcopy(onehot_encoded)
-    _, _, X_train = input_to_onehot()
+    _, _, X_train = input_to_onehot('automagic')
     mean1, std1, mean2, std2 = get_means_and_stds(X_train)
     x = standardize_instance(onehot_neural, mean1, std1, mean2, std2)
 

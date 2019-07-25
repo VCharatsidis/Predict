@@ -72,7 +72,7 @@ for line in automag:
     print(mean)
     print(std)
 
-    std = 0.1 * std
+    std = 0.6 * std
     max_prediction = int(round(mean + std))
     min_prediction = int(round(mean - std))
 

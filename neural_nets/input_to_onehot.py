@@ -6,10 +6,10 @@ import os
 maps = []
 
 
-def get_predictions():
+def get_predictions(data_file):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
-    targets = os.path.join(script_directory, filepath + 'automagic.txt')
+    targets = os.path.join(script_directory, filepath + data_file +'.txt')
     f = open(targets, "r")
 
     data = []
@@ -36,7 +36,7 @@ def get_predictions():
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 7
+        max_saturation = 0
         min_saturation = 0
 
         max_prediction = min(max_prediction - max_saturation, 98.)
@@ -79,9 +79,9 @@ def standardize(X):
     return newX
 
 
-def input_to_onehot():
+def input_to_onehot(data_file):
     labelencoder = LabelEncoder()
-    input = get_predictions()
+    input = get_predictions(data_file)
 
     input = np.array(input)
 
@@ -118,8 +118,6 @@ def filter(list):
     filter_55 = []
     for i in range(len(list)):
         z = list[i].split("-")
-        if int(z[4]) < 55:
-            continue
         filter_55.append(list[i])
 
     return filter_55

@@ -26,7 +26,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 5e-5
-MAX_STEPS_DEFAULT = 500000
+MAX_STEPS_DEFAULT = 300
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -74,18 +74,16 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-
-
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 5e-5
-    MAX_STEPS_DEFAULT = 500000
+    LEARNING_RATE_DEFAULT = 1e-4
+    MAX_STEPS_DEFAULT = 400000
     BATCH_SIZE_DEFAULT = 5
-    validation_games = 150
+    validation_games = 200
 
-    model = CrossNet3(onehot_input.shape[1])
+    model = SimpleMLP(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE3.model'
+    filepath = 'grubbyStarCE2.model'
     model_to_train = os.path.join(script_directory, filepath)
     print(model)
 
@@ -93,7 +91,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    val_ids = vag_games[-validation_games:]
+    val_ids = vag_games[-150:]
 
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
@@ -131,89 +129,118 @@ def train():
     patience = 20000
     flag = 0
 
-    # for epoch in range(300000):
-    #     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-    #     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
-    #
-    #     if epoch % 5000 == 0:
-    #         print("epoch " + str(epoch))
-    #
-    #     X_train = onehot_input[train_ids, :]
-    #     y_train = y[train_ids]
-    #
-    #     X_test = onehot_input[val_ids, :]
-    #     y_test = y[val_ids]
+    vag_games = get_validation_ids()
+    vag_games = np.array(vag_games)
+    vag_ids = vag_games[-150:]
+    vag_input = onehot_input[vag_ids, :]
+    vag_targets = y[vag_ids]
 
-    for iteration in range(MAX_STEPS_DEFAULT):
-        model.train()
+    for epoch in range(1):
+        # val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        # val_ids = np.append(val_ids, vag_ids)
+        # val_ids = np.unique(val_ids)
+        val_ids = np.array(vag_ids)
 
-        ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
+        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
-        X_train_batch = X_train[ids, :]
-        y_train_batch = y_train[ids]
+        X_train = onehot_input[train_ids, :]
+        y_train = y[train_ids]
 
-        X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        X_train_batch = Variable(torch.FloatTensor(X_train_batch))
+        X_test = onehot_input[val_ids, :]
+        y_test = y[val_ids]
 
-        output = model.forward(X_train_batch)
+        print("epoch " + str(epoch))
 
-        y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
-        y_train_batch = Variable(torch.FloatTensor(y_train_batch))
+        for iteration in range(MAX_STEPS_DEFAULT):
+            BATCH_SIZE_DEFAULT = 4
+            model.train()
 
-        loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
+            ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
-        model.zero_grad()
-        loss.backward(retain_graph=True)
-        optimizer.step()
+            X_train_batch = X_train[ids, :]
+            y_train_batch = y_train[ids]
 
-        if iteration % EVAL_FREQ_DEFAULT == 0:
-            model.eval()
+            X_train_batch = np.reshape(X_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            X_train_batch = Variable(torch.FloatTensor(X_train_batch))
 
-            ids = np.array(range(len(X_test)))
-            x = X_test[ids, :]
-            targets = y_test[ids]
+            output = model.forward(X_train_batch)
 
-            x = np.reshape(x, (len(X_test), -1))
+            y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
+            y_train_batch = Variable(torch.FloatTensor(y_train_batch))
 
-            x = Variable(torch.FloatTensor(x))
+            loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
-            pred = model.forward(x)
+            model.zero_grad()
+            loss.backward(retain_graph=True)
+            optimizer.step()
 
-            acc = accuracy(pred, targets)
-            targets = np.reshape(targets, (len(X_test), -1))
-            targets = Variable(torch.FloatTensor(targets))
+            if iteration % EVAL_FREQ_DEFAULT == 0:
+                model.eval()
 
-            calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                ids = np.array(range(len(X_test)))
+                x = X_test[ids, :]
+                targets = y_test[ids]
 
-            accuracies.append(acc)
-            losses.append(calc_loss.item())
+                x = np.reshape(x, (len(X_test), -1))
 
-            ###################
+                x = Variable(torch.FloatTensor(x))
 
-            ids = np.array(range(len(X_train)))
-            x = X_train[ids, :]
-            targets = y_train[ids]
+                pred = model.forward(x)
+                acc = accuracy(pred, targets)
 
-            x = np.reshape(x, (len(X_train), -1))
+                targets = np.reshape(targets, (len(X_test), -1))
+                targets = Variable(torch.FloatTensor(targets))
 
-            x = Variable(torch.FloatTensor(x))
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
-            pred = model.forward(x)
+                accuracies.append(acc)
+                losses.append(calc_loss.item())
 
-            targets = np.reshape(targets, (len(X_train), -1))
-            train_acc = accuracy(pred, targets)
+                ###################
 
-            targets = Variable(torch.FloatTensor(targets))
+                ids = np.array(range(len(X_train)))
+                x = X_train[ids, :]
+                targets = y_train[ids]
 
-            train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                x = np.reshape(x, (len(X_train), -1))
 
-            p = 1
-            if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
-                torch.save(model, model_to_train)
-                flag = iteration
-                print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                    calc_loss.item()))
+                x = Variable(torch.FloatTensor(x))
+
+                pred = model.forward(x)
+                train_acc = accuracy(pred, targets)
+
+                targets = np.reshape(targets, (len(X_train), -1))
+                targets = Variable(torch.FloatTensor(targets))
+
+                train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+
+                ########## VAG #############
+
+                BATCH_SIZE_DEFAULT = len(vag_ids)
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                x = vag_input
+                targets = vag_targets
+
+                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+
+                x = Variable(torch.FloatTensor(x))
+
+                pred = model.forward(x)
+                vag_acc = accuracy(pred, targets)
+
+                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                targets = Variable(torch.FloatTensor(targets))
+
+                vag_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+
+                p = 1
+                if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
+                    min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
+                    torch.save(model, model_to_train)
+
+                    print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
+                        acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
+                        calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: " + str(vag_loss.item()))
 
 
     test_nn.test_all(model_to_train)

@@ -76,14 +76,13 @@ def train():
     else:
         device = torch.device('cpu')
 
-    BATCH_SIZE_DEFAULT = 32
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 330
+    validation_games = 700
 
-    onehot_input, y, _ = input_to_onehot()
+    onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -132,7 +131,6 @@ def train():
 
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
-
         val_ids = np.unique(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -148,9 +146,7 @@ def train():
 
         for iteration in range(MAX_STEPS_DEFAULT):
             model.train()
-            BATCH_SIZE_DEFAULT = 32
-            if (BATCH_SIZE_DEFAULT > X_train.shape[0]):
-                BATCH_SIZE_DEFAULT = X_train.shape[0] - 1
+            BATCH_SIZE_DEFAULT = 16
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 

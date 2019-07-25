@@ -127,23 +127,22 @@ def train():
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
+    vag_ids = vag_games[-150:]
+    vag_input = onehot_input[vag_ids, :]
+    vag_targets = y[vag_ids]
 
-    vag_ids = vag_games
-
-    for epoch in range(3000):
+    for epoch in range(12000):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        print(len(val_ids))
-        for i in vag_ids:
-            if i not in val_ids:
-                val_ids.append(vag_ids)
-        print(len(val_ids))
-        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
+        val_ids = [i for i in val_ids if i not in vag_ids]
+
+        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids and i not in vag_ids]
 
         X_train = onehot_input[train_ids, :]
         y_train = y[train_ids]
 
         X_test = onehot_input[val_ids, :]
         y_test = y[val_ids]
+
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
