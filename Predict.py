@@ -142,12 +142,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 3, 73, 168, 3]
-my_prediction = 85
+xin = [4, 0, 0, 67, 1600, 4]
+my_prediction = 55
 Vagelis = 0
 result = 1
 
-write = True
+write = False
 NEW_PATCH = 500
 
 path = "logs/Grubb.txt"
@@ -226,7 +226,7 @@ logistic_input = copy.deepcopy(onehot_input)
 
 
 neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
-neural_predTest, neural_predCross, neural_predCross2, neural_predCross3,\
+neural_predCross, neural_predCross2, neural_predCross3,\
 neural_predCross4 = load_models(onehot_encoded)
 
 
@@ -306,10 +306,8 @@ merged = (neural_predCross4[0][0] * 0.4 + m1 * 0.6) * 100
 if merged < 0.5:
     result = 0
 
-percentage = neural_predCross[0][0]
-print(percentage)
-averaged = (neural_pred[0][0] + neural_pred2[0][0] + neural_pred3L3W[0][0] + neural_pred4L3W[0][0] + neural_pred4L4W[0][0]
-            + neural_predCross[0][0] + neural_predCross2[0][0] + neural_predCross3[0][0] + neural_predCross4[0][0]) / 9 * 100
+
+averaged = neural_pred[0][0] * 100 * 0.6 + neural_predCross2[0][0] * 100 * 0.4
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")
@@ -360,7 +358,7 @@ print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 print("")
 print("merged: " + str(int(round(merged))) + "%")
-print("averaged: " + str(int(round(averaged))) + "%")
+print("neural pred + CE2: " + str(int(round(averaged))) + "%")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural Cross 2: " + str(int(round(neural_predCross2[0][0]*100))) + "%")
 print("neural Cross 3: " + str(int(round(neural_predCross3[0][0]*100))) + "%")

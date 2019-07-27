@@ -41,7 +41,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
     # predictions[4] = predictions[14] * 0.6 + predictions[21] * 0.4
     # predictions[5] = predictions[0] * 0.7 + predictions[23] * 0.3
     # predictions[6] = predictions[14] * 0.5 + predictions[23] * 0.5
-    # predictions[7] = predictions[15] * 0.5 + predictions[21] * 0.5
+    predictions[7] = predictions[15] * 0.7 + predictions[21] * 0.3
     # predictions[8] = predictions[0] * 0.5 + predictions[23] * 0.5
 
     for i in range(len(predictions), n_predictions):
@@ -190,16 +190,16 @@ LOGISTIC_MU_CV = 676
 
 
 LIMIT = -1
-UPPER_LIMIT = 2000
+UPPER_LIMIT = 3000
 
 opp = 9
-graph_a = 10
-graph_b = 14
+graph_a = 4
+graph_b = 9
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
 print(val_ids)
-val_ids = list(range(LIMIT, UPPER_LIMIT))
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 print(len(val_ids[-150:]))
 print(val_ids)

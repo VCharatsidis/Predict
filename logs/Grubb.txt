@@ -890,3 +890,5 @@
 1-Orc-r-Hum-65-960-refuge
 1-Orc-r-Ud-73-666-amazonia
 1-Orc-t-Ra-73-168-northren
+1-Ne-r-Hum-60-232-refuge
+0-Ud-r-Hum-67-1600-refuge

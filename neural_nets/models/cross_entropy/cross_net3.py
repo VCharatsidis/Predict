@@ -56,10 +56,6 @@ class CrossNet3(nn.Module):
             nn.BatchNorm1d(width_3),
             nn.Tanh(),
 
-            nn.Linear(width_3, width_3),
-            nn.BatchNorm1d(width_3),
-            nn.Tanh(),
-
             nn.Linear(width_3, 1),
             nn.Sigmoid()
 

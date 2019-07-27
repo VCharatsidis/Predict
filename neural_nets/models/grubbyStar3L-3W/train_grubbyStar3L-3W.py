@@ -9,7 +9,6 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 import GStarNet
@@ -81,7 +80,7 @@ def train():
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 700
+    validation_games = 0
 
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 

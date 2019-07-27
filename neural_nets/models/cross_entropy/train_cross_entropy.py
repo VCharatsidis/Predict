@@ -61,6 +61,8 @@ def accuracy(predictions, targets):
     sum = np.sum(result)
 
     accuracy = sum / float(targets.shape[0])
+    accuracy = accuracy * 1000
+    accuracy = round(accuracy)/1000
 
     return accuracy
 
@@ -76,47 +78,17 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 1e-4
-    MAX_STEPS_DEFAULT = 400000
+    LEARNING_RATE_DEFAULT = 1.2e-3
+    MAX_STEPS_DEFAULT = 70000
     BATCH_SIZE_DEFAULT = 5
     validation_games = 200
 
-    model = SimpleMLP(onehot_input.shape[1])
+    model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
+
     print(model)
-
-    # val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-    vag_games = get_validation_ids()
-    vag_games = np.array(vag_games)
-
-    val_ids = vag_games[-150:]
-
-    train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
-
-    X_train = onehot_input[train_ids, :]
-    y_train = y[train_ids]
-
-    # X_train = onehot_input[0: -validation_games, :]
-    # y_train = y[0: -validation_games]
-
-    print("X train")
-
-    print(X_train.shape)
-    print(y_train.shape)
-
-    X_test = onehot_input[val_ids, :]
-    y_test = y[val_ids]
-
-    # X_test = onehot_input[-validation_games:, :]
-    # y_test = y[-validation_games:]
-
-    print("X test")
-
-    print(X_test.shape)
-    print(y_test.shape)
-
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
@@ -124,10 +96,7 @@ def train():
 
     accuracies = []
     losses = []
-    max_acc = 0
     min_loss = 100
-    patience = 20000
-    flag = 0
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
@@ -239,8 +208,8 @@ def train():
                     torch.save(model, model_to_train)
 
                     print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
-                        acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
-                        calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: " + str(vag_loss.item()))
+                        acc) + " train loss " + str(round(train_loss.item()*1000)/1000) + " val loss " + str(
+                        round(calc_loss.item() * 1000)/1000) + " vag acc: " + str(vag_acc) + " vag loss: " + str(round(vag_loss.item()*1000)/1000))
 
 
     test_nn.test_all(model_to_train)

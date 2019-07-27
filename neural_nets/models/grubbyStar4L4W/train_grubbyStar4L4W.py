@@ -81,9 +81,9 @@ def train():
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     BATCH_SIZE_DEFAULT = 16
-    validation_games = 400
+    validation_games = 50
 
-    onehot_input, y, _ = input_to_onehot('new_predictions')
+    onehot_input, y, _ = input_to_onehot('gaussianPredictions')
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -258,11 +258,11 @@ def train():
 
 
 def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = output * real + (1 - output) * (1 - real)
-    y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
+    # real = torch.round(target)
+    # pred = output * real + (1 - output) * (1 - real)
+    # y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - y))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
     return loss
 
 

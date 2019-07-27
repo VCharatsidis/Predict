@@ -10,6 +10,7 @@ from load_models import load_models
 from warnings import simplefilter
 simplefilter(action='ignore', category=FutureWarning)
 simplefilter(action='ignore', category=DeprecationWarning)
+#simplefilter(action='ignore', category="SourceChangeWarning")
 
 import config
 
@@ -129,7 +130,7 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     onehot_encoded.flatten()
 
     neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
-    neural_predTest, neural_predCross, neural_predCross2, neural_predCross3,\
+    neural_predCross, neural_predCross2, neural_predCross3,\
     neural_predCross4 = load_models(onehot_encoded)
 
 
@@ -239,7 +240,7 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     logistic_mutchups = pred1 * 0.7 + neural_predCross4[0][0] * 100 * 0.3
     logistic_pred = neural_pred[0][0] * 100 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
     strong_logistic = neural_pred2[0][0] * 100 * 0.5 + neural_predCross2[0][0] * 100 * 0.5
-    another = pred1 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
+    another = pred1 * 0.7 + neural_predCross4[0][0] * 100 * 0.3
 
 
     log =(s + "-" + str(int(round(pred1)))

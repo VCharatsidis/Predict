@@ -9,7 +9,6 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from neural_net import MLP
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from GStarNet import GStarNet
