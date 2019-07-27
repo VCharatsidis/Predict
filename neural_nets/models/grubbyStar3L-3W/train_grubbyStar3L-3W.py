@@ -17,12 +17,13 @@ from neural_nets import test_nn
 from neural_nets.input_to_onehot import input_to_onehot
 from GStar3L3W import GStar3L3WNet
 from validations_ids import get_validation_ids
+from input_cross_entropy import cross_entropy_input_to_onehot
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 400
+MAX_STEPS_DEFAULT = 300
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -122,10 +123,15 @@ def train():
     max_acc = 0
     min_loss = 110
 
+    _, real_y, _ = cross_entropy_input_to_onehot()
+
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
     vag_ids = vag_games[-150:]
+    vag_input = onehot_input[vag_ids, :]
+    vag_targets = y[vag_ids]
+    vag_real = real_y[vag_ids]
 
     for epoch in range(3500):
 
@@ -173,14 +179,15 @@ def train():
                 ids = np.array(range(len(X_test)))
                 x = X_test[ids, :]
                 targets = y_test[ids]
+                targets_real = real_y[ids]
 
                 x = np.reshape(x, (len(X_test), -1))
 
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
+                acc = accuracy(pred, targets_real)
 
-                acc = accuracy(pred, targets)
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
@@ -195,27 +202,51 @@ def train():
                 ids = np.array(range(BATCH_SIZE_DEFAULT))
                 x = X_train[ids, :]
                 targets = y_train[ids]
+                targets_real = real_y[ids]
 
                 x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
 
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
+                train_acc = accuracy(pred, targets_real)
 
                 targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-                train_acc = accuracy(pred, targets)
-
                 targets = Variable(torch.FloatTensor(targets))
 
                 train_loss = center_my_loss(pred, targets)
+
+                ########## VAG #############
+
+                BATCH_SIZE_DEFAULT = len(vag_ids)
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
+                x = vag_input
+                targets = vag_targets
+                real_targets = vag_real
+
+                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+
+                x = Variable(torch.FloatTensor(x))
+
+                pred = model.forward(x)
+                vag_acc = accuracy(pred, real_targets)
+
+                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
+
+                targets = Variable(torch.FloatTensor(targets))
+                real_targets = Variable(torch.FloatTensor(real_targets))
+
+                vag_loss = center_my_loss(pred, targets)
 
                 p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
 
-                    print("iteration: " + str(iteration) +" train acc "+str(train_acc/len(X_train))+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
-                        calc_loss.item()))
+                    print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
+                        acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
+                        calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: " + str(vag_loss.item()))
 
     #torch.save(model, model_to_train)
     test_nn.test_all(model_to_train)
@@ -235,12 +266,13 @@ def train():
 
 
 def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = output * real + (1 - output) * (1 - real)
-    y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
+    # real = torch.round(target)
+    # pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    # y = (target - 0.5) * real + (0.5 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - y))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
     return loss
+
 
 
 def print_flags():

@@ -26,14 +26,23 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     predictions[9] = vagelis
     predictions[10] = egw
-    # predictions[15] = 0
-    # predictions[18] = 0
 
-    # predictions[11] = (predictions[14] + predictions[15] + predictions[16] + predictions[17] + predictions[18] + predictions[20]\
-    #                 + predictions[21] + predictions[22] + predictions[23]) / 9
-    # #
-    # predictions[8] = (predictions[23] + predictions[14])/2
 
+    # if predictions[23] > 66:
+    #     predictions[0] = predictions[23]
+    # else:
+    #     predictions[0] = predictions[15]
+    #
+    # predictions[1] = predictions[0] * 0.5 + predictions[23] * 0.5
+    # predictions[2] = predictions[0] * 0.4 + predictions[23] * 0.6
+    #
+    # predictions[3] = predictions[0] * 0.6 + predictions[23] * 0.4
+    #
+    # predictions[4] = predictions[14] * 0.6 + predictions[21] * 0.4
+    # predictions[5] = predictions[0] * 0.7 + predictions[23] * 0.3
+    # predictions[6] = predictions[14] * 0.5 + predictions[23] * 0.5
+    # predictions[7] = predictions[15] * 0.5 + predictions[21] * 0.5
+    # predictions[8] = predictions[0] * 0.5 + predictions[23] * 0.5
 
     for i in range(len(predictions), n_predictions):
         predictions.append(0)
@@ -189,7 +198,8 @@ graph_b = 14
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
-#val_ids = list(range(LIMIT, UPPER_LIMIT))
+print(val_ids)
+val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 print(len(val_ids[-150:]))
 print(val_ids)

@@ -225,15 +225,32 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
                 + neural_predCross[0][0] + neural_predCross2[0][0] + neural_predCross3[0][0] + neural_predCross4[0][
                     0]) / 9 * 100
 
-    log =(s + "-" + str(pred1)
-          + "%-" + str(old_numeric_pred)
-          + "%-" + str(pred3)
-          + "%-" + str(strong_logistic_CV)
-          + "%-" + str(logistic_mu_CV)
-          + "%-" + str(logistic_mutchups)
-          + "%-" + str(logistic_pred)
-          + "%-" + str(strong_logistic)+"%-"
-          + "0%-"
+    if neural_predCross4[0][0] > 0.66:
+        pred1 = neural_predCross4[0][0] * 100
+    else:
+        pred1 = neural_pred2[0][0] * 100
+
+    old_numeric_pred = pred1 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
+    pred3 = pred1 * 0.4 + neural_predCross4[0][0] * 100 * 0.6
+
+    strong_logistic_CV = pred1 * 0.6 + neural_predCross4[0][0] * 100 * 0.4
+
+    logistic_mu_CV = neural_pred[0][0] * 100 * 0.6 + neural_predCross2[0][0] * 100 * 0.4
+    logistic_mutchups = pred1 * 0.7 + neural_predCross4[0][0] * 100 * 0.3
+    logistic_pred = neural_pred[0][0] * 100 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
+    strong_logistic = neural_pred2[0][0] * 100 * 0.5 + neural_predCross2[0][0] * 100 * 0.5
+    another = pred1 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
+
+
+    log =(s + "-" + str(int(round(pred1)))
+          + "%-" + str(int(round(old_numeric_pred)))
+          + "%-" + str(int(round(pred3)))
+          + "%-" + str(int(round(strong_logistic_CV)))
+          + "%-" + str(int(round(logistic_mu_CV)))
+          + "%-" + str(int(round(logistic_mutchups)))
+          + "%-" + str(int(round(logistic_pred)))
+          + "%-" + str(int(round(strong_logistic)))
+          + "%-" + str(int(round(another)))+"%-"
           + "0%-"
           + "0%-"
           + "0%-"
