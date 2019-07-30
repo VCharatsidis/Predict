@@ -9,16 +9,15 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import torch
-from cross_net2 import CrossNet2
-from cross_net3 import CrossNet3
-from cross_net4 import CrossNet4
-from simple_net import SimpleMLP
+from gaussian_net import GmmNET
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from neural_nets import test_nn
 from neural_nets.models.cross_entropy.input_cross_entropy import cross_entropy_input_to_onehot
 from neural_nets.input_to_onehot import get_predictions
 from neural_nets.validations_ids import get_validation_ids
+from gmms import cluster_bayesian_gmm
+from gmms import cluster_gmm
 import os
 
 # CROSS ENTROPY NN
@@ -76,16 +75,18 @@ def train():
     # Set the random seeds for reproducibility
     # np.random.seed(42)
 
-    onehot_input, y, _ = cross_entropy_input_to_onehot()
+    onehot_input, y, non_standardized_input = cross_entropy_input_to_onehot()
+    onehot_input = cluster_gmm(non_standardized_input)
 
-    LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 50000
+
+    LEARNING_RATE_DEFAULT = 1e-4
+    MAX_STEPS_DEFAULT = 300000
     BATCH_SIZE_DEFAULT = 5
     validation_games = 200
 
-    model = CrossNet2(onehot_input.shape[1])
+    model = GmmNET(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarGmmNET.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -96,12 +97,11 @@ def train():
 
     accuracies = []
     losses = []
-    vag_losses = []
     min_loss = 100
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
-    vag_ids = vag_games[-1:]
+    vag_ids = vag_games[-150:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -114,7 +114,6 @@ def train():
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
-        print(X_train.shape)
         y_train = y[train_ids]
 
         X_test = onehot_input[val_ids, :]
@@ -125,8 +124,6 @@ def train():
         for iteration in range(MAX_STEPS_DEFAULT):
             BATCH_SIZE_DEFAULT = 5
             model.train()
-            if iteration % 10000 ==0:
-                print(iteration)
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
@@ -151,7 +148,6 @@ def train():
                 model.eval()
 
                 ids = np.array(range(len(X_test)))
-
                 x = X_test[ids, :]
                 targets = y_test[ids]
 
@@ -168,7 +164,7 @@ def train():
                 calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
                 accuracies.append(acc)
-
+                losses.append(calc_loss.item())
 
                 ###################
 
@@ -187,7 +183,6 @@ def train():
                 targets = Variable(torch.FloatTensor(targets))
 
                 train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
-                losses.append(train_loss.item())
 
                 ########## VAG #############
 
@@ -207,9 +202,8 @@ def train():
                 targets = Variable(torch.FloatTensor(targets))
 
                 vag_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
-                vag_losses.append(vag_loss.item())
 
-                p = 0
+                p = 1
                 if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -226,8 +220,7 @@ def train():
     plt.ylabel('accuracies')
     plt.show()
 
-    plt.plot(vag_losses, 'r')
-    plt.plot(losses, 'b')
+    plt.plot(losses)
     plt.ylabel('losses')
     plt.show()
     ########################

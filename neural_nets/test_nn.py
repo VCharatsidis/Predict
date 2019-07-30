@@ -28,7 +28,7 @@ def one_hot(xin):
 
 
 def get_means_and_stds():
-    _, _, X_train = input_to_onehot()
+    _, _, X_train = input_to_onehot("automagic")
 
     mean1 = np.mean(X_train[:, -1], axis=0)
     std1 = np.std(X_train[:, -1], axis=0)

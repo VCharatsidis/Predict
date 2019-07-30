@@ -21,7 +21,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 400
+MAX_STEPS_DEFAULT = 800000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -79,40 +79,10 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 400
+    validation_games = 0
 
     _, real_y, _ = cross_entropy_input_to_onehot()
-    onehot_input, y, _ = input_to_onehot()
-
-    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-    train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
-
-    X_train = onehot_input[train_ids, :]
-    y_train = y[train_ids]
-    y_train_real = real_y[train_ids]
-
-    # X_train = onehot_input[0: -validation_games, :]
-    # y_train = y[0: -validation_games]
-
-    print("X train")
-
-    print(X_train.shape)
-    print(y_train.shape)
-
-    X_test = onehot_input[val_ids, :]
-    y_test = y[val_ids]
-    y_test_real = real_y[val_ids]
-
-    # X_test = onehot_input[-validation_games:, :]
-    # y_test = y[-validation_games:]
-
-    print("X test")
-
-    print(X_test.shape)
-    print(y_test.shape)
-
-    print(onehot_input.shape)
-    print(onehot_input.shape[1])
+    onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
     model = GStarNet(onehot_input.shape[1])
     print(model)
@@ -121,6 +91,7 @@ def train():
 
     accuracies = []
     losses = []
+    vag_losses = []
     max_acc = 0
     min_loss = 100
 
@@ -130,11 +101,12 @@ def train():
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
-    for epoch in range(12000):
+    for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        val_ids = [i for i in val_ids if i not in vag_ids]
+        val_ids = np.append(val_ids, vag_ids)
+        val_ids = np.unique(val_ids)
 
-        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids and i not in vag_ids]
+        train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
         X_train = onehot_input[train_ids, :]
         y_train = y[train_ids]
@@ -142,6 +114,8 @@ def train():
         X_test = onehot_input[val_ids, :]
         y_test = y[val_ids]
 
+        y_train_real = real_y[train_ids]
+        y_test_real = real_y[val_ids]
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
@@ -193,9 +167,10 @@ def train():
                 real_targets = Variable(torch.FloatTensor(real_targets))
 
                 calc_loss = center_my_loss(pred, targets)
+                vag_losses.append(calc_loss.item())
 
                 accuracies.append(acc)
-                losses.append(calc_loss.item())
+
 
                 ###################
 
@@ -219,6 +194,7 @@ def train():
                 real_targets = Variable(torch.FloatTensor(real_targets))
 
                 train_loss = center_my_loss(pred, targets)
+                losses.append(train_loss.item())
 
                 p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
@@ -229,7 +205,7 @@ def train():
                         calc_loss.item()))
 
     #torch.save(model, model_to_train)
-    test_nn.test_all(model_to_train)
+    #test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
     print(max_acc)
@@ -237,7 +213,8 @@ def train():
     plt.ylabel('accuracies')
     plt.show()
 
-    plt.plot(losses)
+    plt.plot(vag_losses, 'r')
+    plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
     ########################
@@ -246,13 +223,14 @@ def train():
 
 
 def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    #target_reduction = (0.97 * y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
-    target_reduction = y
+    # real = torch.round(target)
+    # pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    # y = (target - 0.5) * real + (0.5 - target) * (1 - real)
+    # #target_reduction = (0.97 * y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
+    #
+    # target_reduction = y
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
     return loss
 
 # def center_my_loss(output, target, y):

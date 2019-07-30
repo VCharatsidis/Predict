@@ -199,7 +199,7 @@ graph_b = 9
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
 print(val_ids)
-#val_ids = list(range(LIMIT, UPPER_LIMIT))
+val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 print(len(val_ids[-150:]))
 print(val_ids)

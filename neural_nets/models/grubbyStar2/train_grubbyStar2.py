@@ -20,8 +20,8 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 400
+LEARNING_RATE_DEFAULT = 1e-3
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -80,10 +80,10 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 700
+    validation_games = 0
 
     _, real_y, _ = cross_entropy_input_to_onehot()
-    onehot_input, y, _ = input_to_onehot()
+    onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
     print(onehot_input.shape)
     print(onehot_input.shape[1])
@@ -108,7 +108,7 @@ def train():
     vag_targets = y[vag_ids]
     vag_real = real_y[vag_ids]
 
-    for epoch in range(7000):
+    for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
@@ -126,7 +126,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 16
+            BATCH_SIZE_DEFAULT = 32
             model.train()
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -254,13 +254,7 @@ def train():
 
 
 def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    #target_reduction = (0.95 * y - 0.01 * torch.exp(target)) * real + (1.01 * y) * (1-real)
-    target_reduction = y
-
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
     return loss
 
 

@@ -215,9 +215,9 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 
     if neural_predCross4[0][0] * 100 > 66:
-        merged = neural_predCross2[0][0] * 100
+        merged = neural_predCross2[0][0] * 98
     else:
-        merged = neural_pred3L3W[0][0] * 100
+        merged = neural_pred3L3W[0][0] * 102
 
     merged = (neural_pred3L3W[0][0]*0.5 + neural_predCross2[0][0]*0.5) * 100
 
@@ -227,20 +227,26 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
                     0]) / 9 * 100
 
     if neural_predCross4[0][0] > 0.66:
-        pred1 = neural_predCross4[0][0] * 100
+        pred1 = neural_predCross4[0][0] * 98
     else:
-        pred1 = neural_pred2[0][0] * 100
+        pred1 = neural_pred2[0][0] * 102
 
-    old_numeric_pred = pred1 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
-    pred3 = pred1 * 0.4 + neural_predCross4[0][0] * 100 * 0.6
+    old_numeric_pred = pred1 * 0.5 + neural_predCross4[0][0] * 98 * 0.5
+    pred3 = pred1 * 0.4 + neural_predCross[0][0] * 100 * 0.6
 
-    strong_logistic_CV = pred1 * 0.6 + neural_predCross4[0][0] * 100 * 0.4
 
-    logistic_mu_CV = neural_pred[0][0] * 100 * 0.6 + neural_predCross2[0][0] * 100 * 0.4
-    logistic_mutchups = pred1 * 0.7 + neural_predCross4[0][0] * 100 * 0.3
+    if neural_predCross[0][0] > 0.66:
+        another_merge = neural_predCross[0][0] * 98
+    else:
+        another_merge = neural_pred[0][0] * 102
+
+    strong_logistic_CV = another_merge * 0.6 + neural_predCross2[0][0] * 102 * 0.4
+
+    logistic_mu_CV = neural_pred[0][0] * 100 * 0.6 + neural_predCross4[0][0] * 99 * 0.4
+    logistic_mutchups = pred1 * 0.7 + neural_predCross3[0][0] * 100 * 0.3
     logistic_pred = neural_pred[0][0] * 100 * 0.5 + neural_predCross4[0][0] * 100 * 0.5
     strong_logistic = neural_pred2[0][0] * 100 * 0.5 + neural_predCross2[0][0] * 100 * 0.5
-    another = pred1 * 0.7 + neural_predCross4[0][0] * 100 * 0.3
+    another = pred1 * 0.7 + neural_predCross[0][0] * 100 * 0.3
 
 
     log =(s + "-" + str(int(round(pred1)))

@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 400
+MAX_STEPS_DEFAULT = 500000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -80,8 +80,7 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    BATCH_SIZE_DEFAULT = 16
-    validation_games = 50
+    validation_games = 0
 
     onehot_input, y, _ = input_to_onehot('gaussianPredictions')
 
@@ -130,7 +129,7 @@ def train():
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
-    for epoch in range(10000):
+    for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
@@ -146,7 +145,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 16
+            BATCH_SIZE_DEFAULT = 64
 
             model.train()
 

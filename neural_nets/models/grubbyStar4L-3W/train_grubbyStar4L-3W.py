@@ -21,9 +21,9 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 2
-BATCH_SIZE_DEFAULT = 8
+LEARNING_RATE_DEFAULT = 1e-3
+MAX_STEPS_DEFAULT = 700000
+BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
 
@@ -81,9 +81,9 @@ def train():
     filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 300
+    validation_games = 0
 
-    onehot_input, y, _ = input_to_onehot()
+    onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
     model = GStar4L3WNet(onehot_input.shape[1])
     print(model)
@@ -102,7 +102,7 @@ def train():
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
-    for epoch in range(300000):
+    for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
@@ -206,12 +206,12 @@ def train():
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
                     torch.save(model, model_to_train)
 
-                    print("epoch: " + str(epoch) + " train acc " + str(train_acc) + " val acc " + str(
+                    print("epoch: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
                         calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: " + str(vag_loss.item()))
 
     #torch.save(model, model_to_train)
-    test_nn.test_all(model_to_train)
+    # test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
     print(max_acc)
@@ -238,11 +238,11 @@ def train():
 #     return loss
 
 def center_my_loss(output, target):
-    real = torch.round(target)
-    pred = output * real + (1 - output) * (1 - real)
-    y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
+    # real = torch.round(target)
+    # pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
+    # y = (target - 0.5) * real + (0.5 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(pred - y))))
+    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
     return loss
 
 def print_flags():

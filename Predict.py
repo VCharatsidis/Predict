@@ -142,12 +142,12 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [4, 0, 0, 67, 1600, 4]
-my_prediction = 55
+xin = [4, 1, 4, 93, 14, 3]
+my_prediction = 48
 Vagelis = 0
 result = 1
 
-write = False
+write = True
 NEW_PATCH = 500
 
 path = "logs/Grubb.txt"
@@ -293,21 +293,30 @@ strong_logistic = int(round(strong_logistic*100))
 strong_logistic_CV = int(round(strong_logistic_CV*100))
 
 
+# if neural_predCross4[0][0] > 0.66:
+#     m1 = neural_predCross4[0][0]
+# else:
+#     m1 = neural_pred2[0][0]
+#
+# # merged = (neural_predCross4[0][0] + neural_pred2[0][0])/2
+#
+# merged = (neural_predCross4[0][0] * 0.4 + m1 * 0.6) * 100
+
+
 if neural_predCross4[0][0] > 0.66:
-    m1 = neural_predCross4[0][0]
+    m2 = neural_predCross4[0][0] * 98
 else:
-    m1 = neural_pred2[0][0]
+    m2 = neural_pred2[0][0] * 102
 
-# merged = (neural_predCross4[0][0] + neural_pred2[0][0])/2
-
-merged = (neural_predCross4[0][0] * 0.4 + m1 * 0.6) * 100
+# one hot rf in predictTool
+merged = m2 * 0.4 + neural_predCross[0][0] * 100 * 0.6
 
 
 if merged < 0.5:
     result = 0
 
-
-averaged = neural_pred[0][0] * 100 * 0.6 + neural_predCross2[0][0] * 100 * 0.4
+# logistic mu CV in predicTool
+averaged = neural_pred[0][0] * 100 * 0.6 + neural_predCross4[0][0] * 99 * 0.4
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ RESULT #############################################################################
 print("")

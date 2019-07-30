@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class CrossNet4(nn.Module):
+class GmmNET(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,11 +33,11 @@ class CrossNet4(nn.Module):
         Implement initialization of the network.
         """
 
-        super(CrossNet4, self).__init__()
+        super(GmmNET, self).__init__()
 
         width = 3
         width_2 = 6
-        width_3 = 4
+        width_3 = 3
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
