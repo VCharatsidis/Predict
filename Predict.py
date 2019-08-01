@@ -142,8 +142,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [4, 1, 4, 93, 14, 3]
-my_prediction = 48
+xin = [1, 1, 2, 59, 480, 0]
+my_prediction = 78
 Vagelis = 0
 result = 1
 
@@ -367,7 +367,7 @@ print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 print("")
 print("merged: " + str(int(round(merged))) + "%")
-print("neural pred + CE2: " + str(int(round(averaged))) + "%")
+print("logistic_mu_CV: " + str(int(round(averaged))) + "%")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
 print("neural Cross 2: " + str(int(round(neural_predCross2[0][0]*100))) + "%")
 print("neural Cross 3: " + str(int(round(neural_predCross3[0][0]*100))) + "%")

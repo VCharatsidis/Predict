@@ -21,8 +21,8 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 500000
+LEARNING_RATE_DEFAULT = 1e-3
+MAX_STEPS_DEFAULT = 300000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -129,6 +129,7 @@ def train():
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
+    loss_fn = torch.nn.MSELoss()
     for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
@@ -145,7 +146,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 64
+            BATCH_SIZE_DEFAULT = 32
 
             model.train()
 
@@ -257,11 +258,15 @@ def train():
 
 
 def center_my_loss(output, target):
-    # real = torch.round(target)
+    real = torch.round(target)
     # pred = output * real + (1 - output) * (1 - real)
-    # y = 0.98 * target * real + 1.005 * (1 - target) * (1 - real)
+    y = target * real + (1 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
+    bonus = output - target
+    bonus = torch.ceil(bonus)
+
+    log = torch.log(1 - torch.abs(output - target))
+    loss = torch.mean(-log - bonus * y * log/5)
     return loss
 
 

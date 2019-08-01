@@ -79,7 +79,7 @@ def train():
     onehot_input = cluster_gmm(non_standardized_input)
 
 
-    LEARNING_RATE_DEFAULT = 1e-4
+    LEARNING_RATE_DEFAULT = 1e-3
     MAX_STEPS_DEFAULT = 300000
     BATCH_SIZE_DEFAULT = 5
     validation_games = 200

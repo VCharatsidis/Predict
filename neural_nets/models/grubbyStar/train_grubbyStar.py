@@ -20,8 +20,8 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-4
-MAX_STEPS_DEFAULT = 800000
+LEARNING_RATE_DEFAULT = 1e-3
+MAX_STEPS_DEFAULT = 300000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -97,7 +97,7 @@ def train():
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
-    vag_ids = vag_games[-150:]
+    vag_ids = vag_games[-1:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -196,7 +196,7 @@ def train():
                 train_loss = center_my_loss(pred, targets)
                 losses.append(train_loss.item())
 
-                p = 1
+                p = 0
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)

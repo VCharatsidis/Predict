@@ -193,16 +193,13 @@ LIMIT = -1
 UPPER_LIMIT = 3000
 
 opp = 9
-graph_a = 4
-graph_b = 9
+graph_a = 9
+graph_b = 10
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
 print(val_ids)
-val_ids = list(range(LIMIT, UPPER_LIMIT))
-
-print(len(val_ids[-150:]))
-print(val_ids)
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

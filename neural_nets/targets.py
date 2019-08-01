@@ -53,6 +53,7 @@ for line in automag:
             x = x.rstrip("\n")
             x = x.replace('%', '')
 
+
             pred = int(x)
             if pred > 0:
                 array_x.append(pred)
@@ -72,8 +73,8 @@ for line in automag:
     print(mean)
     print(std)
 
-    max_prediction = int(round(mean + std))
-    min_prediction = int(round(mean - 2 * std))
+    max_prediction = int(round(mean + 0.75 * std))
+    min_prediction = int(round(mean - 3 * std))
 
     # max_saturation = 0
     # min_saturation = 0

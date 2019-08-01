@@ -12,7 +12,6 @@ def get_predictions():
     f = open(grubb, "r")
 
     contents = f.readlines()
-    counter = 0
     data = []
     for line in contents:
         X = line.split('-')
@@ -24,7 +23,6 @@ def get_predictions():
         X[6] = X[6].rstrip("\n")
 
         data.append(X)
-        counter += 1
 
     return data
 

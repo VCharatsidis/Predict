@@ -79,7 +79,7 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 50000
+    MAX_STEPS_DEFAULT = 300000
     BATCH_SIZE_DEFAULT = 5
     validation_games = 200
 
