@@ -80,12 +80,10 @@ def train():
 
     LEARNING_RATE_DEFAULT = 1e-3
     MAX_STEPS_DEFAULT = 300000
-    BATCH_SIZE_DEFAULT = 5
-    validation_games = 200
 
-    model = CrossNet2(onehot_input.shape[1])
+    model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -123,9 +121,9 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 5
+            BATCH_SIZE_DEFAULT = 8
             model.train()
-            if iteration % 10000 ==0:
+            if iteration % 10000 == 0:
                 print(iteration)
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)

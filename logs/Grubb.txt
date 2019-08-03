@@ -931,3 +931,15 @@
 1-Ne-t-Ra-74-1825-amazonia
 1-Ne-t-Hum-73-800-refuge
 1-Ne-t-Orc-59-480-amazonia
+1-Orc-t-Hum-73-815-twisted
+1-Orc-r-Orc-70-220-xancient
+1-Orc-r-Orc-63-670-echo
+0-Orc-r-Hum-73-820-twisted
+0-Orc-r-Orc-70-23-twisted
+1-Orc-r-Hum-62-425-northren
+1-Hum-r-Hum-67-950-refuge
+1-Ud-r-Orc-55-420-turtle
+0-Ud-r-Hum-62-84-northren
+1-Orc-r-Hum-81-47-concealed
+1-Ne-r-Orc-82-38-northren
+1-Orc-r-Hum-81-42-twisted
