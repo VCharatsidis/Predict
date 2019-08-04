@@ -199,7 +199,7 @@ graph_b = 9
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
 print(val_ids)
-val_ids = list(range(LIMIT, UPPER_LIMIT))
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

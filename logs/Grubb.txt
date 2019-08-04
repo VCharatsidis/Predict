@@ -947,7 +947,7 @@
 1-Orc-t-Ud-87-4300-refuge-Blade
 1-Orc-t-Ud-87-4300-northren-Blade
 1-Orc-t-Ud-87-4300-concealed-Blade
-1-Orc-t-Ud-87-4300-northren-Blade
+0-Orc-t-Ud-87-4300-northren-Blade
 1-Orc-t-Ud-82-358-echo-Blade
 0-Orc-t-Orc-64-1100-terenas-Blade
 1-Orc-t-Ud-55-137-echo-Blade
