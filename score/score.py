@@ -54,10 +54,10 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     for i in range(0, n_predictions-1):
 
-        if int(z[5]) <= 40:
-            predictions[7] = 0
-            predictions[3] = 0
-            predictions[4] = 0
+        # if int(z[5]) <= 40:
+        #     predictions[7] = 0
+        #     predictions[3] = 0
+        #     predictions[4] = 0
 
 
         if predictions[i] == 0:
@@ -79,10 +79,10 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
                 predictions[j] = cap
 
 
-            if int(z[5]) <= 40:
-                predictions[7] = 0
-                predictions[3] = 0
-                predictions[4] = 0
+            # if int(z[5]) <= 40:
+            #     predictions[7] = 0
+            #     predictions[3] = 0
+            #     predictions[4] = 0
 
             if predictions[j] == 0:
                 continue
@@ -192,9 +192,9 @@ LOGISTIC_MU_CV = 676
 LIMIT = -1
 UPPER_LIMIT = 3000
 
-opp = 10
-graph_a = 9
-graph_b = 10
+opp = 9
+graph_a = 4
+graph_b = 9
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-150:]
@@ -223,21 +223,27 @@ def calc_scores_vs_opponent(opponent, cap=95):
             if counter in val_ids:
                 humans = old_preds[counter].split("-")
 
+                my_spot = 17
+                vag_spot = 16
+                if counter > 944:
+                    my_spot += 1
+                    vag_spot += 1
+
                 if len(humans) < 18:
                     vagelis = 0
                     egw = 0
                 else:
-                    humans[16] = humans[16].replace('%', '')
-                    humans[17] = humans[17].replace('%', '')
-                    if '\n' in humans[17]:
-                        humans[17] = humans[17].replace('\n', '')
+                    humans[vag_spot] = humans[vag_spot].replace('%', '')
+                    humans[my_spot] = humans[my_spot].replace('%', '')
+                    if '\n' in humans[my_spot]:
+                        humans[my_spot] = humans[my_spot].replace('\n', '')
 
-                    vagelis = int(humans[16])
+                    vagelis = int(humans[vag_spot])
 
-                    if humans[17] =='':
+                    if humans[my_spot] =='':
                         egw = 0
                     else:
-                        egw = int(humans[17])
+                        egw = int(humans[my_spot])
 
                 # vagelis = 0
                 # egw = 0
@@ -277,21 +283,27 @@ for i in contents:
     if counter in val_ids:
         humans = old_preds[counter].split("-")
 
+        my_spot = 17
+        vag_spot = 16
+        if counter > 944:
+            my_spot += 1
+            vag_spot += 1
+
         if len(humans) < 18:
             vagelis = 0
             egw = 0
         else:
 
-            humans[16] = humans[16].replace('%', '')
-            humans[17] = humans[17].replace('%', '')
-            if '\n' in humans[17]:
-                humans[17] = humans[17].replace('\n', '')
+            humans[vag_spot] = humans[vag_spot].replace('%', '')
+            humans[my_spot] = humans[my_spot].replace('%', '')
+            if '\n' in humans[my_spot]:
+                humans[my_spot] = humans[my_spot].replace('\n', '')
 
-            vagelis = int(humans[16])
-            if humans[17] == '':
+            vagelis = int(humans[vag_spot])
+            if humans[my_spot] == '':
                 egw = 0
             else:
-                egw = int(humans[17])
+                egw = int(humans[my_spot])
 
         # if counter % 100 == 0:
         #     print("vagelis " + str(vagelis))

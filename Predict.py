@@ -24,6 +24,8 @@ def parse_x(xin, result):
     if(len(xin)>5):
         data += config.maps[xin[5]]
 
+    data += "-"+str(xin[6])
+
     return data
 
 contents = f.readlines()
@@ -43,15 +45,26 @@ for l in contents:
     X = l.split('-')
 
     X[4] = int(X[4])
-    if X[4] < 55:
-        continue
 
     X[5] = int(X[5])
 
-    X[6] = X[6].rstrip("\n")
+    if "\n" in X[6]:
+        X[6] = X[6].rstrip("\n")
 
-    X = np.array(X)
-    input.append(X)
+    #X = np.array(X)
+
+    processed_X = []
+    processed_X.append(X[0])
+    processed_X.append(X[1])
+    processed_X.append(X[2])
+    processed_X.append(X[3])
+    processed_X.append(X[4])
+    processed_X.append(X[5])
+    processed_X.append(X[6])
+
+    processed_X = np.array(processed_X)
+
+    input.append(processed_X)
 
     observed_grubby_wins[X[1]] += int(X[0])
     observer_grubby_games[X[1]] += 1
@@ -65,11 +78,15 @@ for key in observed_grubby_wins.keys():
 
 avg_opponents_winrate /= counter
 
+for i in input:
+    print(i)
+
 input = np.array(input)
 original_input = copy.deepcopy(input)
 
 labelencoder = LabelEncoder()
 
+print(input[-1])
 y = input[:, 0]
 input = input[:, 1:]
 
@@ -142,8 +159,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 0, 0, 81, 42, 8]
-my_prediction = 55
+xin = [2, 1, 0, 56, 1385, 0, "Blade"]
+my_prediction = 90
 Vagelis = 0
 result = 1
 
@@ -167,6 +184,8 @@ print(xin)
 to_print = copy.deepcopy(xin)
 print(parse_x(to_print, result))
 
+xin = xin[:-1]
+print(xin)
 
 onehot_encoded = []
 

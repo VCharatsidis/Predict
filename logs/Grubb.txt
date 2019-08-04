@@ -943,3 +943,12 @@
 1-Orc-r-Hum-81-47-concealed
 1-Ne-r-Orc-82-38-northren
 1-Orc-r-Hum-81-42-twisted
+1-Orc-t-Ud-84-430-twisted-Sh
+1-Orc-t-Ud-87-4300-refuge-Blade
+1-Orc-t-Ud-87-4300-northren-Blade
+1-Orc-t-Ud-87-4300-concealed-Blade
+1-Orc-t-Ud-87-4300-northren-Blade
+1-Orc-t-Ud-82-358-echo-Blade
+0-Orc-t-Orc-64-1100-terenas-Blade
+1-Orc-t-Ud-55-137-echo-Blade
+1-Orc-t-Hum-56-1385-amazonia-Fs

@@ -34,21 +34,29 @@ def logistic_reg(xin, path, i):
         Grubby_race = X[1]
         opponent_race = X[3]
 
-        X[4] = int(X[4])
-        if X[4] < 55:
-            counter += 1
-            continue
-
         X[1] = muchups_dicts[Grubby_race][opponent_race]
 
         X[3] = int(X[4])
-        X[4] = X[6].rstrip("\n")
+
+        if "\n" in X[6]:
+            X[4] = X[6].rstrip("\n")
+        else:
+            X[4] = X[6]
 
         X = X[:-2]
 
         X = np.array(X)
 
-        input.append(X)
+        processed_X = []
+        processed_X.append(X[0])
+        processed_X.append(X[1])
+        processed_X.append(X[2])
+        processed_X.append(X[3])
+        processed_X.append(X[4])
+
+        processed_X = np.array(processed_X)
+
+        input.append(processed_X)
 
         counter += 1
 

@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 300000
+MAX_STEPS_DEFAULT = 500000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -266,7 +266,7 @@ def center_my_loss(output, target):
     bonus = torch.ceil(bonus)
 
     log = torch.log(1 - torch.abs(output - target))
-    loss = torch.mean(-log - bonus * y * log/5)
+    loss = torch.mean(-log - bonus * y * log/10)
     return loss
 
 

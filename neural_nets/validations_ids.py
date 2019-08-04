@@ -10,6 +10,10 @@ def get_validation_ids():
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\logs\\'
     targets = os.path.join(script_directory, filepath + 'automagic.txt')
+    grubby_targets = os.path.join(script_directory, filepath + 'Grubb.txt')
+    f_grubb = open(grubby_targets, "r")
+    grub_contents = f_grubb.readlines()
+
     f = open(targets, "r")
 
     val_ids = []
@@ -19,8 +23,12 @@ def get_validation_ids():
     for line in contents:
         X = line.split('-')
 
+        vag_spot = 16
+        if len(grub_contents[counter].split('-')) == 8:
+            vag_spot = 17
+
         if len(X) > 18:
-            vag = copy.deepcopy(X[16])
+            vag = copy.deepcopy(X[vag_spot])
             vag = vag.rstrip("\n")
             vag = vag.replace('%', '')
             vag = int(vag)
@@ -46,8 +54,6 @@ def filter(list):
     filter_55 = []
     for i in range(len(list)):
         z = list[i].split("-")
-        if int(z[4]) < 55:
-            continue
         filter_55.append(list[i])
 
     return filter_55
@@ -97,4 +103,5 @@ def check_input():
 
 
 #check_input()
+
 # print_validation()

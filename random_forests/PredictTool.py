@@ -303,10 +303,22 @@ def prepare_input():
 
             X[5] = int(X[5])
 
-            X[6] = X[6].rstrip("\n")
+            if "\n" in X[6]:
+                X[6] = X[6].rstrip("\n")
 
             X = np.array(X)
-            input_cp.append(X)
+
+            input_x = []
+            input_x.append(X[0])
+            input_x.append(X[1])
+            input_x.append(X[2])
+            input_x.append(X[3])
+            input_x.append(X[4])
+            input_x.append(X[5])
+            input_x.append(X[6])
+            input_x = np.array(input_x)
+
+            input_cp.append(input_x)
 
             counter += 1
 

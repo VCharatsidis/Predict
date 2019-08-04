@@ -13,8 +13,10 @@ def get_predictions():
 
     contents = f.readlines()
     data = []
+
     for line in contents:
         X = line.split('-')
+        input_x = []
 
         X[0] = float(X[0])
         X[4] = float(X[4])
@@ -22,7 +24,15 @@ def get_predictions():
 
         X[6] = X[6].rstrip("\n")
 
-        data.append(X)
+        input_x.append(X[0])
+        input_x.append(X[1])
+        input_x.append(X[2])
+        input_x.append(X[3])
+        input_x.append(X[4])
+        input_x.append(X[5])
+        input_x.append(X[6])
+
+        data.append(input_x)
 
     return data
 
