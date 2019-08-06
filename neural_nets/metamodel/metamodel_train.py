@@ -14,8 +14,8 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 
 from neural_nets import test_nn
-from neural_nets.input_to_onehot import input_to_onehot
-from GStar4L4W import GStar4L4WNet
+from prepare_input import input_to_onehot
+from metamodel import MetaNet
 from validations_ids import get_validation_ids
 import os
 
@@ -77,7 +77,7 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStar4L4W.model'
+    filepath = 'grubbyStarMeta.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 0
@@ -112,7 +112,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = GStar4L4WNet(onehot_input.shape[1])
+    model = MetaNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -162,7 +162,7 @@ def train():
 
             y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
             y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-            loss = center_my_loss(output, y_train_batch)
+            loss = center_my_loss(output, y_train_batch, X_train_batch)
 
             model.zero_grad()
             loss.backward(retain_graph=True)
@@ -186,7 +186,7 @@ def train():
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = center_my_loss(pred, targets)
+                calc_loss = center_my_loss(pred, targets, X_test[ids, :])
 
                 accuracies.append(acc)
                 losses.append(calc_loss.item())
@@ -208,7 +208,7 @@ def train():
 
                 targets = Variable(torch.FloatTensor(targets))
 
-                train_loss = center_my_loss(pred, targets)
+                train_loss = center_my_loss(pred, targets, X_train[ids, :])
 
                 ########## VAG #############
 
@@ -227,7 +227,7 @@ def train():
                 targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                vag_loss = center_my_loss(pred, targets)
+                vag_loss = center_my_loss(pred, targets, vag_input)
                 vag_losses.append(vag_loss.item())
 
                 p = 1
@@ -257,7 +257,14 @@ def train():
     #######################
 
 
-def center_my_loss(output, target):
+def center_my_loss(output, target, train):
+    print("train")
+    print(train)
+    print("target")
+    print(target)
+    print("output")
+    print(output)
+    input()
     real = torch.round(target)
     # pred = output * real + (1 - output) * (1 - real)
     y = target * real + (1 - target) * (1 - real)

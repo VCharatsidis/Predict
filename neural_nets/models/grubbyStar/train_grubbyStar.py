@@ -97,7 +97,7 @@ def train():
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
-    vag_ids = vag_games[-1:]
+    vag_ids = vag_games[-150:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -196,7 +196,7 @@ def train():
                 train_loss = center_my_loss(pred, targets)
                 losses.append(train_loss.item())
 
-                p = 0
+                p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -223,14 +223,15 @@ def train():
 
 
 def center_my_loss(output, target):
-    # real = torch.round(target)
-    # pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-    # y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-    # #target_reduction = (0.97 * y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
-    #
-    # target_reduction = y
+    real = torch.round(target)
+    # pred = output * real + (1 - output) * (1 - real)
+    y = target * real + (1 - target) * (1 - real)
 
-    loss = torch.mean(-(torch.log(1 - torch.abs(output - target))))
+    bonus = output - target
+    bonus = torch.ceil(bonus)
+
+    log = torch.log(1 - torch.abs(output - target))
+    loss = torch.mean(-log - bonus * y * log/10)
     return loss
 
 # def center_my_loss(output, target, y):

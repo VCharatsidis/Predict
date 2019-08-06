@@ -79,11 +79,11 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 300000
+    MAX_STEPS_DEFAULT = 200000
 
-    model = CrossNet3(onehot_input.shape[1])
+    model = CrossNet2(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE3.model'
+    filepath = 'grubbyStarCE2.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -121,7 +121,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 8
+            BATCH_SIZE_DEFAULT = 7
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)

@@ -29,6 +29,9 @@ data = []
 print(len(targets))
 
 counter = 0
+other_counter = 0
+negative_bonus = 0
+positive_bonus = 0
 for line in automag:
     print("hi")
     X = line.split('-')
@@ -73,8 +76,11 @@ for line in automag:
     print(mean)
     print(std)
 
-    max_prediction = int(round(mean + 0.75 * std))
-    min_prediction = int(round(mean - 3 * std))
+    neg_bonus = min(2 * std, 10)
+    pos_bonus = min(1.1 * std, 10)
+
+    max_prediction = int(round(mean + pos_bonus))
+    min_prediction = int(round(mean - neg_bonus))
 
     # max_saturation = 0
     # min_saturation = 0
@@ -84,9 +90,12 @@ for line in automag:
 
     if float(X[0]) > 0.5:
         pred = str(max_prediction)
+        positive_bonus += pos_bonus
+        print("positive bonus " + str(positive_bonus))
     else:
         pred = str(min_prediction)
-
+        negative_bonus -= neg_bonus
+        print("negative bonus " + str(negative_bonus))
 
     s = "-"
     X = s.join(X)

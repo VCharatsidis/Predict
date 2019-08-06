@@ -54,12 +54,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     for i in range(0, n_predictions-1):
 
-        # if int(z[5]) <= 40:
-        #     predictions[7] = 0
-        #     predictions[3] = 0
-        #     predictions[4] = 0
-
-
         if predictions[i] == 0:
             continue
 
@@ -77,12 +71,6 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
             if predictions[j] > cap:
                 predictions[j] = cap
-
-
-            # if int(z[5]) <= 40:
-            #     predictions[7] = 0
-            #     predictions[3] = 0
-            #     predictions[4] = 0
 
             if predictions[j] == 0:
                 continue

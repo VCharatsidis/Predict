@@ -8,7 +8,7 @@ maps = []
 
 def get_predictions(data_file):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = '..\\logs\\'
+    filepath = '..\\..\\logs\\'
     targets = os.path.join(script_directory, filepath + data_file +'.txt')
     f = open(targets, "r")
 
@@ -23,6 +23,8 @@ def get_predictions(data_file):
         max_prediction = 3.
         min_prediction = 98.
 
+        count_preds = 7
+        print(X)
         for x in X:
             if '%' in x:
                 x = x.rstrip("\n")
@@ -33,14 +35,13 @@ def get_predictions(data_file):
                     max_prediction = pred
 
                 if pred > 0:
+                    X[count_preds] = pred/100
+                    count_preds += 1
                     if pred < min_prediction:
                         min_prediction = pred
 
-        max_saturation = 0
-        min_saturation = 0
-
-        max_prediction = min(max_prediction - max_saturation, 98.)
-        min_prediction = max(min_prediction + min_saturation, 3.)
+        max_prediction = min(max_prediction, 98.)
+        min_prediction = max(min_prediction, 3.)
 
         if float(X[0]) > 0.5:
             X[0] = float(max_prediction / 100.)
@@ -62,7 +63,31 @@ def get_predictions(data_file):
         processed_X.append(X[5])
         processed_X.append(X[6])
 
+        processed_X.append(X[7])
+        processed_X.append(X[8])
+        processed_X.append(X[9])
+        processed_X.append(X[10])
+        processed_X.append(X[11])
+        processed_X.append(X[12])
+        processed_X.append(X[13])
+
+        processed_X.append(X[14])
+        processed_X.append(X[15])
+        processed_X.append(X[16])
+        processed_X.append(X[17])
+        processed_X.append(X[18])
+        processed_X.append(X[19])
+        processed_X.append(X[20])
+
+        processed_X.append(X[21])
+        processed_X.append(X[22])
+        processed_X.append(X[23])
+        processed_X.append(X[24])
+        processed_X.append(X[25])
+        processed_X.append(X[26])
+
         processed_X = np.array(processed_X)
+
         data.append(processed_X)
         counter += 1
 
@@ -108,8 +133,8 @@ def input_to_onehot(data_file):
 
     not_standardized_input = copy.deepcopy(onehot_input)
 
-    onehot_input[:, -1] = standardize(onehot_input[:, -1])
-    onehot_input[:, -2] = standardize(onehot_input[:, -2])
+    onehot_input[:, 23] = standardize(onehot_input[:, 23])
+    onehot_input[:, 24] = standardize(onehot_input[:, 24])
 
     return onehot_input, y, not_standardized_input
 
@@ -124,7 +149,7 @@ def filter(list):
 
 
 def check_input():
-    predictions = open("../logs/Grubb.txt", "r")
+    predictions = open("../logs/new_predictions.txt", "r")
     results = open("../logs/automagic.txt", "r")
 
     contents_pred = predictions.readlines()
@@ -143,4 +168,5 @@ def check_input():
             break
 
 
-check_input()
+input_to_onehot("new_predictions")
+#check_input()
