@@ -6,6 +6,7 @@ from torch.autograd import Variable
 from neural_nets.input_to_onehot import input_to_onehot
 from input_cross_entropy import cross_entropy_input_to_onehot
 
+
 #####################  Neural nets   #####################################
 
 
@@ -49,6 +50,8 @@ def load_models(onehot_encoded):
     grubby_ce2 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE2.model')
     grubby_ce3 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE3.model')
     grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
+
+    metamodel = os.path.join(script_directory, "metamodel/" + 'grubbyStarMeta.model')
 
     onehot_neural = copy.deepcopy(onehot_encoded)
     _, _, X_train = input_to_onehot('automagic')
@@ -114,6 +117,33 @@ def load_models(onehot_encoded):
     predCross4 = modelCE4.forward(x)
     neural_predCross4 = predCross4.detach().numpy()
 
+    # print("prediction", pred)
+    # print("x.shape", x.shape)
+    # print("pred.shape", pred.shape)
+    third_tensor = torch.cat((x, pred), 1)
+    third_tensor = torch.cat((third_tensor, pred2), 1)
+    third_tensor = torch.cat((third_tensor, pred3L3W), 1)
+    third_tensor = torch.cat((third_tensor, pred4L3W), 1)
+    third_tensor = torch.cat((third_tensor, pred4L4W), 1)
+
+    third_tensor = torch.cat((third_tensor, predCross), 1)
+    third_tensor = torch.cat((third_tensor, predCross2), 1)
+    third_tensor = torch.cat((third_tensor, predCross3), 1)
+    third_tensor = torch.cat((third_tensor, predCross4), 1)
+
+    metaStar = torch.load(metamodel)
+    metaStar.eval()
+    pred_meta = metaStar.forward(third_tensor)
+    neural_meta = pred_meta.detach().numpy()
+
+    third_tensor = torch.narrow(third_tensor, 1, 25, 9)
+    result = torch.mul(third_tensor, pred_meta)
+    result = torch.sum(result, dim=1)
+    neural_meta = result.detach().numpy()
+
+    # print(neural_pred)
+    # print("neural_meta", neural_meta)
+    # input()
 
     return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, \
-           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4
+           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta

@@ -63,24 +63,12 @@ def get_predictions(data_file):
         processed_X.append(X[5])
         processed_X.append(X[6])
 
-        processed_X.append(X[7])
-        processed_X.append(X[8])
-        processed_X.append(X[9])
-        processed_X.append(X[10])
-        processed_X.append(X[11])
-        processed_X.append(X[12])
-        processed_X.append(X[13])
-
-        processed_X.append(X[14])
-        processed_X.append(X[15])
-        processed_X.append(X[16])
-        processed_X.append(X[17])
         processed_X.append(X[18])
         processed_X.append(X[19])
         processed_X.append(X[20])
-
         processed_X.append(X[21])
         processed_X.append(X[22])
+
         processed_X.append(X[23])
         processed_X.append(X[24])
         processed_X.append(X[25])

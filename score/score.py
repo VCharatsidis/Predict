@@ -175,13 +175,14 @@ STRONG_LONG_NO_BALANCED = 530
 FIXED_INPUT = 563
 STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
+NO_HERO = 924
 
 
 LIMIT = -1
 UPPER_LIMIT = 3000
 
 opp = 9
-graph_a = 4
+graph_a = 2
 graph_b = 9
 
 val_ids = get_validation_ids()
@@ -213,7 +214,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
                 my_spot = 17
                 vag_spot = 16
-                if counter > 944:
+                if counter > NO_HERO:
                     my_spot += 1
                     vag_spot += 1
 
@@ -265,7 +266,7 @@ participations = n_predictions * [0]
 exc = [8]
 points = []
 points.append(0)
-
+NO_HERO = 924
 
 for i in contents:
     if counter in val_ids:
@@ -273,7 +274,7 @@ for i in contents:
 
         my_spot = 17
         vag_spot = 16
-        if counter > 944:
+        if counter > NO_HERO:
             my_spot += 1
             vag_spot += 1
 

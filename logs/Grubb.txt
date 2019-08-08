@@ -975,3 +975,11 @@
 1-Orc-t-Ud-82-553-amazonia-Fs
 1-Orc-t-Ud-82-553-northren-Fs
 1-Orc-t-Ud-82-553-concealed-Fs
+1-Hum-t-Orc-63-700-turtle-Am
+1-Hum-t-Ne-56-1200-terenas-Am
+0-Hum-t-Ud-91-35-refuge-Am
+1-Hum-t-Hum-68-22-terenas-Blood
+1-Hum-t-Ud-93-14-terenas-Am
+1-Hum-t-Ud-67-530-echo-Pala
+0-Hum-t-Ne-72-36-refuge-Am
+0-Hum-t-Ud-83-374-northren-Am

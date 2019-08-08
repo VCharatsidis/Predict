@@ -35,8 +35,8 @@ class SimpleMLP(nn.Module):
 
         super(SimpleMLP, self).__init__()
 
-        width = 4
-        width_2 = 7
+        width = 3
+        width_2 = 8
         width_3 = 4
         self.layers = nn.Sequential(
 
@@ -49,10 +49,6 @@ class SimpleMLP(nn.Module):
             nn.Tanh(),
 
             nn.Linear(width_2, width_3),
-            nn.BatchNorm1d(width_3),
-            nn.Tanh(),
-
-            nn.Linear(width_3, width_3),
             nn.BatchNorm1d(width_3),
             nn.Tanh(),
 

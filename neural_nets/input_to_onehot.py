@@ -143,4 +143,4 @@ def check_input():
             break
 
 
-check_input()
+#check_input()

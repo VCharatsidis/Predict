@@ -22,15 +22,15 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 500000
-BATCH_SIZE_DEFAULT = 32
+MAX_STEPS_DEFAULT = 300000
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
 FLAGS = None
 
 
-def accuracy(predictions, targets):
+def accuracy(predictions, targets, x):
     """
     Computes the prediction accuracy, i.e. the average of correct predictions
     of the network.
@@ -48,13 +48,20 @@ def accuracy(predictions, targets):
     Implement accuracy computation.
     """
 
-    predictions = predictions.detach().numpy()
-    predictions = predictions.flatten()
-    preds = np.round(predictions)
-    targets = np.round(targets)
-    result = preds == targets
+    x = torch.narrow(x, 1, 25, 9)
+    result = torch.mul(x, predictions)
+    result = torch.sum(result, dim=1)
 
-    sum = np.sum(result)
+   # result = result.view(BATCH_SIZE_DEFAULT, 1)
+
+    result = result.detach().numpy()
+
+    preds = np.round(result)
+    targets = np.round(targets)
+
+    res = preds == targets
+
+    sum = np.sum(res)
 
     accuracy = sum / float(targets.shape[0])
 
@@ -129,7 +136,6 @@ def train():
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
-    loss_fn = torch.nn.MSELoss()
     for epoch in range(1):
         val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
         val_ids = np.append(val_ids, vag_ids)
@@ -146,7 +152,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 32
+            BATCH_SIZE_DEFAULT = 8
 
             model.train()
 
@@ -168,7 +174,6 @@ def train():
             loss.backward(retain_graph=True)
             optimizer.step()
 
-
             if iteration % EVAL_FREQ_DEFAULT == 0:
                 model.eval()
 
@@ -177,16 +182,15 @@ def train():
                 targets = y_test[ids]
 
                 x = np.reshape(x, (len(X_test), -1))
-
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
 
-                acc = accuracy(pred, targets)
+                acc = accuracy(pred, targets, x)
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = center_my_loss(pred, targets, X_test[ids, :])
+                calc_loss = center_my_loss(pred, targets, x)
 
                 accuracies.append(acc)
                 losses.append(calc_loss.item())
@@ -202,13 +206,13 @@ def train():
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
-                train_acc = accuracy(pred, targets)
+                train_acc = accuracy(pred, targets, x)
 
                 targets = np.reshape(targets, (len(X_train), -1))
 
                 targets = Variable(torch.FloatTensor(targets))
 
-                train_loss = center_my_loss(pred, targets, X_train[ids, :])
+                train_loss = center_my_loss(pred, targets, x)
 
                 ########## VAG #############
 
@@ -218,16 +222,17 @@ def train():
                 targets = vag_targets
 
                 x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
-                vag_acc = accuracy(pred, targets)
+                vag_acc = accuracy(pred, targets, x)
 
                 targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                vag_loss = center_my_loss(pred, targets, vag_input)
+                vag_tensor = np.reshape(vag_input, (BATCH_SIZE_DEFAULT, -1))
+                vag_tensor = Variable(torch.FloatTensor(vag_tensor))
+                vag_loss = center_my_loss(pred, targets, vag_tensor)
                 vag_losses.append(vag_loss.item())
 
                 p = 1
@@ -258,21 +263,20 @@ def train():
 
 
 def center_my_loss(output, target, train):
-    print("train")
-    print(train)
-    print("target")
-    print(target)
-    print("output")
-    print(output)
-    input()
+    train = torch.narrow(train, 1, 25, 9)
+    result = torch.mul(train, output)
+    result = torch.sum(result, dim=1)
+
+    result = result.view(target.shape[0], 1)
+
     real = torch.round(target)
-    # pred = output * real + (1 - output) * (1 - real)
     y = target * real + (1 - target) * (1 - real)
 
-    bonus = output - target
+    bonus = result - target
+
     bonus = torch.ceil(bonus)
 
-    log = torch.log(1 - torch.abs(output - target))
+    log = torch.log(1 - torch.abs(result - target))
     loss = torch.mean(-log - bonus * y * log/10)
 
     return loss
