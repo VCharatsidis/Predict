@@ -266,7 +266,7 @@ def center_my_loss(output, target):
     bonus = torch.ceil(bonus)
 
     log = torch.log(1 - torch.abs(output - target))
-    loss = torch.mean(-log - bonus * y * log/10)
+    loss = torch.mean(-log - 1  * y * log/12)
 
     return loss
 

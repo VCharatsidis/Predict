@@ -76,8 +76,8 @@ for line in automag:
     print(mean)
     print(std)
 
-    neg_bonus = min(2 * std, 10)
-    pos_bonus = min(1.1 * std, 10)
+    neg_bonus = min(3.1 * std, 12)
+    pos_bonus = min(1.25 * std, 12)
 
     max_prediction = int(round(mean + pos_bonus))
     min_prediction = int(round(mean - neg_bonus))

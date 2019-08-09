@@ -154,7 +154,7 @@ for i in contents2:
     z = i.split("-")
     old_preds.append(i)
 
-n_predictions = 24
+n_predictions = 26
 participations = n_predictions * [0]
 
 counter = 0
@@ -168,7 +168,7 @@ participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "merged cros4 pred1", 13: "average", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
-                22: "neural C 3", 23: "neural C 4"}
+                22: "neural C 3", 23: "neural C 4", 25: "metamodel"}
 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530

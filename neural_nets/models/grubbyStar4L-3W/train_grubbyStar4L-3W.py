@@ -245,15 +245,8 @@ def center_my_loss(output, target):
     bonus = torch.abs(torch.ceil(bonus))
 
     log = torch.log(1 - torch.abs(output - target))
-    loss = torch.mean(-log - bonus * y * log/10)
-    print("real " + str(real))
-    print("y " + str(y))
-    print("target " + str(target))
-    print("output " + str(output))
-    print("bonus " + str(bonus))
-    print("log " + str(-log))
-    print("loss " + str(- bonus * y * log/10))
-    input()
+    loss = torch.mean(-log + bonus * y * log/10)
+
     return loss
 
 def print_flags():

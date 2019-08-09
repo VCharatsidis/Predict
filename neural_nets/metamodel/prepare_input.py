@@ -24,7 +24,7 @@ def get_predictions(data_file):
         min_prediction = 98.
 
         count_preds = 7
-        print(X)
+
         for x in X:
             if '%' in x:
                 x = x.rstrip("\n")
@@ -34,9 +34,10 @@ def get_predictions(data_file):
                 if pred > max_prediction:
                     max_prediction = pred
 
+                X[count_preds] = pred / 100
+                count_preds += 1
+
                 if pred > 0:
-                    X[count_preds] = pred/100
-                    count_preds += 1
                     if pred < min_prediction:
                         min_prediction = pred
 
@@ -63,18 +64,23 @@ def get_predictions(data_file):
         processed_X.append(X[5])
         processed_X.append(X[6])
 
-        processed_X.append(X[18])
-        processed_X.append(X[19])
-        processed_X.append(X[20])
+        # processed_X.append(X[7])
+        # processed_X.append(X[8])
+        # processed_X.append(X[9])
+
         processed_X.append(X[21])
         processed_X.append(X[22])
-
         processed_X.append(X[23])
         processed_X.append(X[24])
         processed_X.append(X[25])
-        processed_X.append(X[26])
+
+        processed_X.append(X[27])
+        processed_X.append(X[28])
+        processed_X.append(X[29])
+        processed_X.append(X[30])
 
         processed_X = np.array(processed_X)
+        print(processed_X)
 
         data.append(processed_X)
         counter += 1
@@ -156,5 +162,5 @@ def check_input():
             break
 
 
-input_to_onehot("new_predictions")
+#("new_predictions")
 #check_input()

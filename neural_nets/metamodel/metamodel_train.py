@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 300000
+MAX_STEPS_DEFAULT = 3000000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -152,7 +152,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 8
+            BATCH_SIZE_DEFAULT = 16
 
             model.train()
 
@@ -273,11 +273,10 @@ def center_my_loss(output, target, train):
     y = target * real + (1 - target) * (1 - real)
 
     bonus = result - target
-
     bonus = torch.ceil(bonus)
 
     log = torch.log(1 - torch.abs(result - target))
-    loss = torch.mean(-log - bonus * y * log/10)
+    loss = torch.mean(-log - bonus * y * log/12)
 
     return loss
 

@@ -134,16 +134,13 @@ def load_models(onehot_encoded):
     metaStar = torch.load(metamodel)
     metaStar.eval()
     pred_meta = metaStar.forward(third_tensor)
-    neural_meta = pred_meta.detach().numpy()
+    coeffs = pred_meta.detach().numpy()
 
     third_tensor = torch.narrow(third_tensor, 1, 25, 9)
+
     result = torch.mul(third_tensor, pred_meta)
     result = torch.sum(result, dim=1)
     neural_meta = result.detach().numpy()
 
-    # print(neural_pred)
-    # print("neural_meta", neural_meta)
-    # input()
-
     return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, \
-           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta
+           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta, coeffs[0]

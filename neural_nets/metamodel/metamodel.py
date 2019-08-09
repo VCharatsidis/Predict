@@ -35,7 +35,7 @@ class MetaNet(nn.Module):
 
         super(MetaNet, self).__init__()
 
-        width = 10
+        width = 15
         width_2 = 30
         self.layers = nn.Sequential(
 
@@ -44,6 +44,10 @@ class MetaNet(nn.Module):
             nn.Tanh(),
 
             nn.Linear(width, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
+            nn.Linear(width_2, width_2),
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
