@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 3000000
+MAX_STEPS_DEFAULT = 5000000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -132,7 +132,7 @@ def train():
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
-    vag_ids = vag_games[-150:]
+    vag_ids = vag_games[-200:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -152,7 +152,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 16
+            BATCH_SIZE_DEFAULT = 64
 
             model.train()
 
@@ -264,20 +264,35 @@ def train():
 
 def center_my_loss(output, target, train):
     train = torch.narrow(train, 1, 25, 9)
+
+    # lower_bound = 0.1 - output
+    # lower_bound = torch.ceil(lower_bound)
+    # lower_bound = torch.sum(lower_bound, dim=1)/500
+    #
+    # upper_bound = output - 0.8
+    # upper_bound = torch.ceil(upper_bound)
+    # upper_bound = torch.sum(upper_bound, dim=1)/500
+
     result = torch.mul(train, output)
     result = torch.sum(result, dim=1)
-
     result = result.view(target.shape[0], 1)
 
-    real = torch.round(target)
-    y = target * real + (1 - target) * (1 - real)
+    # print("output", output)
+    # print("train", train)
+    # print("result", result)
+    # input()
 
-    bonus = result - target
-    bonus = torch.ceil(bonus)
+    #real = torch.round(target)
+    #y = target * real + (1 - target) * (1 - real)
 
     log = torch.log(1 - torch.abs(result - target))
-    loss = torch.mean(-log - bonus * y * log/12)
-
+    loss = torch.mean(-log)
+    # print(result)
+    # print("target", target)
+    # print(-log)
+    # print(upper_bound)
+    # print(lower_bound)
+    # input()
     return loss
 
 

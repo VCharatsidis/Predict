@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 300000
+MAX_STEPS_DEFAULT = 400000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -127,7 +127,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    vag_ids = vag_games[-150:]
+    vag_ids = vag_games[-200:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
     vag_real = real_y[vag_ids]
@@ -150,6 +150,9 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
+            if iteration % 50000 == 0:
+                print("iteration: " + str(iteration))
+
             model.train()
             BATCH_SIZE_DEFAULT = 32
 
@@ -273,6 +276,7 @@ def center_my_loss(output, target):
 
     log = torch.log(1 - torch.abs(output - target))
     loss = torch.mean(-log - bonus * y * log/12)
+
     return loss
 
 

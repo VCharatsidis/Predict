@@ -47,6 +47,10 @@ class GStar2Net(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
             nn.Linear(width_2, width_2 // 2),
             nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
@@ -56,6 +60,10 @@ class GStar2Net(nn.Module):
             nn.Tanh(),
 
             nn.Linear(width_2//2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 2, width_2 // 2),
             nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 

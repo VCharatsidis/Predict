@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class SimpleMLP(nn.Module):
+class SigmaNet(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,11 +33,10 @@ class SimpleMLP(nn.Module):
         Implement initialization of the network.
         """
 
-        super(SimpleMLP, self).__init__()
+        super(SigmaNet, self).__init__()
 
-        width = 4
-        width_2 = 8
-        width_3 = 4
+        width = 15
+        width_2 = 9
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -52,20 +51,24 @@ class SimpleMLP(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_3, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_3, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_3, 1),
-            nn.Sigmoid()
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
+            nn.Linear(width_2, 1),
+            nn.Tanh()
 
         )
 

@@ -13,7 +13,7 @@ def excluded(i, excluded):
 
 points = []
 points.append(0)
-def calc_scores(vagelis, egw, counter, preds, participations, pred_number, excluded_list=[], cap=95):
+def calc_scores(vagelis, egw, counter, preds, participations, pred_number, excluded_list=[], cap=97):
     z = preds.split("-")
     predictions = []
 
@@ -24,9 +24,9 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
             predictions.append(int(s))
 
+
     predictions[9] = vagelis
     predictions[10] = egw
-
 
     # if predictions[23] > 66:
     #     predictions[0] = predictions[23]
@@ -44,15 +44,14 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
     # predictions[7] = predictions[15] * 0.7 + predictions[21] * 0.3
     # predictions[8] = predictions[0] * 0.5 + predictions[23] * 0.5
 
-    for i in range(len(predictions), n_predictions):
-        predictions.append(0)
+    # for i in range(len(predictions), n_predictions):
+    #     predictions.append(0)
 
     result = int(z[0])
-    #print("result "+str(result))
 
     s = n_predictions * [0]
 
-    for i in range(0, n_predictions-1):
+    for i in range(0, len(predictions)-1):
 
         if predictions[i] == 0:
             continue
@@ -64,7 +63,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             predictions[i] = cap
 
         opponent = i+1
-        for j in range(opponent, n_predictions):
+        for j in range(opponent, len(predictions)-1):
 
             if excluded(j, excluded_list):
                 continue
@@ -139,7 +138,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/new_predictions.txt'
+filepath = '../logs/automagic.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
@@ -154,7 +153,7 @@ for i in contents2:
     z = i.split("-")
     old_preds.append(i)
 
-n_predictions = 26
+n_predictions = 27
 participations = n_predictions * [0]
 
 counter = 0
@@ -168,7 +167,7 @@ participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
                 12: "merged cros4 pred1", 13: "average", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
-                22: "neural C 3", 23: "neural C 4", 25: "metamodel"}
+                22: "neural C 3", 23: "neural C 4", 25: "metamodel", 26:"sigmamodel"}
 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
@@ -176,19 +175,20 @@ FIXED_INPUT = 563
 STOP_RF_FROM_OVERFITTING = 641
 LOGISTIC_MU_CV = 676
 NO_HERO = 924
+LAST_TRAINED = 1009
 
 
-LIMIT = -1
+LIMIT = 800
 UPPER_LIMIT = 3000
 
-opp = 9
-graph_a = 2
-graph_b = 9
+opp = 10
+graph_a = 10
+graph_b = 18
 
 val_ids = get_validation_ids()
-val_ids = val_ids[-150:]
+val_ids = val_ids[-200:]
 print(val_ids)
-#val_ids = list(range(LIMIT, UPPER_LIMIT))
+val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
@@ -248,14 +248,12 @@ def calc_scores_vs_opponent(opponent, cap=95):
 
         scores_vs_opponent[participant] = (total_scores[participant] / participations[participant])
 
-        if participant == 11:
-            continue
         print(participants[participant] + " vs " + participants[opponent] + " " + str(scores_vs_opponent[participant]) + " se " + str(participations[participant]))
 
     return scores_vs_opponent
 
 
-scores_vs_opp = calc_scores_vs_opponent(opp, 95)
+scores_vs_opp = calc_scores_vs_opponent(opp, 97)
 
 
 total_scores = n_predictions * [0]
@@ -263,7 +261,7 @@ total_scores = np.array(total_scores)
 counter = 0
 participations = n_predictions * [0]
 
-exc = [8]
+exc = []
 points = []
 points.append(0)
 NO_HERO = 924

@@ -159,8 +159,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [0, 1, 4, 83, 374, 3, "Am"]
-my_prediction = 40
+xin = [4, 1, 2, 80, 58, 6, "Dk"]
+my_prediction = 65
 Vagelis = 0
 result = 1
 
@@ -246,7 +246,7 @@ logistic_input = copy.deepcopy(onehot_input)
 
 neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
 neural_predCross, neural_predCross2, neural_predCross3,\
-neural_predCross4 = load_models(onehot_encoded)
+neural_predCross4, _, _, _ = load_models(onehot_encoded)
 
 
 ############################################################## one hot rf ###############################

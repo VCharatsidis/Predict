@@ -52,6 +52,7 @@ def load_models(onehot_encoded):
     grubby_ce4 = os.path.join(script_directory, filepath + 'cross_entropy/grubbyStarCE4.model')
 
     metamodel = os.path.join(script_directory, "metamodel/" + 'grubbyStarMeta.model')
+    sigmamodel = os.path.join(script_directory, "sigma_metamodel/" + 'grubbyStarSigma.model')
 
     onehot_neural = copy.deepcopy(onehot_encoded)
     _, _, X_train = input_to_onehot('automagic')
@@ -142,5 +143,33 @@ def load_models(onehot_encoded):
     result = torch.sum(result, dim=1)
     neural_meta = result.detach().numpy()
 
+
+
+
+
+    sigma_tensor = torch.cat((x, pred), 1)
+    sigma_tensor = torch.cat((sigma_tensor, pred2), 1)
+    sigma_tensor = torch.cat((sigma_tensor, pred3L3W), 1)
+    sigma_tensor = torch.cat((sigma_tensor, pred4L3W), 1)
+    sigma_tensor = torch.cat((sigma_tensor, pred4L4W), 1)
+
+    sigma_tensor = torch.cat((sigma_tensor, predCross), 1)
+    sigma_tensor = torch.cat((sigma_tensor, predCross2), 1)
+    sigma_tensor = torch.cat((sigma_tensor, predCross3), 1)
+    sigma_tensor = torch.cat((sigma_tensor, predCross4), 1)
+
+    sigmaStar = torch.load(sigmamodel)
+    sigmaStar.eval()
+    pred_sigma = sigmaStar.forward(sigma_tensor)
+
+    train = torch.narrow(sigma_tensor, 1, 25, 9)
+
+    mean = torch.mean(train, dim=1)
+    s = torch.std(train, dim=1)
+
+    result_sigma = mean + torch.mul(torch.transpose(pred_sigma, 0, 1), s)
+
+    result_sigma = result_sigma.detach().numpy()
+
     return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, \
-           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta, coeffs[0]
+           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta, coeffs[0] , result_sigma[0]

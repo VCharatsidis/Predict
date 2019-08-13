@@ -56,7 +56,6 @@ for line in automag:
             x = x.rstrip("\n")
             x = x.replace('%', '')
 
-
             pred = int(x)
             if pred > 0:
                 array_x.append(pred)
@@ -69,15 +68,18 @@ for line in automag:
             #     if pred < min_prediction:
             #         min_prediction = pred
 
+
     array_x = np.array(array_x)
-    print(array_x)
+    array_x = array_x[8:12]
+
     mean = np.mean(array_x, axis=0)
     std = np.std(array_x, axis=0)
-    print(mean)
-    print(std)
 
-    neg_bonus = min(3.1 * std, 12)
-    pos_bonus = min(1.25 * std, 12)
+    neg_bonus = min(1.9 * std, 12)
+    pos_bonus = min(1 * std, 12)
+
+    max_prediction = array_x[0]
+    min_prediction = array_x[0]
 
     max_prediction = int(round(mean + pos_bonus))
     min_prediction = int(round(mean - neg_bonus))

@@ -79,7 +79,7 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 300000
+    MAX_STEPS_DEFAULT = 200000
 
     model = SimpleMLP(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
@@ -99,7 +99,7 @@ def train():
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
-    vag_ids = vag_games[-150:]
+    vag_ids = vag_games[-200:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 

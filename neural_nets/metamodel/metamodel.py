@@ -35,8 +35,8 @@ class MetaNet(nn.Module):
 
         super(MetaNet, self).__init__()
 
-        width = 15
-        width_2 = 30
+        width = 20
+        width_2 = 10
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -51,31 +51,43 @@ class MetaNet(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, width_2 // 2),
-            nn.BatchNorm1d(width_2 // 2),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2 // 2, 9),
+            # nn.Linear(width_2, width_2//2),
+            # nn.BatchNorm1d(width_2//2),
+            # nn.Tanh(),
+            #
+            # nn.Linear(width_2//2, width_2//2),
+            # nn.BatchNorm1d(width_2//2),
+            # nn.Tanh(),
+            #
+            # nn.Linear(width_2//2, width_2//2),
+            # nn.BatchNorm1d(width_2//2),
+            # nn.Tanh(),
+
+            nn.Linear(width_2, 9),
             nn.Softmax()
 
         )

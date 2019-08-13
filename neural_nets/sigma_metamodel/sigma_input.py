@@ -132,7 +132,7 @@ def input_to_onehot(data_file):
 
     return onehot_input, y, not_standardized_input
 
-    #return input, y
+    # return input, y
 
 def filter(list):
     filter_55 = []

@@ -14,23 +14,23 @@ from torch.autograd import Variable
 import matplotlib.pyplot as plt
 
 from neural_nets import test_nn
-from neural_nets.input_to_onehot import input_to_onehot
-from GStar4L3W import GStar4L3WNet
+from sigma_input import input_to_onehot
+from sigma_net import SigmaNet
 from validations_ids import get_validation_ids
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 800000
-BATCH_SIZE_DEFAULT = 32
+MAX_STEPS_DEFAULT = 3000000
+BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
 
 FLAGS = None
 
 
-def accuracy(predictions, targets):
+def accuracy(predictions, targets, x):
     """
     Computes the prediction accuracy, i.e. the average of correct predictions
     of the network.
@@ -48,14 +48,23 @@ def accuracy(predictions, targets):
     Implement accuracy computation.
     """
 
-    predictions = predictions.detach().numpy()
-    predictions = predictions.flatten()
-    preds = np.round(predictions)
+    train = torch.narrow(x, 1, 25, 9)
+
+    mean = torch.mean(train, dim=1)
+    sigma = torch.std(train, dim=1)
+
+    result = mean + torch.mul(torch.transpose(predictions, 0, 1), sigma)
+
+   # result = result.view(BATCH_SIZE_DEFAULT, 1)
+
+    result = result.detach().numpy()
+
+    preds = np.round(result)
     targets = np.round(targets)
 
-    result = preds == targets
+    res = preds == targets
 
-    sum = np.sum(result)
+    sum = np.sum(res)
 
     accuracy = sum / float(targets.shape[0])
 
@@ -78,14 +87,42 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStar4L-3W.model'
+    filepath = 'grubbyStarSigma.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 0
 
-    onehot_input, y, _ = input_to_onehot("gaussianPredictions")
+    onehot_input, y,_ = input_to_onehot('new_predictions')
 
-    model = GStar4L3WNet(onehot_input.shape[1])
+    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+    train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
+
+    X_train = onehot_input[train_ids, :]
+    y_train = y[train_ids]
+
+    # X_train = onehot_input[0: -validation_games, :]
+    # y_train = y[0: -validation_games]
+
+    print("X train")
+
+    print(X_train.shape)
+    print(y_train.shape)
+
+    X_test = onehot_input[val_ids, :]
+    y_test = y[val_ids]
+
+    # X_test = onehot_input[-validation_games:, :]
+    # y_test = y[-validation_games:]
+
+    print("X test")
+
+    print(X_test.shape)
+    print(y_test.shape)
+
+    print(onehot_input.shape)
+    print(onehot_input.shape[1])
+
+    model = SigmaNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -94,7 +131,7 @@ def train():
     losses = []
     vag_losses = []
     max_acc = 0
-    min_loss = 100
+    min_loss = 1000
 
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
@@ -115,16 +152,12 @@ def train():
         X_test = onehot_input[val_ids, :]
         y_test = y[val_ids]
 
-        if epoch % 1000 == 0:
-             print("epoch " + str(epoch))
+        print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            model.train()
-
-            if iteration % 50000 == 0:
-                print("iteration: " + str(iteration))
-
             BATCH_SIZE_DEFAULT = 32
+
+            model.train()
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
 
@@ -138,7 +171,7 @@ def train():
 
             y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
             y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-            loss = center_my_loss(output, y_train_batch)
+            loss = center_my_loss(output, y_train_batch, X_train_batch)
 
             model.zero_grad()
             loss.backward(retain_graph=True)
@@ -146,26 +179,26 @@ def train():
 
             if iteration % EVAL_FREQ_DEFAULT == 0:
                 model.eval()
+
                 ids = np.array(range(len(X_test)))
                 x = X_test[ids, :]
                 targets = y_test[ids]
 
                 x = np.reshape(x, (len(X_test), -1))
-
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
 
-                acc = accuracy(pred, targets)
+                acc = accuracy(pred, targets, x)
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = center_my_loss(pred, targets)
+                calc_loss = center_my_loss(pred, targets, x)
 
                 accuracies.append(acc)
                 losses.append(calc_loss.item())
 
-                ######### Train ##########
+                ###################
 
                 ids = np.array(range(len(X_train)))
                 x = X_train[ids, :]
@@ -176,45 +209,46 @@ def train():
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
-                train_acc = accuracy(pred, targets)
+                train_acc = accuracy(pred, targets, x)
 
                 targets = np.reshape(targets, (len(X_train), -1))
+
                 targets = Variable(torch.FloatTensor(targets))
 
-                train_loss = center_my_loss(pred, targets)
+                train_loss = center_my_loss(pred, targets, x)
 
                 ########## VAG #############
 
                 BATCH_SIZE_DEFAULT = len(vag_ids)
-
+                ids = np.array(range(BATCH_SIZE_DEFAULT))
                 x = vag_input
                 targets = vag_targets
 
                 x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
                 x = Variable(torch.FloatTensor(x))
 
                 pred = model.forward(x)
-                vag_acc = accuracy(pred, targets)
+                vag_acc = accuracy(pred, targets, x)
 
                 targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-
                 targets = Variable(torch.FloatTensor(targets))
 
-                vag_loss = center_my_loss(pred, targets)
+                vag_tensor = np.reshape(vag_input, (BATCH_SIZE_DEFAULT, -1))
+                vag_tensor = Variable(torch.FloatTensor(vag_tensor))
+                vag_loss = center_my_loss(pred, targets, vag_tensor)
                 vag_losses.append(vag_loss.item())
 
                 p = 1
-                if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
-                    min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
+                if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
+                    min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
 
-                    print("epoch: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
+                    print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
                         calc_loss.item()) + " vag acc: " + str(vag_acc) + " vag loss: " + str(vag_loss.item()))
 
     #torch.save(model, model_to_train)
-    # test_nn.test_all(model_to_train)
+    test_nn.test_all(model_to_train)
     print(model_to_train)
     print("maxx acc")
     print(max_acc)
@@ -222,7 +256,8 @@ def train():
     plt.ylabel('accuracies')
     plt.show()
 
-    plt.plot(losses)
+    plt.plot(vag_losses, 'r')
+    plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
     ########################
@@ -230,27 +265,40 @@ def train():
     #######################
 
 
+def center_my_loss(output, target, train):
+    train = torch.narrow(train, 1, 25, 9)
+
+    mean = torch.mean(train, dim=1)
+    sigma = torch.std(train, dim=1)
+
+    result = mean + torch.mul(2 * torch.transpose(output, 0, 1), sigma)
+
+    result = result.view(target.shape[0], 1)
+
+    real = torch.round(target)
+    #y = target * real + (1 - target) * (1 - real)
+
+    bonus = (target - result) * real + (result - target) * (1 - real)
+    bonus = torch.ceil(bonus)
+
+    log = torch.log(1 - torch.abs(result - target))
+
+    loss = torch.mean(-log * torch.abs(bonus))
+
+
+    return loss
+
+
 # def center_my_loss(output, target):
 #     real = torch.round(target)
 #     pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
 #     y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-#     #target_reduction = (0.94*y - 0.01 * torch.exp(target)) * real + (1.02 * y)*(1-real)
+#     #target_reduction = (0.95 * y - 0.01 * torch.exp(target)) * real + (1.01 * y) * (1-real)
 #     target_reduction = y
 #
 #     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
 #     return loss
 
-def center_my_loss(output, target):
-    real = torch.round(target)
-    y = target * real + (1 - target) * (1 - real)
-
-    bonus = output - target
-    bonus = torch.abs(torch.ceil(bonus))
-
-    log = torch.log(1 - torch.abs(output - target))
-    loss = torch.mean(-log - bonus * y * log/5)
-
-    return loss
 
 def print_flags():
     """

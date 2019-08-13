@@ -6,6 +6,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from logistic_reggresions.logistic_mutchups import logistic_reg
 from logistic_reggresions import strong_logistic
 from load_models import load_models
+from xgboost import XGBClassifier
 
 from warnings import simplefilter
 simplefilter(action='ignore', category=FutureWarning)
@@ -59,6 +60,12 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
 
 
     input2 = copy.deepcopy(input_cp)
+
+    ######################### XGB ##############################################
+    # xgb = XGBClassifier(n_estimators=300)
+    # xgb.fit(input2, y)
+    # xgb_pred = xgb.predict_proba([xin])
+
     # # #
     # # # # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # errors = []
@@ -131,7 +138,7 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
 
     neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
     neural_predCross, neural_predCross2, neural_predCross3,\
-    neural_predCross4, neural_meta, coeffs = load_models(onehot_encoded)
+    neural_predCross4, neural_meta, coeffs, sigma = load_models(onehot_encoded)
 
 
 
@@ -148,6 +155,8 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     # onehotencoder = OneHotEncoder(categorical_features=[0, 1, 2, 5])
     # onehot_input = onehotencoder.fit_transform(input2).toarray()
     # logistic_input = copy.deepcopy(onehot_input)
+
+
     # # # #
     # # # #
     #
@@ -266,7 +275,8 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
           + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
           + "-0%-"
-          + str(int(round(neural_meta[0]*100))) + "%"
+          + str(int(round(neural_meta[0]*100))) + "%-"
+          + str(int(round(sigma[0]*100))) + "%"
           + "\n")
 
     print(log)
