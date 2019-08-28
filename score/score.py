@@ -138,7 +138,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/automagic.txt'
+filepath = '../logs/new_predictions.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
@@ -178,7 +178,7 @@ NO_HERO = 924
 LAST_TRAINED = 1009
 
 
-LIMIT = 800
+LIMIT = 950
 UPPER_LIMIT = 3000
 
 opp = 10
