@@ -80,7 +80,7 @@ def train():
     filepath = 'grubbyStar2.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 20
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
@@ -204,7 +204,7 @@ def train():
 
                 train_loss = center_my_loss(pred, targets, real_targets)
 
-                p = 1
+                p = 0.9
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -226,10 +226,6 @@ def train():
     plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
-
 
 def center_my_loss(output, target, real_targets):
 

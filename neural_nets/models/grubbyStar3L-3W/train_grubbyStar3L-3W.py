@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 400000
+MAX_STEPS_DEFAULT = 1000000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -80,7 +80,7 @@ def train():
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 20
 
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
@@ -241,7 +241,7 @@ def train():
 
                 vag_loss = center_my_loss(pred, targets)
 
-                p = 1
+                p = 0.9
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)

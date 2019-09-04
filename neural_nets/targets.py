@@ -50,7 +50,7 @@ for line in automag:
     second_min = 98
 
     array_x = []
-
+    print(X)
     for x in X:
         if '%' in x:
             x = x.rstrip("\n")
@@ -71,12 +71,13 @@ for line in automag:
 
     array_x = np.array(array_x)
     array_x = array_x[8:12]
+    print(array_x)
 
     mean = np.mean(array_x, axis=0)
     std = np.std(array_x, axis=0)
 
-    neg_bonus = min(1.9 * std, 12)
-    pos_bonus = min(1 * std, 12)
+    neg_bonus = min(3 * std, 15)
+    pos_bonus = min(1.2 * std, 12)
 
     max_prediction = array_x[0]
     min_prediction = array_x[0]

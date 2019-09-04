@@ -62,16 +62,20 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     input2 = copy.deepcopy(input_cp)
 
     ######################### XGB ##############################################
-    # xgb = XGBClassifier(n_estimators=300)
-    # xgb.fit(input2, y)
+    # xgb = XGBClassifier(n_estimators=300, max_depth=20)
+    # xgb.fit(input_cp, y)
     # xgb_pred = xgb.predict_proba([xin])
-
+    #
+    # # # #
+    # # # # # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # # errors = []
     # # #
-    # # # # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Estimators ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    # errors = []
-    # #
     # old_numeric_rf = RandomForestClassifier(n_estimators=1000, min_samples_split=10, oob_score=True)
     # old_numeric_rf.fit(input_cp, y)
+    #
+    # # numeric_pred = numeric_rf.predict_proba([xin])
+    # old_numeric_pred = old_numeric_rf.predict_proba([xin])
+
     #
     # numeric_rf = RandomForestClassifier(n_estimators=1000,
     #                                     random_state=0,
@@ -145,8 +149,7 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
 
     # 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 
-    # numeric_pred = numeric_rf.predict_proba([xin])
-    # old_numeric_pred = old_numeric_rf.predict_proba([xin])
+
     # # #
     # # #
     # # # # One Hot ############################################################
@@ -193,7 +196,7 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
     # logistic_mu_CV = int(round(logistic_mu_CV[0][1]*100))
 
 
-    old_numeric_pred = 0
+    #old_numeric_pred = 0
     pred1 = 0
     pred3 = 0
     logistic_pred = 0
@@ -264,13 +267,13 @@ def predict(input_cp, original_input_for_strong_log_reg, y, i):
           + "0%-"
           + str(int(round(merged))) +"%-"
           + str(int(round(averaged)))+"%"
-          + "-" + str((int(round(neural_pred[0][0]*100)))) + "%"
-          + "-" + str((int(round(neural_pred2[0][0]*100)))) + "%"
+          + "-" + str((int(round(neural_pred[0][0] * 100)))) + "%"
+          + "-" + str((int(round(neural_pred2[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_pred3L3W[0][0] * 100))))+"%"
           + "-" + str((int(round(neural_pred4L3W[0][0] * 100))))+"%"
           + "-" + str((int(round(neural_pred4L4W[0][0] * 100))))+"%"
           + "-0%"
-          + "-" + str((int(round(neural_predCross[0][0]*100)))) + "%"
+          + "-" + str((int(round(neural_predCross[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_predCross2[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
           + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
@@ -352,7 +355,7 @@ def prepare_input():
 input, or_input, y = prepare_input()
 print("data number "+str(len(input)))
 
-coeffs_total = 9 * [float(0)]
+coeffs_total = 4 * [float(0)]
 coeffs_total = np.array(coeffs_total)
 for i in range(len(input)):
 
@@ -361,9 +364,9 @@ for i in range(len(input)):
     coeffs = predict(input, or_input, y, i)
     coeffs_total += coeffs
     print(coeffs)
-
-print("coeffs total")
-print(coeffs_total/len(input))
+#
+# print("coeffs total")
+# print(coeffs_total/len(input))
 
 
 

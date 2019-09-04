@@ -36,8 +36,8 @@ class SimpleMLP(nn.Module):
         super(SimpleMLP, self).__init__()
 
         width = 4
-        width_2 = 8
-        width_3 = 4
+        width_2 = 5
+        width_3 = 3
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),

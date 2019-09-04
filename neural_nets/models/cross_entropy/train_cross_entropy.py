@@ -70,8 +70,6 @@ def accuracy(predictions, targets):
 def train():
     """
     Performs training and evaluation of MLP model.
-    TODO:
-    Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
     """
     # Set the random seeds for reproducibility
     # np.random.seed(42)
@@ -79,9 +77,9 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 200000
+    MAX_STEPS_DEFAULT = 400000
 
-    model = SimpleMLP(onehot_input.shape[1])
+    model = CrossNet4(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = 'grubbyStarCrossEntropy.model'
     model_to_train = os.path.join(script_directory, filepath)
@@ -100,14 +98,15 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
+    validation_games = 20
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
     for epoch in range(1):
-        # val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-        # val_ids = np.append(val_ids, vag_ids)
-        # val_ids = np.unique(val_ids)
-        val_ids = np.array(vag_ids)
+        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = np.append(val_ids, vag_ids)
+        val_ids = np.unique(val_ids)
+        val_ids = np.array(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
@@ -121,7 +120,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 5
+            BATCH_SIZE_DEFAULT = 10
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)
@@ -163,7 +162,7 @@ def train():
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
 
                 accuracies.append(acc)
 
@@ -184,7 +183,7 @@ def train():
                 targets = np.reshape(targets, (len(X_train), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                train_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
                 losses.append(train_loss.item())
 
                 ########## VAG #############
@@ -204,10 +203,10 @@ def train():
                 targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                vag_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
+                vag_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
                 vag_losses.append(vag_loss.item())
 
-                p = 1
+                p = 0.9
                 if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -228,10 +227,13 @@ def train():
     plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
 
+
+def center_my_loss(output, target):
+    log = target * torch.log(output+0.1) + (1-target) * torch.log(1.05 - output)
+    loss = torch.mean(-log)
+
+    return loss
 
 def print_flags():
     """

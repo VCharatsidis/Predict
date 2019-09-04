@@ -48,7 +48,7 @@ def accuracy(predictions, targets, x):
     Implement accuracy computation.
     """
 
-    x = torch.narrow(x, 1, 25, 9)
+    x = torch.narrow(x, 1, 25, 4)
     result = torch.mul(x, predictions)
     result = torch.sum(result, dim=1)
 
@@ -87,7 +87,7 @@ def train():
     filepath = 'grubbyStarMeta.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 20
 
     onehot_input, y, _ = input_to_onehot('new_predictions')
 
@@ -152,7 +152,10 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 64
+            BATCH_SIZE_DEFAULT = 32
+
+            if iteration % 200000 == 0:
+                print("iteration " + str(iteration))
 
             model.train()
 
@@ -235,7 +238,7 @@ def train():
                 vag_loss = center_my_loss(pred, targets, vag_tensor)
                 vag_losses.append(vag_loss.item())
 
-                p = 1
+                p = 0.8
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -263,7 +266,7 @@ def train():
 
 
 def center_my_loss(output, target, train):
-    train = torch.narrow(train, 1, 25, 9)
+    train = torch.narrow(train, 1, 25, 4)
 
     # lower_bound = 0.1 - output
     # lower_bound = torch.ceil(lower_bound)

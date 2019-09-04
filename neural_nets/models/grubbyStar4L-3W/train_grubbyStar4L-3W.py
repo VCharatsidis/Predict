@@ -81,7 +81,7 @@ def train():
     filepath = 'grubbyStar4L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 20
 
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
 
@@ -204,7 +204,7 @@ def train():
                 vag_loss = center_my_loss(pred, targets)
                 vag_losses.append(vag_loss.item())
 
-                p = 1
+                p = 0.95
                 if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
                     torch.save(model, model_to_train)

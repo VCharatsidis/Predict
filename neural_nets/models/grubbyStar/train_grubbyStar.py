@@ -196,7 +196,7 @@ def train():
                 train_loss = center_my_loss(pred, targets)
                 losses.append(train_loss.item())
 
-                p = 1
+                p = 0.85
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)

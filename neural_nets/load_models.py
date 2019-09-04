@@ -121,23 +121,23 @@ def load_models(onehot_encoded):
     # print("prediction", pred)
     # print("x.shape", x.shape)
     # print("pred.shape", pred.shape)
-    third_tensor = torch.cat((x, pred), 1)
-    third_tensor = torch.cat((third_tensor, pred2), 1)
-    third_tensor = torch.cat((third_tensor, pred3L3W), 1)
+    third_tensor = torch.cat((x, pred2), 1)
     third_tensor = torch.cat((third_tensor, pred4L3W), 1)
-    third_tensor = torch.cat((third_tensor, pred4L4W), 1)
+    # third_tensor = torch.cat((third_tensor, pred3L3W), 1)
+    # third_tensor = torch.cat((third_tensor, pred4L3W), 1)
+    # third_tensor = torch.cat((third_tensor, pred4L4W), 1)
 
     third_tensor = torch.cat((third_tensor, predCross), 1)
-    third_tensor = torch.cat((third_tensor, predCross2), 1)
+    # third_tensor = torch.cat((third_tensor, predCross2), 1)
     third_tensor = torch.cat((third_tensor, predCross3), 1)
-    third_tensor = torch.cat((third_tensor, predCross4), 1)
+    # third_tensor = torch.cat((third_tensor, predCross4), 1)
 
     metaStar = torch.load(metamodel)
     metaStar.eval()
     pred_meta = metaStar.forward(third_tensor)
     coeffs = pred_meta.detach().numpy()
 
-    third_tensor = torch.narrow(third_tensor, 1, 25, 9)
+    third_tensor = torch.narrow(third_tensor, 1, 25, 4)
 
     result = torch.mul(third_tensor, pred_meta)
     result = torch.sum(result, dim=1)
@@ -147,7 +147,7 @@ def load_models(onehot_encoded):
 
 
 
-    sigma_tensor = torch.cat((x, pred), 1)
+    sigma_tensor = torch.cat((x, pred2), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred2), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred3L3W), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred4L3W), 1)

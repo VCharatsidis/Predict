@@ -68,15 +68,15 @@ def get_predictions(data_file):
         # processed_X.append(X[8])
         # processed_X.append(X[9])
 
-        processed_X.append(X[21])
+        #processed_X.append(X[21])
         processed_X.append(X[22])
-        processed_X.append(X[23])
+        # processed_X.append(X[23])
         processed_X.append(X[24])
-        processed_X.append(X[25])
+        # processed_X.append(X[25])
 
         processed_X.append(X[27])
-        processed_X.append(X[28])
-        processed_X.append(X[29])
+        #processed_X.append(X[28])
+        #processed_X.append(X[29])
         processed_X.append(X[30])
 
         processed_X = np.array(processed_X)

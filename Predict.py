@@ -159,8 +159,8 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # --------------------------------------------- Input -----------------------------------------------------------
 
 
-xin = [2, 1, 0, 78, 270, 4, "Fs"]
-my_prediction = 86
+xin = [0, 1, 1, 88, 120, 2, "Mk"]
+my_prediction = 33
 Vagelis = 0
 result = 1
 
@@ -246,7 +246,7 @@ logistic_input = copy.deepcopy(onehot_input)
 
 neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, neural_pred4L4W,\
 neural_predCross, neural_predCross2, neural_predCross3,\
-neural_predCross4, _, _, _ = load_models(onehot_encoded)
+neural_predCross4, metapred, _, _ = load_models(onehot_encoded)
 
 
 ############################################################## one hot rf ###############################
@@ -368,6 +368,8 @@ log =(s + "-" + str(pred1)
       + "-" + str((int(round(neural_predCross2[0][0] * 100)))) + "%"
       + "-" + str((int(round(neural_predCross3[0][0] * 100)))) + "%"
       + "-" + str((int(round(neural_predCross4[0][0] * 100)))) + "%"
+      +"-0%"
+      + "-" + str(int(round(metapred[0]*100))) + "%"
       +"\n")
 
 print(log)
@@ -385,6 +387,7 @@ print("strong logistic CV: " + str(strong_logistic_CV) + "%")
 print("normal logistic: " + str(logistic_pred)+"%")
 print("one hot rf: " + str(pred3) + "%")
 print("")
+print("metapred: " + str(int(round(metapred[0]*100))) + "%")
 print("merged: " + str(int(round(merged))) + "%")
 print("logistic_mu_CV: " + str(int(round(averaged))) + "%")
 print("neural Cross: " + str(int(round(neural_predCross[0][0]*100))) + "%")
