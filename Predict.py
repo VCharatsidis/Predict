@@ -157,10 +157,10 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # refuge = 4         ancient = 9
 
 # --------------------------------------------- Input -----------------------------------------------------------
+LAST_VOD_RECORDED = "10 Sep"
 
-
-xin = [0, 1, 1, 88, 120, 2, "Mk"]
-my_prediction = 33
+xin = [1, 1, 2, 79, 19, 0, "Dh"]
+my_prediction = 83
 Vagelis = 0
 result = 1
 
@@ -330,9 +330,6 @@ else:
 # one hot rf in predictTool
 merged = m2 * 0.4 + neural_predCross[0][0] * 100 * 0.6
 
-
-if merged < 0.5:
-    result = 0
 
 # logistic mu CV in predicTool
 averaged = neural_pred[0][0] * 100 * 0.6 + neural_predCross4[0][0] * 99 * 0.4
