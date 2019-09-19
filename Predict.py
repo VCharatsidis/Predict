@@ -157,10 +157,10 @@ importances1 = ['%.2f'%(float(a)) for a in importances1]
 # refuge = 4         ancient = 9
 
 # --------------------------------------------- Input -----------------------------------------------------------
-LAST_VOD_RECORDED = "10 Sep"
+LAST_VOD_RECORDED = "16 Sep Mundead"
 
-xin = [1, 1, 2, 79, 19, 0, "Dh"]
-my_prediction = 83
+xin = [4, 1, 4, 69, 370, 7, "Dl"]
+my_prediction = 33
 Vagelis = 0
 result = 1
 
