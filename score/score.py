@@ -2,7 +2,7 @@ from operator import add
 import numpy as np
 from matplotlib import pyplot as plt
 import os
-import statistics
+
 from validations_ids import get_validation_ids
 
 def excluded(i, excluded):
@@ -13,7 +13,7 @@ def excluded(i, excluded):
 
 points = []
 points.append(0)
-def calc_scores(vagelis, egw, counter, preds, participations, pred_number, excluded_list=[], cap=97):
+def calc_scores(preds, participations, excluded_list=[], cap=97):
     z = preds.split("-")
     predictions = []
 
@@ -24,9 +24,8 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
             predictions.append(int(s))
 
-
-    predictions[9] = vagelis
-    predictions[10] = egw
+    # predictions[9] = vagelis
+    # predictions[10] = egw
 
     # if predictions[23] > 66:
     #     predictions[0] = predictions[23]
@@ -51,7 +50,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
     s = n_predictions * [0]
 
-    for i in range(0, len(predictions)-1):
+    for i in range(0, len(predictions)):
 
         if predictions[i] == 0:
             continue
@@ -63,7 +62,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
             predictions[i] = cap
 
         opponent = i+1
-        for j in range(opponent, len(predictions)-1):
+        for j in range(opponent, len(predictions)):
 
             if excluded(j, excluded_list):
                 continue
@@ -79,7 +78,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
 
             participations[i] += 1
             participations[j] += 1
-            val = 0
+
             if result == 1:
                 if predictions[i] > predictions[j]:
                     if predictions[i] > 50:
@@ -127,7 +126,7 @@ def calc_scores(vagelis, egw, counter, preds, participations, pred_number, exclu
                         s[i] += value
                         s[j] -= value
 
-            if i == graph_a and j==graph_b:
+            if i == graph_a and j == graph_b:
                 points.append(points[-1] + val)
 
     if sum(s) > 0.00001:
@@ -143,18 +142,7 @@ model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
 
-filepath2 = '../logs/automagic.txt'
-model_to_train2 = os.path.join(script_directory, filepath2)
-f2 = open(filepath2, "r")
-contents2 = f2.readlines()
-
-old_preds = []
-for i in contents2:
-    z = i.split("-")
-    old_preds.append(i)
-
 n_predictions = 27
-participations = n_predictions * [0]
 
 counter = 0
 cap = 95
@@ -165,9 +153,10 @@ print("cap "+str(cap))
 participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong logistic CV", 4: "logistic mu CV",
                 5: "logistic matchup",
                 6: "normal logistic", 7: "strong logistic", 8: "transformed winrates rf", 9: "Vagelis", 10: "Egw",
+                11: "nothing",
                 12: "merged cros4 pred1", 13: "average", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
-                22: "neural C 3", 23: "neural C 4", 25: "metamodel", 26:"sigmamodel"}
+                22: "neural C 3", 23: "neural C 4", 24: "nothing", 25: "metamodel", 26: "sigmamodel"}
 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
@@ -210,38 +199,15 @@ def calc_scores_vs_opponent(opponent, cap=95):
         counter = 0
         for i in contents:
             if counter in val_ids:
-                humans = old_preds[counter].split("-")
-
-                my_spot = 17
-                vag_spot = 16
-                if counter > NO_HERO:
-                    my_spot += 1
-                    vag_spot += 1
-
-                if len(humans) < 18:
-                    vagelis = 0
-                    egw = 0
-                else:
-                    humans[vag_spot] = humans[vag_spot].replace('%', '')
-                    humans[my_spot] = humans[my_spot].replace('%', '')
-                    if '\n' in humans[my_spot]:
-                        humans[my_spot] = humans[my_spot].replace('\n', '')
-
-                    vagelis = int(humans[vag_spot])
-
-                    if humans[my_spot] =='':
-                        egw = 0
-                    else:
-                        egw = int(humans[my_spot])
-
-                # vagelis = 0
-                # egw = 0
-                s = calc_scores(vagelis, egw, counter, i, participations, counter, excluded)
+                s = calc_scores(i, participations, excluded)
                 s = np.array(s)
 
                 total_scores = s + total_scores
 
             counter += 1
+
+        if participant == 11:
+            continue
 
         if participations[participant] == 0:
             continue
@@ -258,50 +224,18 @@ scores_vs_opp = calc_scores_vs_opponent(opp, 97)
 
 total_scores = n_predictions * [0]
 total_scores = np.array(total_scores)
-counter = 0
-participations = n_predictions * [0]
+
+# participations = n_predictions * [0]
 
 exc = []
 points = []
 points.append(0)
 NO_HERO = 924
 
+participations = n_predictions * [0]
 for i in contents:
     if counter in val_ids:
-        humans = old_preds[counter].split("-")
-
-        my_spot = 17
-        vag_spot = 16
-        if counter > NO_HERO:
-            my_spot += 1
-            vag_spot += 1
-
-        if len(humans) < 18:
-            vagelis = 0
-            egw = 0
-        else:
-
-            humans[vag_spot] = humans[vag_spot].replace('%', '')
-            humans[my_spot] = humans[my_spot].replace('%', '')
-            if '\n' in humans[my_spot]:
-                humans[my_spot] = humans[my_spot].replace('\n', '')
-
-            vagelis = int(humans[vag_spot])
-            if humans[my_spot] == '':
-                egw = 0
-            else:
-                egw = int(humans[my_spot])
-
-        # if counter % 100 == 0:
-        #     print("vagelis " + str(vagelis))
-        #     print("egw " + str(egw))
-        #     print(counter)
-        #     print(humans)
-        #     print(i)
-
-        # vagelis = 0
-        # egw = 0
-        s = calc_scores(vagelis, egw, counter, i, participations, counter, exc)
+        s = calc_scores(i, participations, exc)
         s = np.array(s)
 
         total_scores = s + total_scores
@@ -311,7 +245,7 @@ for i in contents:
 print(points)
 plt.plot(points)
 plt.title(participants[graph_a]+" vs " + participants[graph_b])
-plt.ylabel('winnings '+ participants[graph_a])
+plt.ylabel('winnings ' + participants[graph_a])
 plt.xlabel('bets')
 plt.show()
 print("participations")

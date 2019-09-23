@@ -1256,3 +1256,11 @@
 1-Ud-t-Ud-70-43-twisted-Dl
 1-Ud-t-Ud-84-680-twisted-Dl
 1-Ud-t-Ud-69-370-turtle-Dl
+1-Hum-t-Ne-67-950-terenas-Am
+0-Hum-t-Ne-85-120-concealed-Am
+1-Hum-t-Orc-60-440-refuge-Am
+1-Hum-t-Hum-82-650-terenas-Am
+1-Hum-r-Orc-75-68-amazonia-Pala
+1-Hum-t-Ne-76-556-refuge-Am
+1-Hum-t-Hum-63-670-northren-Am
+1-Hum-t-Ra-88-16-refuge-Mk
