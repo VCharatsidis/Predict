@@ -13,7 +13,7 @@ def excluded(i, excluded):
 
 points = []
 points.append(0)
-def calc_scores(preds, participations, excluded_list=[], cap=97):
+def calc_scores(vagelis, egw, preds, participations, excluded_list=[], cap=97):
     z = preds.split("-")
     predictions = []
 
@@ -24,8 +24,8 @@ def calc_scores(preds, participations, excluded_list=[], cap=97):
 
             predictions.append(int(s))
 
-    # predictions[9] = vagelis
-    # predictions[10] = egw
+    predictions[9] = vagelis
+    predictions[10] = egw
 
     # if predictions[23] > 66:
     #     predictions[0] = predictions[23]
@@ -142,6 +142,17 @@ model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
 
+
+filepath2 = '../logs/automagic.txt'
+model_to_train2 = os.path.join(script_directory, filepath2)
+f2 = open(filepath2, "r")
+contents2 = f2.readlines()
+old_preds = []
+for i in contents2:
+    z = i.split("-")
+    old_preds.append(i)
+
+
 n_predictions = 27
 
 counter = 0
@@ -199,7 +210,19 @@ def calc_scores_vs_opponent(opponent, cap=95):
         counter = 0
         for i in contents:
             if counter in val_ids:
-                s = calc_scores(i, participations, excluded)
+                humans = old_preds[counter].split("-")
+
+                human_preds = []
+                for p in humans:
+                    if '%' in p:
+                        p = p.replace('%', '')
+                        p = p.replace('\n', '')
+                        human_preds.append(p)
+
+                vagelis = int(human_preds[9])
+                egw = int(human_preds[10])
+
+                s = calc_scores(vagelis, egw, i, participations, excluded)
                 s = np.array(s)
 
                 total_scores = s + total_scores
@@ -235,7 +258,19 @@ NO_HERO = 924
 participations = n_predictions * [0]
 for i in contents:
     if counter in val_ids:
-        s = calc_scores(i, participations, exc)
+        humans = old_preds[counter].split("-")
+
+        human_preds = []
+        for p in humans:
+            if '%' in p:
+                p = p.replace('%', '')
+                p = p.replace('\n', '')
+                human_preds.append(p)
+
+        vagelis = int(human_preds[9])
+        egw = int(human_preds[10])
+
+        s = calc_scores(vagelis, egw, i, participations)
         s = np.array(s)
 
         total_scores = s + total_scores
