@@ -178,12 +178,12 @@ NO_HERO = 924
 LAST_TRAINED = 1009
 
 
-LIMIT = 800
+LIMIT = 1
 UPPER_LIMIT = 3000
 
 opp = 10
 graph_a = 10
-graph_b = 18
+graph_b = 14
 
 val_ids = get_validation_ids()
 val_ids = val_ids[-200:]

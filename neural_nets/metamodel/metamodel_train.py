@@ -22,7 +22,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 5000000
+MAX_STEPS_DEFAULT = 8000000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
 
@@ -87,7 +87,7 @@ def train():
     filepath = 'grubbyStarMeta.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 20
+    validation_games = 70
 
     onehot_input, y, _ = input_to_onehot('new_predictions')
 
@@ -238,7 +238,7 @@ def train():
                 vag_loss = center_my_loss(pred, targets, vag_tensor)
                 vag_losses.append(vag_loss.item())
 
-                p = 0.8
+                p = 0.9
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)

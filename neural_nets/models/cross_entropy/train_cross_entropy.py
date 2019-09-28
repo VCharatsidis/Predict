@@ -77,11 +77,11 @@ def train():
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
     LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 400000
+    MAX_STEPS_DEFAULT = 500000
 
-    model = CrossNet4(onehot_input.shape[1])
+    model = CrossNet2(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCrossEntropy.model'
+    filepath = 'grubbyStarCE2.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -98,7 +98,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
-    validation_games = 20
+    validation_games = 70
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -120,7 +120,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 10
+            BATCH_SIZE_DEFAULT = 12
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)
@@ -162,7 +162,7 @@ def train():
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95 * targets)
 
                 accuracies.append(acc)
 

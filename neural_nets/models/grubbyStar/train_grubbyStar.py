@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 70
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
