@@ -35,9 +35,9 @@ class CrossNet3(nn.Module):
 
         super(CrossNet3, self).__init__()
 
-        width = 3
-        width_2 = 5
-        width_3 = 3
+        width = 4
+        width_2 = 3
+        width_3 = 2
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -65,7 +65,6 @@ class CrossNet3(nn.Module):
 
         )
 
-
     def forward(self, x):
         """
         Performs forward pass of the input. Here an input tensor x is transformed through
@@ -76,21 +75,11 @@ class CrossNet3(nn.Module):
         Returns:
           out: outputs of the network
 
-        TODO:
-        Implement forward pass of the network.
         """
-
-        ########################
-        # PUT YOUR CODE HERE  #
-        #######################
-
         # out = x
         # for layer in self.layers:
         #     out = layer.forward(out)
 
         out = self.layers(x)
-        ########################
-        # END OF YOUR CODE    #
-        #######################
 
         return out

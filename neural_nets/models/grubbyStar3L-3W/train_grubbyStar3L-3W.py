@@ -80,34 +80,7 @@ def train():
     filepath = 'grubbyStar3L-3W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 70
-
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
-
-    val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
-    train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
-
-    X_train = onehot_input[train_ids, :]
-    y_train = y[train_ids]
-
-    # X_train = onehot_input[0: -validation_games, :]
-    # y_train = y[0: -validation_games]
-
-    print("X train")
-
-    print(X_train.shape)
-    print(y_train.shape)
-
-    X_test = onehot_input[val_ids, :]
-    y_test = y[val_ids]
-
-    # X_test = onehot_input[-validation_games:, :]
-    # y_test = y[-validation_games:]
-
-    print("X test")
-
-    print(X_test.shape)
-    print(y_test.shape)
 
     print(onehot_input.shape)
     print(onehot_input.shape[1])
@@ -127,16 +100,19 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
+    validation_games = 50
     vag_ids = vag_games[-200:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
     vag_real = real_y[vag_ids]
 
     for epoch in range(1):
-
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = [i for i in range(onehot_input.shape[0] - validation_games, onehot_input.shape[0])]
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
+        val_ids = np.array(val_ids)
+        print(len(val_ids), "val ids")
+        print(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 

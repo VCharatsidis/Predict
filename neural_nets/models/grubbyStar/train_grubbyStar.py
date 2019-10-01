@@ -20,7 +20,7 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-3
+LEARNING_RATE_DEFAULT = 3e-3
 MAX_STEPS_DEFAULT = 600000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
@@ -100,9 +100,12 @@ def train():
     vag_ids = vag_games[-200:]
 
     for epoch in range(1):
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = [i for i in range(onehot_input.shape[0] - validation_games, onehot_input.shape[0])]
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
+        val_ids = np.array(val_ids)
+        print(len(val_ids), "val ids")
+        print(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 

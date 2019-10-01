@@ -72,21 +72,12 @@ class CrossNet4(nn.Module):
         Returns:
           out: outputs of the network
 
-        TODO:
-        Implement forward pass of the network.
         """
-
-        ########################
-        # PUT YOUR CODE HERE  #
-        #######################
 
         # out = x
         # for layer in self.layers:
         #     out = layer.forward(out)
 
         out = self.layers(x)
-        ########################
-        # END OF YOUR CODE    #
-        #######################
 
         return out

@@ -76,12 +76,12 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 1e-3
-    MAX_STEPS_DEFAULT = 500000
+    LEARNING_RATE_DEFAULT = 3e-3
+    MAX_STEPS_DEFAULT = 700000
 
-    model = CrossNet2(onehot_input.shape[1])
+    model = CrossNet3(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE2.model'
+    filepath = 'grubbyStarCE3.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -98,15 +98,17 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
-    validation_games = 70
+    validation_games = 50
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
     for epoch in range(1):
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = [i for i in range(onehot_input.shape[0]-validation_games, onehot_input.shape[0])]
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
         val_ids = np.array(val_ids)
+        print(len(val_ids), "val ids")
+        print(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
@@ -120,7 +122,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 12
+            BATCH_SIZE_DEFAULT = 6
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)
@@ -206,7 +208,7 @@ def train():
                 vag_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
                 vag_losses.append(vag_loss.item())
 
-                p = 0.9
+                p = 1
                 if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
                     torch.save(model, model_to_train)

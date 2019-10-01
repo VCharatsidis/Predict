@@ -137,7 +137,7 @@ def calc_scores(vagelis, egw, preds, participations, excluded_list=[], cap=97):
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/automagic.txt'
+filepath = '../logs/new_predictions.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
@@ -185,10 +185,18 @@ opp = 10
 graph_a = 10
 graph_b = 14
 
-val_ids = get_validation_ids()
-val_ids = val_ids[-200:]
+vag_ids = get_validation_ids()
+vag_ids = vag_ids[-200:]
+validation_games = 50
+
+val_ids = [i for i in range(len(contents) - validation_games, len(contents))]
+val_ids = np.append(val_ids, vag_ids)
+val_ids = np.unique(val_ids)
+val_ids = np.array(val_ids)
+print(len(val_ids), "val ids")
 print(val_ids)
-val_ids = list(range(LIMIT, UPPER_LIMIT))
+
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

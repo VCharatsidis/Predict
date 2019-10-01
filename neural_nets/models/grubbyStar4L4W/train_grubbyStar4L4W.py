@@ -80,7 +80,7 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 20
+    validation_games = 50
 
     onehot_input, y, _ = input_to_onehot('gaussianPredictions')
 
@@ -130,9 +130,12 @@ def train():
     vag_targets = y[vag_ids]
 
     for epoch in range(1):
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = [i for i in range(onehot_input.shape[0] - validation_games, onehot_input.shape[0])]
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
+        val_ids = np.array(val_ids)
+        print(len(val_ids), "val ids")
+        print(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 

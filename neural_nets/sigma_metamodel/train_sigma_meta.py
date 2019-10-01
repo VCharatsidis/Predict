@@ -21,7 +21,7 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 1e-3
+LEARNING_RATE_DEFAULT = 3e-3
 MAX_STEPS_DEFAULT = 3000000
 BATCH_SIZE_DEFAULT = 8
 EVAL_FREQ_DEFAULT = 1
@@ -90,7 +90,7 @@ def train():
     filepath = 'grubbyStarSigma.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 0
+    validation_games = 50
 
     onehot_input, y,_ = input_to_onehot('new_predictions')
 
@@ -140,9 +140,12 @@ def train():
     vag_targets = y[vag_ids]
 
     for epoch in range(1):
-        val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
+        val_ids = [i for i in range(onehot_input.shape[0] - validation_games, onehot_input.shape[0])]
         val_ids = np.append(val_ids, vag_ids)
         val_ids = np.unique(val_ids)
+        val_ids = np.array(val_ids)
+        print(len(val_ids), "val ids")
+        print(val_ids)
 
         train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
 
@@ -278,12 +281,12 @@ def center_my_loss(output, target, train):
     real = torch.round(target)
     #y = target * real + (1 - target) * (1 - real)
 
-    bonus = (target - result) * real + (result - target) * (1 - real)
-    bonus = torch.ceil(bonus)
+    # bonus = (target - result) * real + (result - target) * (1 - real)
+    # bonus = torch.ceil(bonus)
 
     log = torch.log(1 - torch.abs(result - target))
 
-    loss = torch.mean(-log * torch.abs(bonus))
+    loss = torch.mean(-log)
 
 
     return loss
