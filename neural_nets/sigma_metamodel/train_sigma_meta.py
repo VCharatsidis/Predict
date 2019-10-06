@@ -263,9 +263,6 @@ def train():
     plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
 
 
 def center_my_loss(output, target, train):
@@ -278,29 +275,11 @@ def center_my_loss(output, target, train):
 
     result = result.view(target.shape[0], 1)
 
-    real = torch.round(target)
-    #y = target * real + (1 - target) * (1 - real)
-
-    # bonus = (target - result) * real + (result - target) * (1 - real)
-    # bonus = torch.ceil(bonus)
-
     log = torch.log(1 - torch.abs(result - target))
 
     loss = torch.mean(-log)
 
-
     return loss
-
-
-# def center_my_loss(output, target):
-#     real = torch.round(target)
-#     pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-#     y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-#     #target_reduction = (0.95 * y - 0.01 * torch.exp(target)) * real + (1.01 * y) * (1-real)
-#     target_reduction = y
-#
-#     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
-#     return loss
 
 
 def print_flags():

@@ -178,16 +178,16 @@ NO_HERO = 924
 LAST_TRAINED = 1009
 
 
-LIMIT = 1
+LIMIT = 434
 UPPER_LIMIT = 3000
 
 opp = 10
-graph_a = 10
-graph_b = 14
+graph_a = 23
+graph_b = 25
 
 vag_ids = get_validation_ids()
 vag_ids = vag_ids[-200:]
-validation_games = 50
+validation_games = 107
 
 val_ids = [i for i in range(len(contents) - validation_games, len(contents))]
 val_ids = np.append(val_ids, vag_ids)
@@ -218,6 +218,7 @@ def calc_scores_vs_opponent(opponent, cap=95):
         counter = 0
         for i in contents:
             if counter in val_ids:
+
                 humans = old_preds[counter].split("-")
 
                 human_preds = []
@@ -266,6 +267,7 @@ NO_HERO = 924
 participations = n_predictions * [0]
 for i in contents:
     if counter in val_ids:
+
         humans = old_preds[counter].split("-")
 
         human_preds = []
