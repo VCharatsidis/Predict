@@ -100,7 +100,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
 
-    validation_games = 50
+    validation_games = 80
     vag_ids = vag_games[-200:]
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
@@ -217,7 +217,7 @@ def train():
 
                 vag_loss = center_my_loss(pred, targets)
 
-                p = 0.9
+                p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -238,9 +238,6 @@ def train():
     plt.plot(losses)
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
 
 
 def center_my_loss(output, target):

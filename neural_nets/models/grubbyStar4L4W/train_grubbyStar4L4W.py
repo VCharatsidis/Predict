@@ -80,7 +80,7 @@ def train():
     filepath = 'grubbyStar4L4W.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 50
+    validation_games = 80
 
     onehot_input, y, _ = input_to_onehot('gaussianPredictions')
 

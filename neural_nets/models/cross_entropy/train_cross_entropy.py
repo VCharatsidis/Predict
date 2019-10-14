@@ -98,7 +98,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
-    validation_games = 50
+    validation_games = 80
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -122,7 +122,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 6
+            BATCH_SIZE_DEFAULT = 8
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)
@@ -188,26 +188,6 @@ def train():
                 train_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
                 losses.append(train_loss.item())
 
-                ########## VAG #############
-
-                BATCH_SIZE_DEFAULT = len(vag_ids)
-                ids = np.array(range(BATCH_SIZE_DEFAULT))
-                x = vag_input
-                targets = vag_targets
-
-                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
-                x = Variable(torch.FloatTensor(x))
-
-                pred = model.forward(x)
-                vag_acc = accuracy(pred, targets)
-
-                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-                targets = Variable(torch.FloatTensor(targets))
-
-                vag_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
-                vag_losses.append(vag_loss.item())
-
                 p = 1
                 if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
@@ -215,7 +195,7 @@ def train():
 
                     print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(round(train_loss.item()*1000)/1000) + " val loss " + str(
-                        round(calc_loss.item() * 1000)/1000) + " vag acc: " + str(vag_acc) + " vag loss: " + str(round(vag_loss.item()*1000)/1000))
+                        round(calc_loss.item() * 1000)/1000))
 
 
     test_nn.test_all(model_to_train)

@@ -21,7 +21,7 @@ import os
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 3e-3
-MAX_STEPS_DEFAULT = 600000
+MAX_STEPS_DEFAULT = 2000000
 BATCH_SIZE_DEFAULT = 32
 EVAL_FREQ_DEFAULT = 1
 
@@ -79,7 +79,7 @@ def train():
     filepath = 'grubbyStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
-    validation_games = 70
+    validation_games = 80
 
     _, real_y, _ = cross_entropy_input_to_onehot()
     onehot_input, y, _ = input_to_onehot("gaussianPredictions")
@@ -199,7 +199,7 @@ def train():
                 train_loss = center_my_loss(pred, targets)
                 losses.append(train_loss.item())
 
-                p = 0.85
+                p = 1
                 if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
                     min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
                     torch.save(model, model_to_train)
@@ -220,9 +220,6 @@ def train():
     plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
 
 
 def center_my_loss(output, target):

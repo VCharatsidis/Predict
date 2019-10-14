@@ -187,7 +187,7 @@ graph_b = 25
 
 vag_ids = get_validation_ids()
 vag_ids = vag_ids[-200:]
-validation_games = 107
+validation_games = 80
 
 val_ids = [i for i in range(len(contents) - validation_games, len(contents))]
 val_ids = np.append(val_ids, vag_ids)

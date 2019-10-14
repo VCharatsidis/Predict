@@ -76,8 +76,8 @@ for line in automag:
     mean = np.mean(array_x, axis=0)
     std = np.std(array_x, axis=0)
 
-    neg_bonus = min(1.5 * std, 15)
-    pos_bonus = min(0.5 * std, 12)
+    neg_bonus = min(10 * std, 30)
+    pos_bonus = min(4 * std, 20)
 
     max_prediction = array_x[0]
     min_prediction = array_x[0]
