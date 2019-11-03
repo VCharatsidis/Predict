@@ -24,7 +24,7 @@ DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
 MAX_STEPS_DEFAULT = 800000
 BATCH_SIZE_DEFAULT = 32
-EVAL_FREQ_DEFAULT = 1
+EVAL_FREQ_DEFAULT = 20
 
 
 FLAGS = None
@@ -167,28 +167,27 @@ def train():
                 accuracies.append(acc)
                 losses.append(calc_loss.item())
 
-                ######### Train ##########
-
-                ids = np.array(range(len(X_train)))
-                x = X_train[ids, :]
-                targets = y_train[ids]
-
-                x = np.reshape(x, (len(X_train), -1))
-
-                x = Variable(torch.FloatTensor(x))
-
-                pred = model.forward(x)
-                train_acc = accuracy(pred, targets)
-
-                targets = np.reshape(targets, (len(X_train), -1))
-                targets = Variable(torch.FloatTensor(targets))
-
-                train_loss = loss_fn(pred, targets)
-
-                p = 1
-                if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
-                    min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
+                if min_loss > calc_loss.item():
+                    min_loss = calc_loss.item()
                     torch.save(model, model_to_train)
+
+                    ######### Train ##########
+
+                    ids = np.array(range(len(X_train)))
+                    x = X_train[ids, :]
+                    targets = y_train[ids]
+
+                    x = np.reshape(x, (len(X_train), -1))
+
+                    x = Variable(torch.FloatTensor(x))
+
+                    pred = model.forward(x)
+                    train_acc = accuracy(pred, targets)
+
+                    targets = np.reshape(targets, (len(X_train), -1))
+                    targets = Variable(torch.FloatTensor(targets))
+
+                    train_loss = loss_fn(pred, targets)
 
                     print("epoch: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
@@ -218,17 +217,17 @@ def train():
 #     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
 #     return loss
 
-def center_my_loss(output, target):
-    real = torch.round(target)
-    y = target * real + (1 - target) * (1 - real)
-
-    bonus = output - target
-    bonus = torch.abs(torch.ceil(bonus))
-
-    log = torch.log(1 - torch.abs(output - target))
-    loss = torch.mean(-log - bonus * y * log/5)
-
-    return loss
+# def center_my_loss(output, target):
+#     real = torch.round(target)
+#     y = target * real + (1 - target) * (1 - real)
+#
+#     bonus = output - target
+#     bonus = torch.abs(torch.ceil(bonus))
+#
+#     log = torch.log(1 - torch.abs(output - target))
+#     loss = torch.mean(-log - bonus * y * log/5)
+#
+#     return loss
 
 def print_flags():
     """

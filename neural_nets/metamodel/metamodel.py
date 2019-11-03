@@ -35,11 +35,23 @@ class MetaNet(nn.Module):
 
         super(MetaNet, self).__init__()
 
-        width = 10
-        width_2 = 5
+        width = 30
+        width_2 = 15
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
             nn.BatchNorm1d(width),
             nn.Tanh(),
 
@@ -59,37 +71,24 @@ class MetaNet(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
 
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
-            #
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
-            #
-            # nn.Linear(width_2, width_2),
-            # nn.BatchNorm1d(width_2),
-            # nn.Tanh(),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
 
-            # nn.Linear(width_2, width_2//2),
-            # nn.BatchNorm1d(width_2//2),
-            # nn.Tanh(),
-            #
-            # nn.Linear(width_2//2, width_2//2),
-            # nn.BatchNorm1d(width_2//2),
-            # nn.Tanh(),
-            #
-            # nn.Linear(width_2//2, width_2//2),
-            # nn.BatchNorm1d(width_2//2),
-            # nn.Tanh(),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
 
             nn.Linear(width_2, 4),
             nn.Softmax()
-
         )
 
 

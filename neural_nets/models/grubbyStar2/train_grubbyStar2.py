@@ -186,31 +186,30 @@ def train():
 
                 ###################
 
-                BATCH_SIZE_DEFAULT = len(X_train)
-                ids = np.array(range(BATCH_SIZE_DEFAULT))
-                x = X_train[ids, :]
-                targets = y_train[ids]
-                real_targets = y_train_real[ids]
-
-                x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
-
-                x = Variable(torch.FloatTensor(x))
-
-                pred = model.forward(x)
-                train_acc = accuracy(pred, real_targets)
-
-                targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
-                real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
-
-                targets = Variable(torch.FloatTensor(targets))
-                real_targets = Variable(torch.FloatTensor(real_targets))
-
-                train_loss = center_my_loss(pred, targets, real_targets)
-
-                p = 1
-                if min_loss > (p * calc_loss.item() + (1-p) * train_loss.item()):
-                    min_loss = (p * calc_loss.item() + (1-p) * train_loss.item())
+                if min_loss > calc_loss.item():
+                    min_loss = calc_loss.item()
                     torch.save(model, model_to_train)
+
+                    BATCH_SIZE_DEFAULT = len(X_train)
+                    ids = np.array(range(BATCH_SIZE_DEFAULT))
+                    x = X_train[ids, :]
+                    targets = y_train[ids]
+                    real_targets = y_train_real[ids]
+
+                    x = np.reshape(x, (BATCH_SIZE_DEFAULT, -1))
+
+                    x = Variable(torch.FloatTensor(x))
+
+                    pred = model.forward(x)
+                    train_acc = accuracy(pred, real_targets)
+
+                    targets = np.reshape(targets, (BATCH_SIZE_DEFAULT, -1))
+                    real_targets = np.reshape(real_targets, (BATCH_SIZE_DEFAULT, -1))
+
+                    targets = Variable(torch.FloatTensor(targets))
+                    real_targets = Variable(torch.FloatTensor(real_targets))
+
+                    train_loss = center_my_loss(pred, targets, real_targets)
 
                     print("iteration: " + str(iteration) +" train acc "+str(train_acc)+ " val acc " + str(acc)+" train loss " + str(train_loss.item())+ " val loss " + str(
                         calc_loss.item()))

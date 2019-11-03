@@ -35,8 +35,8 @@ class GStar2Net(nn.Module):
 
         super(GStar2Net, self).__init__()
 
-        width = 4
-        width_2 = 10
+        width = 5
+        width_2 = 50
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),

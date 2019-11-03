@@ -25,10 +25,10 @@ import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
-LEARNING_RATE_DEFAULT = 5e-5
+LEARNING_RATE_DEFAULT = 1e-3
 MAX_STEPS_DEFAULT = 300
 BATCH_SIZE_DEFAULT = 8
-EVAL_FREQ_DEFAULT = 1
+EVAL_FREQ_DEFAULT = 20
 
 
 FLAGS = None
@@ -98,7 +98,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
-    validation_games = 80
+    validation_games = 120
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -122,7 +122,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 8
+            BATCH_SIZE_DEFAULT = 4
             model.train()
             if iteration % 10000 == 0:
                 print(iteration)
@@ -171,27 +171,26 @@ def train():
 
                 ###################
 
-                ids = np.array(range(len(X_train)))
-                x = X_train[ids, :]
-                targets = y_train[ids]
-
-                x = np.reshape(x, (len(X_train), -1))
-
-                x = Variable(torch.FloatTensor(x))
-
-                pred = model.forward(x)
-                train_acc = accuracy(pred, targets)
-
-                targets = np.reshape(targets, (len(X_train), -1))
-                targets = Variable(torch.FloatTensor(targets))
-
-                train_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95*targets)
-                losses.append(train_loss.item())
-
-                p = 1
-                if min_loss > (p * calc_loss.item() + (1 - p) * train_loss.item()):
-                    min_loss = (p * calc_loss.item() + (1 - p) * train_loss.item())
+                if min_loss > calc_loss.item():
+                    min_loss = calc_loss.item()
                     torch.save(model, model_to_train)
+
+                    ids = np.array(range(len(X_train)))
+                    x = X_train[ids, :]
+                    targets = y_train[ids]
+
+                    x = np.reshape(x, (len(X_train), -1))
+
+                    x = Variable(torch.FloatTensor(x))
+
+                    pred = model.forward(x)
+                    train_acc = accuracy(pred, targets)
+
+                    targets = np.reshape(targets, (len(X_train), -1))
+                    targets = Variable(torch.FloatTensor(targets))
+
+                    train_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95 * targets)
+                    losses.append(train_loss.item())
 
                     print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(round(train_loss.item()*1000)/1000) + " val loss " + str(

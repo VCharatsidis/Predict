@@ -35,7 +35,7 @@ class GStar4L3WNet(nn.Module):
 
         super(GStar4L3WNet, self).__init__()
 
-        width = 4
+        width = 15
         width_2 = 10
         self.layers = nn.Sequential(
 
@@ -44,6 +44,14 @@ class GStar4L3WNet(nn.Module):
             nn.Tanh(),
 
             nn.Linear(width, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
+            nn.Tanh(),
+
+            nn.Linear(width_2, width_2),
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 

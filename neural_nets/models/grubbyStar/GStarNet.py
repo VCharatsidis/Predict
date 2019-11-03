@@ -36,7 +36,7 @@ class GStarNet(nn.Module):
         super(GStarNet, self).__init__()
 
         width = 4
-        width_2 = 12
+        width_2 = 8
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -67,7 +67,19 @@ class GStarNet(nn.Module):
             nn.BatchNorm1d(width_2//2),
             nn.Tanh(),
 
-            nn.Linear(width_2//2, 1),
+            nn.Linear(width_2 // 2, width_2 // 4),
+            nn.BatchNorm1d(width_2 // 4),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 4, width_2 // 4),
+            nn.BatchNorm1d(width_2 // 4),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 4, width_2 // 4),
+            nn.BatchNorm1d(width_2 // 4),
+            nn.Tanh(),
+
+            nn.Linear(width_2//4, 1),
             nn.Sigmoid()
         )
 
@@ -82,21 +94,12 @@ class GStarNet(nn.Module):
         Returns:
           out: outputs of the network
 
-        TODO:
-        Implement forward pass of the network.
         """
-
-        ########################
-        # PUT YOUR CODE HERE  #
-        #######################
 
         # out = x
         # for layer in self.layers:
         #     out = layer.forward(out)
 
         out = self.layers(x)
-        ########################
-        # END OF YOUR CODE    #
-        #######################
 
         return out

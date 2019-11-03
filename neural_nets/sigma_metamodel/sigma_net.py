@@ -43,6 +43,22 @@ class SigmaNet(nn.Module):
             nn.BatchNorm1d(width),
             nn.Tanh(),
 
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
+            nn.Linear(width, width),
+            nn.BatchNorm1d(width),
+            nn.Tanh(),
+
             nn.Linear(width, width_2),
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
