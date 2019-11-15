@@ -15,22 +15,22 @@ import matplotlib.pyplot as plt
 
 from neural_nets import test_nn
 from prepare_input import input_to_onehot
-from metamodel import MetaNet
+from EnhancedNet import EnhancedNet
 from validations_ids import get_validation_ids
 import os
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '2'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 8000000
+MAX_STEPS_DEFAULT = 4000000
 BATCH_SIZE_DEFAULT = 8
-EVAL_FREQ_DEFAULT = 100
+EVAL_FREQ_DEFAULT = 5
 
 
 FLAGS = None
 
 
-def accuracy(predictions, targets, x):
+def accuracy(predictions, targets):
     """
     Computes the prediction accuracy, i.e. the average of correct predictions
     of the network.
@@ -48,20 +48,13 @@ def accuracy(predictions, targets, x):
     Implement accuracy computation.
     """
 
-    x = torch.narrow(x, 1, 25, 4)
-    result = torch.mul(x, predictions)
-    result = torch.sum(result, dim=1)
+    predictions = predictions.detach().numpy()
+    predictions = predictions.flatten()
+    preds = np.round(predictions)
 
-   # result = result.view(BATCH_SIZE_DEFAULT, 1)
+    result = preds == targets
 
-    result = result.detach().numpy()
-
-    preds = np.round(result)
-    targets = np.round(targets)
-
-    res = preds == targets
-
-    sum = np.sum(res)
+    sum = np.sum(result)
 
     accuracy = sum / float(targets.shape[0])
 
@@ -84,12 +77,12 @@ def train():
         device = torch.device('cpu')
 
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarMeta.model'
+    filepath = 'enhancedStar.model'
     model_to_train = os.path.join(script_directory, filepath)  # EXCEPT CROSS ENTROPY!
 
     validation_games = 100
 
-    onehot_input, y, _ = input_to_onehot('new_predictions', True)
+    onehot_input, y, _ = input_to_onehot('new_predictions', False)
 
     val_ids = np.random.choice(onehot_input.shape[0], size=validation_games, replace=False)
     train_ids = [i for i in range(onehot_input.shape[0]) if i not in val_ids]
@@ -119,7 +112,7 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    model = MetaNet(onehot_input.shape[1])
+    model = EnhancedNet(onehot_input.shape[1])
     print(model)
 
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
@@ -155,7 +148,7 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 64
+            BATCH_SIZE_DEFAULT = 5
 
             if iteration % 200000 == 0:
                 print("iteration " + str(iteration))
@@ -174,7 +167,8 @@ def train():
 
             y_train_batch = np.reshape(y_train_batch, (BATCH_SIZE_DEFAULT, -1))
             y_train_batch = Variable(torch.FloatTensor(y_train_batch))
-            loss = center_my_loss(output, y_train_batch, X_train_batch)
+
+            loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
             model.zero_grad()
             loss.backward(retain_graph=True)
@@ -192,11 +186,11 @@ def train():
 
                 pred = model.forward(x)
 
-                acc = accuracy(pred, targets, x)
+                acc = accuracy(pred, targets)
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = center_my_loss(pred, targets, x)
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
                 accuracies.append(acc)
                 losses.append(calc_loss.item())
@@ -216,13 +210,13 @@ def train():
                     x = Variable(torch.FloatTensor(x))
 
                     pred = model.forward(x)
-                    train_acc = accuracy(pred, targets, x)
+                    train_acc = accuracy(pred, targets)
 
                     targets = np.reshape(targets, (len(X_train), -1))
 
                     targets = Variable(torch.FloatTensor(targets))
 
-                    train_loss = center_my_loss(pred, targets, x)
+                    train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
                     print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(
                         acc) + " train loss " + str(train_loss.item()) + " val loss " + str(
@@ -241,54 +235,6 @@ def train():
     plt.plot(losses, 'b')
     plt.ylabel('losses')
     plt.show()
-    ########################
-    # END OF YOUR CODE    #
-    #######################
-
-
-def center_my_loss(output, target, train):
-    train = torch.narrow(train, 1, 25, 4)
-
-    # lower_bound = 0.1 - output
-    # lower_bound = torch.ceil(lower_bound)
-    # lower_bound = torch.sum(lower_bound, dim=1)/500
-    #
-    # upper_bound = output - 0.8
-    # upper_bound = torch.ceil(upper_bound)
-    # upper_bound = torch.sum(upper_bound, dim=1)/500
-
-    result = torch.mul(train, output)
-    result = torch.sum(result, dim=1)
-    result = result.view(target.shape[0], 1)
-
-    # print("output", output)
-    # print("train", train)
-    # print("result", result)
-    # input()
-
-    #real = torch.round(target)
-    #y = target * real + (1 - target) * (1 - real)
-
-    log = torch.log(1 - torch.abs(result - target))
-    loss = torch.mean(-log)
-    # print(result)
-    # print("target", target)
-    # print(-log)
-    # print(upper_bound)
-    # print(lower_bound)
-    # input()
-    return loss
-
-
-# def center_my_loss(output, target):
-#     real = torch.round(target)
-#     pred = (output - 0.5) * real + (0.5 - output) * (1 - real)
-#     y = (target - 0.5) * real + (0.5 - target) * (1 - real)
-#     #target_reduction = (0.95 * y - 0.01 * torch.exp(target)) * real + (1.01 * y) * (1-real)
-#     target_reduction = y
-#
-#     loss = torch.mean(-(torch.log(1 - torch.abs(pred - target_reduction))))
-#     return loss
 
 
 def print_flags():

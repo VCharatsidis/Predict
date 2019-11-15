@@ -15,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/GMMs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/neural_nets/metamodel" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/neural_nets/sigma_metamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/neural_nets/models/enhanced_features" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6" jdkType="Python SDK" />

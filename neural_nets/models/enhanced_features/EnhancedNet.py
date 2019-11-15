@@ -8,7 +8,7 @@ from __future__ import print_function
 import torch.nn as nn
 
 
-class CrossNet2(nn.Module):
+class EnhancedNet(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
     It handles the different layers and parameters of the model.
@@ -33,11 +33,10 @@ class CrossNet2(nn.Module):
         Implement initialization of the network.
         """
 
-        super(CrossNet2, self).__init__()
+        super(EnhancedNet, self).__init__()
 
-        width = 4
-        width_2 = 5
-        width_3 = 4
+        width = 10
+        width_2 = 20
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
@@ -48,21 +47,32 @@ class CrossNet2(nn.Module):
             nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_2, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2, width_2),
+            nn.BatchNorm1d(width_2),
             nn.Tanh(),
 
-            nn.Linear(width_3, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 
-            nn.Linear(width_3, width_3),
-            nn.BatchNorm1d(width_3),
+            nn.Linear(width_2//2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
             nn.Tanh(),
 
-            nn.Linear(width_3, 1),
+            nn.Linear(width_2//2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 2, width_2 // 2),
+            nn.BatchNorm1d(width_2 // 2),
+            nn.Tanh(),
+
+            nn.Linear(width_2 // 2, 1),
             nn.Sigmoid()
-
         )
 
 
@@ -75,22 +85,12 @@ class CrossNet2(nn.Module):
           x: input to the network
         Returns:
           out: outputs of the network
-
-        TODO:
-        Implement forward pass of the network.
         """
-
-        ########################
-        # PUT YOUR CODE HERE  #
-        #######################
 
         # out = x
         # for layer in self.layers:
         #     out = layer.forward(out)
 
         out = self.layers(x)
-        ########################
-        # END OF YOUR CODE    #
-        #######################
 
         return out

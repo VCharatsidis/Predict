@@ -53,6 +53,7 @@ def load_models(onehot_encoded):
 
     metamodel = os.path.join(script_directory, "metamodel/" + 'grubbyStarMeta.model')
     sigmamodel = os.path.join(script_directory, "sigma_metamodel/" + 'grubbyStarSigma.model')
+    enhanced = os.path.join(script_directory, filepath + "enhanced_features/" + 'enhancedStar.model')
 
     onehot_neural = copy.deepcopy(onehot_encoded)
     _, _, X_train = input_to_onehot('automagic')
@@ -144,10 +145,7 @@ def load_models(onehot_encoded):
     neural_meta = result.detach().numpy()
 
 
-
-
-
-    sigma_tensor = torch.cat((x, pred2), 1)
+    sigma_tensor = torch.cat((x, pred), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred2), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred3L3W), 1)
     sigma_tensor = torch.cat((sigma_tensor, pred4L3W), 1)
@@ -171,5 +169,11 @@ def load_models(onehot_encoded):
 
     result_sigma = result_sigma.detach().numpy()
 
+
+    enhancedStar = torch.load(enhanced)
+    enhancedStar.eval()
+    pred_enha = enhancedStar.forward(sigma_tensor)
+    pred_enha = pred_enha.detach().numpy()
+
     return neural_pred, neural_pred2, neural_pred3L3W, neural_pred4L3W, \
-           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta, coeffs[0] , result_sigma[0]
+           neural_pred4L4W, neural_predCross, neural_predCross2, neural_predCross3, neural_predCross4, neural_meta, coeffs[0], result_sigma[0], pred_enha

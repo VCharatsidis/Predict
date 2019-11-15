@@ -76,12 +76,12 @@ def train():
 
     onehot_input, y, _ = cross_entropy_input_to_onehot()
 
-    LEARNING_RATE_DEFAULT = 3e-3
-    MAX_STEPS_DEFAULT = 700000
+    LEARNING_RATE_DEFAULT = 1e-3
+    MAX_STEPS_DEFAULT = 4000000
 
-    model = CrossNet3(onehot_input.shape[1])
+    model = CrossNet4(onehot_input.shape[1])
     script_directory = os.path.split(os.path.abspath(__file__))[0]
-    filepath = 'grubbyStarCE3.model'
+    filepath = 'grubbyStarCE4.model'
     model_to_train = os.path.join(script_directory, filepath)
 
     print(model)
@@ -98,7 +98,7 @@ def train():
     vag_games = get_validation_ids()
     vag_games = np.array(vag_games)
     vag_ids = vag_games[-200:]
-    validation_games = 120
+    validation_games = 100
     vag_input = onehot_input[vag_ids, :]
     vag_targets = y[vag_ids]
 
@@ -122,9 +122,9 @@ def train():
         print("epoch " + str(epoch))
 
         for iteration in range(MAX_STEPS_DEFAULT):
-            BATCH_SIZE_DEFAULT = 4
+            BATCH_SIZE_DEFAULT = 5
             model.train()
-            if iteration % 10000 == 0:
+            if iteration % 100000 == 0:
                 print(iteration)
 
             ids = np.random.choice(X_train.shape[0], size=BATCH_SIZE_DEFAULT, replace=False)
@@ -164,7 +164,7 @@ def train():
                 targets = np.reshape(targets, (len(X_test), -1))
                 targets = Variable(torch.FloatTensor(targets))
 
-                calc_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95 * targets)
+                calc_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
 
                 accuracies.append(acc)
 
@@ -189,7 +189,7 @@ def train():
                     targets = np.reshape(targets, (len(X_train), -1))
                     targets = Variable(torch.FloatTensor(targets))
 
-                    train_loss = torch.nn.functional.binary_cross_entropy(pred, 0.95 * targets)
+                    train_loss = torch.nn.functional.binary_cross_entropy(pred, targets)
                     losses.append(train_loss.item())
 
                     print("iteration: " + str(iteration) + " train acc " + str(train_acc) + " val acc " + str(

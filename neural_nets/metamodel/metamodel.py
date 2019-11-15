@@ -88,7 +88,7 @@ class MetaNet(nn.Module):
             nn.Tanh(),
 
             nn.Linear(width_2, 4),
-            nn.Softmax()
+            nn.Sigmoid()
         )
 
 

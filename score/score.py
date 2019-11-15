@@ -137,7 +137,7 @@ def calc_scores(vagelis, egw, preds, participations, excluded_list=[], cap=97):
 
 
 script_directory = os.path.split(os.path.abspath(__file__))[0]
-filepath = '../logs/automagic.txt'
+filepath = '../logs/new_predictions.txt'
 model_to_train = os.path.join(script_directory, filepath)
 f = open(filepath, "r")
 contents = f.readlines()
@@ -153,7 +153,7 @@ for i in contents2:
     old_preds.append(i)
 
 
-n_predictions = 27
+n_predictions = 28
 
 counter = 0
 cap = 95
@@ -167,7 +167,7 @@ participants = {0: "numerical rf", 1: "old numeric", 2: "one hot rf", 3: "strong
                 11: "nothing",
                 12: "merged cros4 pred1", 13: "average", 14: "neural1", 15: "neural2", 16: "neural3L3W",
                 17: "neural4L-3W", 18: "neural4L4W", 19: "neural average", 20: "neural Cross", 21: "neural C 2",
-                22: "neural C 3", 23: "neural C 4", 24: "nothing", 25: "metamodel", 26: "sigmamodel"}
+                22: "neural C 3", 23: "neural C 4", 24: "nothing", 25: "metamodel", 26: "sigmamodel", 27: "enhanced"}
 
 BALANCED = 468
 STRONG_LONG_NO_BALANCED = 530
@@ -181,13 +181,13 @@ LAST_TRAINED = 1009
 LIMIT = 434
 UPPER_LIMIT = 3000
 
-opp = 10
-graph_a = 15
-graph_b = 23
+opp = 9
+graph_a = 20
+graph_b = 21
 
 vag_ids = get_validation_ids()
 vag_ids = vag_ids[-200:]
-validation_games = 140
+validation_games = 100
 
 val_ids = [i for i in range(len(contents) - validation_games, len(contents))]
 val_ids = np.append(val_ids, vag_ids)
@@ -196,7 +196,7 @@ val_ids = np.array(val_ids)
 print(len(val_ids), "val ids")
 print(val_ids)
 
-#val_ids = list(range(LIMIT, UPPER_LIMIT))
+val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):

@@ -6,7 +6,7 @@ import os
 maps = []
 
 
-def get_predictions(data_file):
+def get_predictions(data_file, soft):
     script_directory = os.path.split(os.path.abspath(__file__))[0]
     filepath = '..\\..\\logs\\'
     targets = os.path.join(script_directory, filepath + data_file +'.txt')
@@ -44,10 +44,13 @@ def get_predictions(data_file):
         max_prediction = min(max_prediction, 98.)
         min_prediction = max(min_prediction, 3.)
 
-        if float(X[0]) > 0.5:
-            X[0] = float(max_prediction / 100.)
+        if soft:
+            if float(X[0]) > 0.5:
+                X[0] = float(max_prediction / 100.)
+            else:
+                X[0] = float(min_prediction / 100.)
         else:
-            X[0] = float(min_prediction / 100.)
+            X[0] = int(X[0])
 
         X[4] = float(X[4])
         X[5] = float(X[5])
@@ -64,20 +67,28 @@ def get_predictions(data_file):
         processed_X.append(X[5])
         processed_X.append(X[6])
 
-        # processed_X.append(X[7])
-        # processed_X.append(X[8])
-        # processed_X.append(X[9])
+        # if not soft:
+        #     processed_X.append(X[7])
+        #     processed_X.append(X[8])
+        #     processed_X.append(X[9])
 
-        #processed_X.append(X[21])
-        processed_X.append(X[22])
-        # processed_X.append(X[23])
-        processed_X.append(X[24])
-        # processed_X.append(X[25])
+        if soft:
+            processed_X.append(X[22])
+            processed_X.append(X[24])
 
-        processed_X.append(X[27])
-        #processed_X.append(X[28])
-        #processed_X.append(X[29])
-        processed_X.append(X[30])
+            processed_X.append(X[27])
+            processed_X.append(X[30])
+        else:
+            processed_X.append(X[21])
+            processed_X.append(X[22])
+            processed_X.append(X[23])
+            processed_X.append(X[24])
+            processed_X.append(X[25])
+
+            processed_X.append(X[27])
+            processed_X.append(X[28])
+            processed_X.append(X[29])
+            processed_X.append(X[30])
 
         processed_X = np.array(processed_X)
         print(processed_X)
@@ -98,9 +109,9 @@ def standardize(X):
     return newX
 
 
-def input_to_onehot(data_file):
+def input_to_onehot(data_file, soft):
     labelencoder = LabelEncoder()
-    input = get_predictions(data_file)
+    input = get_predictions(data_file, soft)
 
     input = np.array(input)
 

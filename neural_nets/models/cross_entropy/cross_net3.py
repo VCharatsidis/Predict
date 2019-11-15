@@ -36,8 +36,8 @@ class CrossNet3(nn.Module):
         super(CrossNet3, self).__init__()
 
         width = 4
-        width_2 = 3
-        width_3 = 2
+        width_2 = 5
+        width_3 = 4
         self.layers = nn.Sequential(
 
             nn.Linear(n_inputs, width),
