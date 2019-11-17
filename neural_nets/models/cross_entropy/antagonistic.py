@@ -93,8 +93,8 @@ def train():
     print(onehot_input.shape)
     print(onehot_input.shape[1])
 
-    optimizer = torch.optim.SGD(cnet_a.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
-    optimizer_b = torch.optim.SGD(cnet_b.parameters(), lr=LEARNING_RATE_DEFAULT, momentum=0.9, weight_decay=1e-5)
+    optimizer = torch.optim.SGD(cnet_a.parameters(), lr=1e-3, momentum=0.9, weight_decay=1e-5)
+    optimizer_b = torch.optim.SGD(cnet_b.parameters(), lr=1e-3, momentum=0.9, weight_decay=1e-5)
 
     accuracies = []
     losses = []
@@ -127,15 +127,18 @@ def train():
         y_test = y[val_ids]
 
         print("epoch " + str(epoch))
-        saturation = 10
+        saturation = 1
+        p = 1
+        bce = True
+        ace = True
 
         for iteration in range(MAX_STEPS_DEFAULT):
             BATCH_SIZE_DEFAULT = 8
             cnet_a.train()
             cnet_b.train()
-            if iteration % 5000 == 0:
-                saturation *= 0.5
-                saturation = max(0.2, saturation)
+            if iteration % 20000 == 0:
+                # saturation *= 0.5
+                # saturation = max(0.5, saturation)
                 print(iteration)
                 print(saturation)
 
@@ -158,10 +161,13 @@ def train():
             else:
                 loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
 
-            if iteration % 1 == 0:
+            if True:
                 loss_b = center_my_loss(output_b, y_train_batch, output, saturation)
             else:
                 loss_b = torch.nn.functional.binary_cross_entropy(output_b, y_train_batch)
+
+            ce_loss = torch.nn.functional.binary_cross_entropy(output, y_train_batch)
+            ce_loss_b = torch.nn.functional.binary_cross_entropy(output_b, y_train_batch)
 
             if iteration % EVAL_FREQ_DEFAULT == 0:
                 cnet_a.eval()
@@ -190,12 +196,13 @@ def train():
 
                 ###################
 
-                if calc_loss.item() < calc_loss_b.item():
+                if p*calc_loss.item()+(1-p)*ce_loss.item() < p*calc_loss_b.item()+(1-p)*ce_loss_b.item():
                     cnet_b.train()
                     cnet_b.zero_grad()
                     loss_b.backward(retain_graph=True)
                     optimizer_b.step()
                     cnet_b.eval()
+
                     if min_loss_b > calc_loss_b.item():
                         min_loss_b = calc_loss_b.item()
                         torch.save(cnet_b, model_b)
@@ -222,7 +229,7 @@ def train():
                             acc) + " a " + str(round(calc_loss.item()*1000)/1000) + " b " + str(
                             round(calc_loss_b.item() * 1000)/1000))
 
-                if calc_loss.item() > calc_loss_b.item():
+                if p*calc_loss.item()+(1-p)*ce_loss.item() > p*calc_loss_b.item()+(1-p)*ce_loss_b.item():
                     cnet_a.train()
                     cnet_a.zero_grad()
                     loss.backward(retain_graph=True)
@@ -252,7 +259,6 @@ def train():
                             acc) + " a " + str(round(calc_loss.item()*1000)/1000) + " b " + str(
                             round(calc_loss_b.item() * 1000)/1000))
 
-
     test_nn.test_all(model_to_train)
     print(model_to_train)
 
@@ -273,7 +279,7 @@ def center_my_loss(output, target, output_b, saturation):
     copy_b = torch.FloatTensor(copy_b)
 
     cross_entropy_loss = torch.nn.functional.binary_cross_entropy(output, target)
-    unit_bet = 0.5
+    unit_bet = 0.2
 
     hero_won = torch.ceil(target - 0.5)
     hero_loss = 1 - hero_won
@@ -310,9 +316,9 @@ def center_my_loss(output, target, output_b, saturation):
     # max_is_result_mean = torch.abs(torch.sign(max_c - result_mean))
     # loss = - result_mean * max_is_result_mean + ()
 
-    max_c = torch.max(-result_mean, torch.zeros(result_mean.shape))
+    max_c = torch.max(cross_entropy_loss-result_mean, torch.zeros(result_mean.shape))
     loss_is_negative = torch.abs(torch.sign(max_c))
-    loss =  - result_mean * loss_is_negative
+    loss = cross_entropy_loss - result_mean * loss_is_negative
     # print(cross_entropy_loss)
     # print(max_is_result_mean)
     # print("loss")

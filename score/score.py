@@ -196,7 +196,7 @@ val_ids = np.array(val_ids)
 print(len(val_ids), "val ids")
 print(val_ids)
 
-val_ids = list(range(LIMIT, UPPER_LIMIT))
+#val_ids = list(range(LIMIT, UPPER_LIMIT))
 
 
 def calc_scores_vs_opponent(opponent, cap=95):
